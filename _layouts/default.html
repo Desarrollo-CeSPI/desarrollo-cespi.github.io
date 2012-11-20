@@ -48,7 +48,8 @@
 		 	
 	<!-- CSS: screen, mobile & print are all in the same file -->
 	<link rel="stylesheet" href="/css/style.css">
-	
+	<link rel="stylesheet" href="/css/self.css">
+  
 	<!-- all our JS is at the bottom of the page, except for Modernizr. -->
 	<script src="/js/modernizr-1.7.min.js"></script>
 
@@ -57,15 +58,13 @@
 <body>
 
 <div class="wrapper">
-
-  {{ content }}
-  	
-	<footer>
-		
-		<p><small>&copy; Copyright Your Name Here 2011. All Rights Reserved.</small></p>
-		
-	</footer>
-
+  
+  <h1>{{ page.title }}</h1>
+  
+  <div class="content-wrapper">
+    {{ content }}
+  </div>
+  
 </div>
 
 <!-- Grab Google CDN's jQuery. fall back to local if necessary -->

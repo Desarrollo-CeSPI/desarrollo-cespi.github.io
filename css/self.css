@@ -1,0 +1,35 @@
+.content-wrapper nav
+{
+  margin-top: 15px;
+}
+
+.content-wrapper header h2
+{
+  margin-bottom: 5px;
+}
+
+nav ul li
+{
+  list-style-type: none;
+}
+
+h1
+{
+  text-align: center;
+  font-size: 18px;
+}
+
+.content-wrapper
+{
+  margin-left: 5%;
+}
+
+.content-wrapper h2
+{
+  font-size: 16px;
+}
+
+.wrapper h2
+{
+  margin-bottom: 15px;
+}
