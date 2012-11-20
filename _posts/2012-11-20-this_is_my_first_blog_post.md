@@ -10,4 +10,13 @@ Entonces, aca van a encontrar informacion acerca de ruby relacionada a lo que ha
 
 <hr/>
 
-[Test de un lin](http://google.com)
+[Test de un link](http://google.com)
+
+Esto tendria que verse como codigo
+
+```ruby
+  require 'jekyll'
+  require 'jekyll'
+  require 'jekyll'
+  require 'jekyll'
+```
