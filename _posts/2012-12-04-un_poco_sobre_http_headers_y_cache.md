@@ -10,7 +10,7 @@ author: Alvaro F. Lara - alvaro.lara at cespi.unlp.edu.ar
 Desde hace unos dias vengo investigando tecnologias para poder brindar un acceso mas eficiente al contenido que se entrega desde el servidor (en mi caso una aplicación sinatra) y evitar la transferencia inncesaria de contenido.
 
 En el trayecto me fui encontrando con varios articulos y documentos pero en un intento de empezar desde lo mas basico busque un poco sobre como funciona el browser y que posibilidades de manejar cache tenemos.
-<br>
+
 ##Cache
 
 
@@ -57,7 +57,7 @@ El mecanismo de verificación ocurre solamente del lado del cliente, con lo cual
 Por ultimo, una variante del expires, es en lugar de decir la fecha de vencimiento, decir cuanto tiempo a partir de la solicitud este recurso es valido.
 
 Tiene como mejor sobre Expires que es mas simple del lado del servidor decir cuando vence que calcular la fecha.
-<br>
+
 Bonus Extra: Cache-control.
 ---------------------------
 

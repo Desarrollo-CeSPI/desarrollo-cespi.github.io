@@ -1,49 +1,9 @@
-.content-wrapper nav
-{
-  margin-top: 15px;
-}
-
-.content-wrapper header h2
-{
-  margin-bottom: 5px;
-}
-
-nav ul li
-{
-  list-style-type: none;
-}
-
 h1
 {
-  text-align: center;
-  font-size: 18px;
+text-align: center;
 }
 
-.content-wrapper
+p
 {
-  margin-left: 5%;
-}
-
-.content-wrapper h2
-{
-  font-size: 16px;
-}
-
-.wrapper h2
-{
-  margin-bottom: 15px;
-}
-
-.content-wrapper article h3
-{
-  margin-top: 8px;
-  margin-bottom: 8px;
-}
-
-.content-wrapper article ul
-{
-  margin-bottom: 5px;
-  margin-top: 5px;
-  list-style-type: disc;
-  margin-left: 15px;
+text-align: justify;
 }

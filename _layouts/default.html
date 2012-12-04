@@ -47,8 +47,8 @@
 		 - see wikipedia for info on browser support: http://mky.be/favicon/ -->
 		 	
 	<!-- CSS: screen, mobile & print are all in the same file -->
-	<link rel="stylesheet" href="/css/style.css">
-	<link rel="stylesheet" href="/css/self.css">
+	<link rel="stylesheet" href="/css/markdown.css">
+  <link rel="stylesheet" href="/css/self.css">
   
 	<!-- all our JS is at the bottom of the page, except for Modernizr. -->
 	<script src="/js/modernizr-1.7.min.js"></script>
@@ -73,6 +73,17 @@
 
 <!-- this is where we put our custom functions -->
 <script src="/js/functions.js"></script>
-  
+
+<!-- Google tracking  -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("{{site.ga_id}}");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
 </body>
 </html>
