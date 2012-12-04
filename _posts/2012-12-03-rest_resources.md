@@ -61,3 +61,4 @@ Material a leer/clasificar
 * [REST Security: Signing Requests With Secret Key, but Does It Work](http://www.naildrivin5.com/blog/2008/04/21/rest-security-signing-requests-with-secret-key-but-does-it-work.html)
 * [slides sobre el libro rest in practice](http://www.slideshare.net/guilhermecaelum/rest-in-practice)
 * [API versions](http://www.informit.com/articles/article.aspx?p=1566460)
+* [Windsor](https://github.com/samdec/windsor): gema para Ruby on Rails para crear apis ReSTful (está en incipiente desarrollo)
