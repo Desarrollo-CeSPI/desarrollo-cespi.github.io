@@ -1,13 +1,17 @@
 ---
 layout: default
-title: Desarrollo Cespi Blog
----	
+title: Desarrollo - CeSPI
+---
+
 <article>
   {{ content }}
 </article>
 
-<nav>
-  <ul>
-    <li style="list-style-type: none;"><a href="/"> Volver </a></li>
-  </ul>
-</nav>
+<ul class="slats" style="margin-top: 30px; border-top: 1px solid #ddd; padding: 8px">
+  <li class="group">
+	  <a href="#">
+      <img width="24" height="24" src="{{ page.author_email | to_gravatar }}">
+      <h3 style="margin-top: 10px">{{ page.author }}</h3>
+    </a>
+  </li>
+</ul>
