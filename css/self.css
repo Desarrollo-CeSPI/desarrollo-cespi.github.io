@@ -5,7 +5,11 @@ body
 
 ul
 {
-  padding-left: 0;
+  padding-left: 1em;
+}
+
+ul ul {
+  margin-top: 0;
 }
 
 h1
@@ -96,7 +100,7 @@ ul.slats li a p span.meta
 		display: block;
 		float: none;
 		margin: 0 0 5px 0;
-	}		
+	}
 
   ul.slats li a p
   {
