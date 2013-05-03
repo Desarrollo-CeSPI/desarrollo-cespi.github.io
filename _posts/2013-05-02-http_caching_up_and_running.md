@@ -54,9 +54,68 @@ la misma.
 
 ###Expiración
 Los mecanismos de expiración varian segun la version del protocolo HTTP que
-estemos utilizando
+estemos utilizando. En la vesion 1.0 del protocolo encontramos un header
+para lograr este objetivo: "Expires: Date"
+
+El header Expires define la fecha en la cual el header debe considerarse vencido.
+La logica para determinar si la representación de un recurso esta vencida es
+verificando si la fecha del Expires es igual o superior al header Date.
+
+Este mecanismo tiene el problema que si los relojes de los servidores no se
+encuentran debidamente sincronizados, puede llevar a disminuir los hits de cache.
+
+La version 1.1 introduce mejoras y mecanismos mas confiables al de relojes, el
+header Cache-Control es el responsable.
+
+Mas adelante definiremos todos los valores que este puede tomar, pero a grandes
+razgos podemos considerar el valor "max-age=X" el cual determina en segundos
+cuanto debe durar fresco un requerimiento.
+
+Cada vez que hacemos un requerimiento, la cache hace la verificación sobre la
+representación del recurso para determinar si es fresca, en base al valor
+de max-age, el header Age, y las fechas correspondientes al requerimiento
+(Date, fecha de solicitud y fecha de recepción, tiempo almacenado en cache, etc.).
+
 
 ###Validación
+La validación es un mecanismo que se da cuando un recurso se venció, y permite
+determinar si la representación del recurso ha cambiado o no, permitiendo
+servir el contenido cacheado en caso de no haber cambiado.
+
+El servidor utiliza los headers Last-Modified (HTTP 1.0) y ETag (HTTP 1.1),
+para informar a el cliente (y las cache en el recorrido) sobre la ultima vez
+que fue modificado el recurso y un identificador de contenido de recurso
+(el cual deberia cambiar cuando el recurso cambia).
+
+Cuando la versión en cache de un recurso se vence, el cliente realiza un
+requerimiento GET con headers condicionales al servidor, los headers son:
+
+If-Modified-Since: Date (Suele tomar el valor en que el recurso ingreso a cache)
+If-None-Match: etag (Es el valor de ETag enviado por el servidor)
+
+En caso que el recurso no haya cambiado, el servidor contestara con un codigo 304
+(Not modified), actualizando información sobre la frescura de la representación
+del recurso (max-age por ejemplo).
+
+Si el recurso cambio, el servidor contesta con un codigo 200 y la representación
+del recurso, actualizando la información sobre la frescura del mismo.
+
+#### Last-Modified & ETag
+Ambos son mecanismos validos para verificar si un recurso cambio y lo recomendable
+es utilizar ambos ya que brindan un mayor grado de conocimiento a las cache
+sobre la necesidad de actualizar el recurso y mantiene la compatibilidad hacia atras
+(HTTP 1.0 no entiende ETag).
+
+Last-Modified nos permite saber cuando fue la ultima vez que se modifico en recurso,
+pero hay situaciones donde eso no nos alcanza. Supongamos un documento que esta
+continuamente en review, pero las modificaciones no alcanzan a ser de relevancia
+(eliminar espacios en blanco de mas, puntuación, etc.). Si solo tuvieramos
+información sobre la fecha de modificación, tendriamos muchas invalidaciones de
+cache, haciendo casi imposible cachear ese tipo de documentos.
+
+Ahora si ademas de brindar informacion sobre la ultima fecha de modificación agregamos
+un ETag que represente como esta formado el documento, podemos evitar que cambios menos
+generen invalidaciones innecesarias en nuestra cache.
 
 ### Cache Control Headers
 
@@ -71,8 +130,6 @@ estemos utilizando
 | "only-if-cached"                    | "proxy-revalidate"            |
 | cache-extension                     | "max-age" "=" delta-seconds   |
 |                                     |  "s-maxage" "=" delta-seconds |
-
-
 
 
 ### ¿Qué es cacheable?
