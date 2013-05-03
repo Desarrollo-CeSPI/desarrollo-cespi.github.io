@@ -4,8 +4,7 @@ layout: post
 title: Http Caching
 excerpt: Análisis en profundidad del funcionamiento de cache en http
 author: Alvaro Lara & Fernando Martínez
-author_email: patriciomacadden@gmail.com
-published: false
+author_email: [alvaro.lara@cespi.unlp.edu.ar, fernando.martinez@cespi.unlp.edu.ar]
 ---
 
 #Http caching up and running
