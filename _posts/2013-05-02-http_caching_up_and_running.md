@@ -1,5 +1,5 @@
 ---
-date: 2013-05-02 09:00:00 -3000
+date: 3013-05-02 09:00:00 -3000
 layout: post
 title: Http Caching
 excerpt: Análisis en profundidad del funcionamiento de cache en http
