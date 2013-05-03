@@ -2,3 +2,4 @@ markdown: rdiscount
 pygments: true
 ga_id: 'UA-36788596-1'
 auto: true
+future: false

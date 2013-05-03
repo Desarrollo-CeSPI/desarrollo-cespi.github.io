@@ -1,5 +1,11 @@
 ---
-published:false
+date: 3013-05-02 09:00:00 -3000
+layout: post
+title: Http Caching
+excerpt: Análisis en profundidad del funcionamiento de cache en http
+author: Alvaro Lara & Fernando Martínez
+author_email: patriciomacadden@gmail.com
+published: false
 ---
 
 #Http caching up and running
