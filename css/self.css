@@ -1,6 +1,28 @@
+.page-header {
+  background: #eee;
+  border-bottom: #ddd 1px solid;
+  position: fixed;
+  left: 0px;
+  width: 100%;
+  top: 0px;
+}
+
+.page-header h1 {
+  font-size: 2em;
+}
+
+.page-header a {
+    text-decoration: none
+}
+
+.page-header a:visited {
+    color: #888
+}
+
 body
 {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  padding-top: 80px;
 }
 
 ul
@@ -106,4 +128,61 @@ ul.slats li a p span.meta
   {
 		margin: 0;
 	}
+}
+
+
+table {
+  background: white;
+  margin-bottom: 1.25em;
+  border: solid 1px #dddddd;
+  width: 100%;
+  border-radius: 8px;
+}
+
+thead {
+  display: table-header-group;
+  vertical-align: middle;
+  border-color: inherit;
+  background-color: #eee
+}
+
+tr {
+  display: table-row;
+  vertical-align: inherit;
+  border-color: inherit;
+}
+
+tbody {
+  display: table-row-group;
+  vertical-align: middle;
+  border-color: inherit;
+}
+
+table thead, table tfoot {
+  background: #eee;
+  font-weight: bold;
+}
+
+table tr th, table tr td {
+  padding: 0.5625em 0.625em;
+  font-size: 0.875em;
+  color: #222222;
+}
+
+table thead tr th, table tfoot tr th, table tbody tr td, table tr td, table tfoot tr td {
+  display: table-cell;
+  line-height: 1.125em;
+}
+
+table thead tr th, table thead tr td, table tfoot tr th, table tfoot tr td {
+  padding: 0.5em 0.625em 0.625em;
+  font-size: 0.875em;
+  color: #222222;
+  text-align: left;
+}
+
+table thead tr th {
+  color: #888;
+  text-align: left;
+  background-color: inherited;
 }
