@@ -4,7 +4,7 @@ layout: post
 title: Http Caching
 excerpt: Análisis en profundidad del funcionamiento de cache en http
 author: Alvaro Lara & Fernando Martínez
-author_email: [alvaro.lara@cespi.unlp.edu.ar, fernando.martinez@cespi.unlp.edu.ar]
+author_email: alvaro.lara@cespi.unlp.edu.ar
 ---
 
 #Http caching up and running
@@ -36,45 +36,47 @@ Como dijimos anteriormente, cuando alguien hace un requerimiento HTTP,
 queda en la cache determinar si lo que está almacenado puede ser utilizado o si
 es necesario consultar el servidor por una nueva respuesta.
 
-El protocolo posee dos mecanismos: Validación y Expiración.
+Para esto el protocolo provee dos mecanismos: Validación y Expiración.
+Ambos mecanismos son independientes y complementarios.
 
 La Expiración es un mecanismo que apunta a disminuir la cantidad de accesos al
 servidor, mediante la utilización de información que nos permita saber si un
 requerimiento esta "fresco" o si se venció. Si tenemos una representación "fresca"
 del recurso en cache, no tenemos necesidad de ir al servidor.
   Por el contrario, si la representación almacenada está vencida, vamos a necesitar
-consultar el servidor, actualizar la copia en cache y retornarla al cliente.
+consultar el servidor, actualizar la copia en cache antes de retornarla al cliente.
 
 La Validación es otro mecanismo que apunta a disminuir el ancho de banda utilizado.
 Permite determinar si una representación de un recurso se modificó respecto a la que
-se encuentra almacenada en cache. La verificación suele hacerse utilizando la fecha de la última modificación de la representación
-o bien con un valor generado a partir del contenido de
-la misma.
+se encuentra almacenada en cache. La verificación suele hacerse utilizando la fecha
+de la última modificación de la representación o bien con un valor generado a partir
+del contenido de la misma.
 
 ###Expiración
-Los mecanismos de expiración varian segun la version del protocolo HTTP que
-estemos utilizando. En la vesion 1.0 del protocolo encontramos un header
-para lograr este objetivo: "Expires: {date}"
+Los mecanismos de expiración varian según la versión del protocolo HTTP que
+estemos utilizando. En la versión 1.0 del protocolo encontramos un header
+para lograr este objetivo: **"Expires: {date}"**
 
-El header Expires define la fecha a partir de la cual la respuesta almacenada debe considerarse vencida.
-La logica para determinar si la representación de un recurso esta vencida es
+El header **Expires** define la fecha a partir de la cual la respuesta almacenada debe considerarse vencida.
+La lógica para determinar si una respuesta almacenada en cache está vencida es
 verificando si la fecha del Expires es igual o superior al header Date.
 
-Este mecanismo tiene el problema que si los relojes de los servidores no se
-encuentran debidamente sincronizados, puede llevar a disminuir los hits de cache,
-o permitir que una cache sirva contenido como fresco cuando realmente está vencido.
+El correcto funcionamientos de este mecanismo depende de la correcta sincronización de
+los relojes entre los servidores. Si estos no se encuentran debidamente sincronizados,
+puede llevar a disminuir los hits de cache, o permitir que una cache sirva contenido 
+como fresco cuando realmente está vencido.
 
-La version 1.1 introduce mejoras y mecanismos mas confiables al de relojes, el
-header Cache-Control es el responsable.
+La versión HTTP 1.1 introduce mejoras y mecanismos más confiables, estos se agrupan bajo el
+header **Cache-Control**.
 
-Mas adelante definiremos todos los valores que este puede tomar, pero a grandes
-razgos podemos considerar el valor "max-age=X" el cual determina en segundos
-cuanto debe durar fresco un requerimiento.
+Más adelante definiremos todos los valores que este puede tomar, pero
+para el control de la expiración el header principal es  **"Cache-Control: max-age={value}"**. 
+Este determina por cuantos segundos debe considerarse fresco una respuesta.
 
-Cada vez que hacemos un requerimiento, la cache hace la verificación sobre la
-representación del recurso para determinar si es fresca, en base al valor
-de max-age, el header Age, y las fechas correspondientes al requerimiento
-(Date, fecha de solicitud y fecha de recepción, tiempo almacenado en cache, etc.).
+Cada vez que un requerimiento llega a la cache, si la cache tiene una respuesta almacenada
+para dicha petición, se realiza un cálculo para determinar si la respuesta almacenada está
+fresca, en base a los valores de max-age, el header Age, y las fechas correspondientes al 
+requerimiento (header Date, fecha de solicitud y fecha de recepción, tiempo almacenado en cache).
 
 
 ###Validación
@@ -83,7 +85,7 @@ determinar si la versión en cache continúa siendo válida. Si el recurso no ha
 de origen, significa que el contenido almacenado en cache sigue siendo válido y puede utilizarse para 
 satisfacer requerimientos.
 
-El servidor utiliza los headers Last-Modified (HTTP 1.0) y ETag (HTTP 1.1),
+El servidor utiliza los headers **Last-Modified** (HTTP 1.0) y **ETag** (HTTP 1.1),
 para informar al cliente (y las cache en el recorrido) sobre la última vez
 que fue modificado el recurso y un identificador de contenido de recurso
 (el cual deberia cambiar cuando el recurso cambia) respectivamente.
@@ -102,7 +104,7 @@ Si el recurso cambió, el servidor envia una respuesta con estado 200 (OK) con l
 del recurso, actualizando la información sobre la frescura del mismo.
 
 #### Last-Modified & ETag
-Ambos son mecanismos validos para verificar si un recurso cambió y lo recomendable
+Ambos son mecanismos válidos para verificar si un recurso cambió y lo recomendable
 es utilizar ambos ya que brindan un mayor grado de conocimiento a las cache
 sobre la necesidad de actualizar el recurso y mantiene la compatibilidad hacia atrás
 (HTTP 1.0 no entiende ETag).
@@ -111,21 +113,21 @@ sobre la necesidad de actualizar el recurso y mantiene la compatibilidad hacia a
 pero hay situaciones donde eso no nos alcanza. Supongamos un documento que está
 continuamente en review, pero las modificaciones no alcanzan a ser de relevancia
 (eliminar espacios en blanco de más, puntuación, etc.). Si sólo tuvieramos
-información sobre la fecha de modificación, tendriamos muchas invalidaciones de
+información sobre la fecha de modificación, tendríamos muchas invalidaciones de
 cache, haciendo casi imposible cachear ese tipo de documentos.
 
-Ahora si además de brindar informacion sobre la última fecha de modificación agregamos
+Ahora si además de brindar información sobre la última fecha de modificación agregamos
 un ETag que represente como esta formado el documento, podemos evitar que cambios no
 relevantes generen invalidaciones innecesarias en nuestra cache.
 
 
 ## ¿Qué es cacheable?
 
-A menos que un header de Cache-Control especifique otra cosa, las condiciones que debe cumplir una respuesta para ser almacenada en cache son:
+HTTP define que, a menos que un header de Cache-Control especifique otra cosa, una respuesta puede ser almacenada en cache bajo las siguientes condiciones:
 
- - una cache siempre podría almacenar una **respuesta exitosa** (status = 200 OK),
- - podría servirla sin validar si está **fresca** (no venció), 
- - o podría servirla luego de una **validación exitosa** contra el servidor de origen (304 Not Modified | 200 OK)
+ - una cache siempre podría almacenar una **respuesta exitosa** (respuesta 200 OK),
+ - podría servirla sin validar si está **fresca** (es decir, no venció), 
+ - o podría servirla luego de una **validación exitosa** contra el servidor de origen (respuesta 304 Not Modified ó 200 OK)
 
 
 Si la respuesta **NO** posee información de **expiración** ni de **validación**, se espera que la cache no almacene dicha respuesta. Decimos se espera ya que en ciertos casos, este tipo de respuestas puede ser almacenada y devuelta (por ejemplo, en situaciones de baja o nula conectividad)
@@ -133,7 +135,7 @@ Si la respuesta **NO** posee información de **expiración** ni de **validación
 El tráfico que viaja encriptado (https) no puede ser almacenado en cache, justamente debido a que el contenido no es visible para las caches intermedias (Existen, de todas formas, soluciones para estos casos que serán comentadas mas adelante...)
 
 Cookies y Authorization headers: Las secciones privadas de una página (es decir que pertenecen a un usuario específico), no pueden ser almacenadas en caches compartidas, ya que justamente al ser compartidas, la información almacenada dejaría de ser privada.
-por defecto se considera que una petición es privada si posee un headers Authorization o Cookie.
+por defecto se considera que una petición es privada si posee un header Authorization o Cookie.
  
 
 ## Cache Control Headers
