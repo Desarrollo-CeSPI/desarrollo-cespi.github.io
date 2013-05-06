@@ -1,5 +1,5 @@
 ---
-date: 3013-05-02 09:00:00 -3000
+date: 2013-05-02 09:00:00 -3000
 layout: post
 title: Http Caching
 excerpt: Análisis en profundidad del funcionamiento de cache en http
@@ -28,7 +28,7 @@ En este caso vamos a hablar sobre Browser Caches y Reverse Proxy Caches, ya que 
 estas las que podemos llegar a controlar de manera mas precisa.
 
 Ambos tipos de cache funcionan de manera similar: alguien hace un requerimiento, verifican
-si poseen una repuesta para el mismo **aceptable**, en caso afirmativo lo devuelven sin acceder al servidor
+si poseen una repuesta **aceptable**, en caso afirmativo lo devuelven sin acceder al servidor
 y de lo contrario, consultan al servidor y (a veces) almacenan la respuesta.
 
 ##HTTP - Expiración y Validación
@@ -71,12 +71,12 @@ header **Cache-Control**.
 
 Más adelante definiremos todos los valores que este puede tomar, pero
 para el control de la expiración el header principal es  **"Cache-Control: max-age={value}"**. 
-Este determina por cuantos segundos debe considerarse fresco una respuesta.
+Este determina por cuantos segundos debe considerarse fresca una respuesta almacenada en cache.
 
-Cada vez que un requerimiento llega a la cache, si la cache tiene una respuesta almacenada
-para dicha petición, se realiza un cálculo para determinar si la respuesta almacenada está
-fresca, en base a los valores de max-age, el header Age, y las fechas correspondientes al 
-requerimiento (header Date, fecha de solicitud y fecha de recepción, tiempo almacenado en cache).
+Cada vez que un requerimiento llega a la cache, si esta tiene una respuesta almacenada
+para dicha petición, se realiza un cálculo para determinar si la respuesta está fresca,
+en base a los valores de max-age, el header Age, y las fechas correspondientes al requerimiento
+(header Date, fecha de solicitud y fecha de recepción, tiempo almacenado en cache).
 
 
 ###Validación
@@ -123,22 +123,34 @@ relevantes generen invalidaciones innecesarias en nuestra cache.
 
 ## ¿Qué es cacheable?
 
-HTTP define que, a menos que un header de Cache-Control especifique otra cosa, una respuesta puede ser almacenada en cache bajo las siguientes condiciones:
+HTTP define que, a menos que un header de Cache-Control especifique otra cosa, una
+respuesta puede ser almacenada en cache bajo las siguientes condiciones:
 
  - una cache siempre podría almacenar una **respuesta exitosa** (respuesta 200 OK),
  - podría servirla sin validar si está **fresca** (es decir, no venció), 
- - o podría servirla luego de una **validación exitosa** contra el servidor de origen (respuesta 304 Not Modified ó 200 OK)
+ - o podría servirla luego de una **validación exitosa** contra el servidor de origen
+ (respuesta 304 Not Modified ó 200 OK)
 
 
-Si la respuesta **NO** posee información de **expiración** ni de **validación**, se espera que la cache no almacene dicha respuesta. Decimos se espera ya que en ciertos casos, este tipo de respuestas puede ser almacenada y devuelta (por ejemplo, en situaciones de baja o nula conectividad)
+Si la respuesta **NO** posee información de **expiración** ni de **validación**, se
+espera que la cache no almacene dicha respuesta. Decimos se espera ya que en ciertos 
+casos, este tipo de respuestas puede ser almacenada y devuelta (por ejemplo, en situaciones 
+de baja o nula conectividad)
 
-El tráfico que viaja encriptado (https) no puede ser almacenado en cache, justamente debido a que el contenido no es visible para las caches intermedias (Existen, de todas formas, soluciones para estos casos que serán comentadas mas adelante...)
+El tráfico que viaja encriptado (https) no puede ser almacenado en cache, justamente debido
+a que el contenido no es visible para las caches intermedias (Existen, de todas formas, 
+soluciones para estos casos que serán comentadas mas adelante...)
 
-Cookies y Authorization headers: Las secciones privadas de una página (es decir que pertenecen a un usuario específico), no pueden ser almacenadas en caches compartidas, ya que justamente al ser compartidas, la información almacenada dejaría de ser privada.
+Cookies y Authorization headers: Las secciones privadas de una página (es decir que 
+pertenecen a un usuario específico), no pueden ser almacenadas en caches compartidas, ya 
+que justamente al ser compartidas, la información almacenada dejaría de ser privada.
 por defecto se considera que una petición es privada si posee un header Authorization o Cookie.
  
 
 ## Cache Control Headers
+
+Algunos de las directivas de control de cache de HTTP 1.1 se pueden utilizar tanto en las respuestas como en
+los requerimientos ty en ciertos casos, su sempantica cambia. Su distribución es la siguiente:
 
 
 | Request                             |   Response                    |
@@ -157,11 +169,11 @@ por defecto se considera que una petición es privada si posee un header Authori
 
 Las directivas de control de cache se pueden dividir en las siguientes categorías:
 
-  - Restrictiones acerca de qué puede ser **cacheado** (sólo disponibles para el servidor de origen)
+  - Restrictiones acerca de qué puede ser **cacheable** (sólo disponibles para el servidor de origen)
 
-  - Restricciones acerca de qué puede ser **almacenado** en una cache (servidor | user agent)
+  - Restricciones acerca de qué puede ser **guardado** en una cache (servidor | user agent)
 
-  - Modificaciones de los mecanismos báscios de **expiración***. (servidor | user agent)
+  - Modificaciones de los mecanismos báscios de **expiración**. (servidor | user agent)
 
   - Controles sobre la **revalidación** y **actualización** de cache (user agent)
 
@@ -170,8 +182,10 @@ Las directivas de control de cache se pueden dividir en las siguientes categorí
   - Extensiones al sistema de cache.
 
 
+Describiremos a continuación las primeras 4. Para obtener mayor información respecto de las
+otras recomendamos leer la [definición de headers HTTP - Cache Control](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9)
 
-### Controles sobre qué es almacenable en cache
+### Controles sobre qué es cacheable
 #### Cache-Control: public
 
 **Response:**
