@@ -274,11 +274,61 @@ Los servidores deberían utilizar esta directiva sólo si una falla al revalidar
 
 
 
-### Tipos de actualizaciones de cache
-#### End-to-end reload
-The request includes a "no-cache" cache-control directive or, for compatibility with HTTP/1.0 clients, "Pragma: no-cache". Field names MUST NOT be included with the no-cache directive in a request. The server MUST NOT use a cached copy when responding to such a request.
-Specific end-to-end revalidation
-The request includes a "max-age=0" cache-control directive, which forces each cache along the path to the origin server to revalidate its own entry, if any, with the next cache or server. The initial request includes a cache-validating conditional with the client's current validator.
-Unspecified end-to-end revalidation
-The request includes "max-age=0" cache-control directive, which forces each cache along the path to the origin server to revalidate its own entry, if any, with the next cache or server. The initial request does not include a cache-validating
-conditional; the first cache along the path (if any) that holds a cache entry for this resource includes a cache-validating conditional with its current validator.
+##Laboratorio
+
+###Escenarios
+
+<div class=wsd wsd_style="napkin"><pre>
+title Simple Browser Caching with validation
+
+Client -> BC: GET /hola.php
+BC -> Server: GET /hola.php
+Server -> BC: GET 200 /hola.php [Cache-Control: max-age=10; Last-Modified: Tue, 06 May 2013 12:45:26 GMT]
+note over BC: Cache store
+BC -> Client: GET 200 /hola.php
+
+Client -> BC: GET /hola.php
+BC -> BC: fresh? True
+BC -> Client: GET /hola.php
+
+note right of BC: After 10 seconds...
+
+Client -> BC: GET /hola.php
+BC -> BC: fresh? false
+
+BC -> Server: GET /hola.php [If-Not-Modified: Tue, 06 May 2013 12:45:26 GMT]
+Server -> BC: GET 304 /hola.php [Cache-Control: max-age=10]
+note over BC: Update cache
+BC -> Client: GET 200 /hola.php
+</pre></div><script type="text/javascript" src="http://www.websequencediagrams.com/service.js"></script>
+
+2)
+
+title Browser Caching and Varnish Caching
+
+Client -> BC: GET /hola.php
+BC -> VC: GET /hola.php
+VC -> Server: GET /hola.php
+Server -> VC: GET 200 /hola.php [Cache-Control: max-age=10]
+note over VC: Cache store
+VC -> BC: GET 200 /hola.php [Cache-Control: max-age=10]
+note over BC: Cache store
+BC -> Client: GET 200 /hola.php
+
+Client -> BC: GET /hola.php
+BC -> BC: fresh? True
+BC -> Client: GET /hola.php
+
+note right of BC: After 10 seconds...
+
+Client -> BC: GET /hola.php
+BC -> BC: fresh? false
+
+BC -> VC: GET /hola.php
+VC -> VC: fresh? false
+VC -> Server: GET /hola.php
+Server -> VC: GET 200 /hola.php [Cache-Control: max-age=10]
+note over VC: Cache store
+VC -> BC: GET 200 /hola.php [Cache-Control: max-age=10]
+note over BC: Cache store
+BC -> Client: GET 200 /hola.php
