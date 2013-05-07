@@ -190,19 +190,19 @@ otras recomendamos leer la [definición de headers HTTP - Cache Control](http://
 
 **Response:**
  
- Indica que la respuesta podría ser almacenada por **cualquier** cache, incluso si normalmente no sería almacenable, o sólo cacheable por una cache no compartida.
+ Indica que la respuesta podría ser almacenada por **cualquier** cache, incluso si normalmente no sería almacenable, o sólo cacheable por una cache privada.
 
 
 #### Cache-Control: private
 
 **Response:** 
 
-  Indica que la respuesta o parte de la respuesta está destinada sólo un usuario, por lo tanto no debe ser almacenada por caches compartidas (ya que no serviría como respúesta a requerimientos de otros usuarios). 
+  Indica que la respuesta o parte de la respuesta está destinada sólo un usuario, por lo tanto no debe ser almacenada por caches compartidas (ya que no serviría como respuesta a requerimientos de otros usuarios). 
 Sí podría almacenarse en una cache privada.
 
 #### Cache-Control: no-cache
 
-Esta directiva puede llevar opcionalmente un valor, que debe ser le nombrede un header.
+Esta directiva puede llevar opcionalmente un valor, que debe ser el nombre de un header.
 
 **Request:**
   Esta directiva indica que el cliente está buscando una respuesta que no provenga de cache sin antes haber sido validada con el servidor de  origen.
@@ -211,7 +211,7 @@ Esta directiva puede llevar opcionalmente un valor, que debe ser le nombrede un 
 
   Esta directiva indica que la cache no debe utilizar esta respuesta para satisfacer una petición subsiguiente sin antes validarla exitosamente con el servidor de origen. Esto permite al servidor de origen evitar que las caches devuelvan respuestas almacenadas vencidas, a pesar de que hayan sido configuradas para hacerlo de esta manera.
 
-Atención: Esta directiva no implica que las caches **no almacenen** la respuesta.
+Nota: Esta directiva no implica que las caches **no almacenen** la respuesta.
 
 
 ### Control sobre qué puede ser guardado por una cache
@@ -274,22 +274,54 @@ Los servidores deberían utilizar esta directiva sólo si una falla al revalidar
 
 
 
-##Laboratorio
+##Ejemplos
+  Se muestran ejemplos de distintos escenarios de interacción cache-servidor utilizando distintas combinaciones de las directivas del header**Cache-Control**
 
-###Escenarios
 
-<div class=wsd wsd_style="napkin"><pre>
-title Simple Browser Caching with validation
+###Escenario 1: Expiración básica
+
+<div class="wsd" wsd_style="napkin"><pre>
+title validation in action
 
 Client -> BC: GET /hola.php
 BC -> Server: GET /hola.php
-Server -> BC: GET 200 /hola.php [Cache-Control: max-age=10; Last-Modified: Tue, 06 May 2013 12:45:26 GMT]
+Server -> BC: 200 OK /hola.php [Cache-Control: max-age=10]
 note over BC: Cache store
-BC -> Client: GET 200 /hola.php
+BC -> Client: 200 OK /hola.php
 
 Client -> BC: GET /hola.php
 BC -> BC: fresh? True
-BC -> Client: GET /hola.php
+BC -> Client: 200 OK GET /hola.php
+
+note right of BC: After 10 seconds...
+
+Client -> BC: GET /hola.php
+BC -> BC: fresh? false
+BC -> Server: GET /hola.php
+Server -> BC: 200 OK /hola.php [Cache-Control: max-age=10]
+
+note over BC: Update cache
+
+BC -> Client: 200 OK /hola.php
+</pre></div>
+
+
+###Escenario 2: Expiración + Validación 
+
+  El servidor brinda información de expiración y validación, permitiendo a la cache responder y utilizar requests GET condicionales
+
+<div class="wsd" wsd_style="napkin"><pre>
+title validation in action
+
+Client -> BC: GET /hola.php
+BC -> Server: GET /hola.php
+Server -> BC: 200 OK /hola.php [Cache-Control: max-age=10; Last-Modified: Tue, 06 May 2013 12:45:26 GMT]
+note over BC: Cache store
+BC -> Client: 200 OK /hola.php
+
+Client -> BC: GET /hola.php
+BC -> BC: fresh? True
+BC -> Client: 200 OK GET /hola.php
 
 note right of BC: After 10 seconds...
 
@@ -297,38 +329,34 @@ Client -> BC: GET /hola.php
 BC -> BC: fresh? false
 
 BC -> Server: GET /hola.php [If-Not-Modified: Tue, 06 May 2013 12:45:26 GMT]
-Server -> BC: GET 304 /hola.php [Cache-Control: max-age=10]
+Server -> BC: 304 Not Modified /hola.php [Cache-Control: max-age=10]
 note over BC: Update cache
-BC -> Client: GET 200 /hola.php
-</pre></div><script type="text/javascript" src="http://www.websequencediagrams.com/service.js"></script>
+BC -> Client: 200 OK /hola.php
+</pre></div>
 
-2)
 
-title Browser Caching and Varnish Caching
+
+###Escenario 3: uso de no-cache en el request 
+
+  En este caso podemos ver que, a pesar de que el servidor brinda información tanto
+de expiración como de validación, el request del cliente obliga a la cache a 
+revalidar la respuesta almacenada. Si en el camino entre cliente y servidor 
+existieran caches intermedias, sucedería lo mismo con cada una de ellas. 
+
+<div class="wsd" wsd_style="napkin"><pre>
+title no-cache request
 
 Client -> BC: GET /hola.php
-BC -> VC: GET /hola.php
-VC -> Server: GET /hola.php
-Server -> VC: GET 200 /hola.php [Cache-Control: max-age=10]
-note over VC: Cache store
-VC -> BC: GET 200 /hola.php [Cache-Control: max-age=10]
+BC -> Server: GET /hola.php
+Server -> BC: 200 OK /hola.php [Cache-Control: max-age=10; Last-Modified: Tue, 06 May 2013 12:45:26 GMT]
 note over BC: Cache store
-BC -> Client: GET 200 /hola.php
+BC -> Client: 200 OK /hola.php
 
-Client -> BC: GET /hola.php
-BC -> BC: fresh? True
-BC -> Client: GET /hola.php
+Client -> BC: GET /hola.php [Cache-Control: no-store]
+BC -> Server: GET /hola.php [If-Not-Modified: Tue, 06 May 2013 12:45:26 GMT]
+Server -> BC: 304 Not Modified /hola.php [Cache-Control: max-age=10]
+note over BC: Update cache
+BC -> Client: 200 OK /hola.php
+</pre></div>
 
-note right of BC: After 10 seconds...
-
-Client -> BC: GET /hola.php
-BC -> BC: fresh? false
-
-BC -> VC: GET /hola.php
-VC -> VC: fresh? false
-VC -> Server: GET /hola.php
-Server -> VC: GET 200 /hola.php [Cache-Control: max-age=10]
-note over VC: Cache store
-VC -> BC: GET 200 /hola.php [Cache-Control: max-age=10]
-note over BC: Cache store
-BC -> Client: GET 200 /hola.php
+<script type="text/javascript" src="http://www.websequencediagrams.com/service.js"></script>
