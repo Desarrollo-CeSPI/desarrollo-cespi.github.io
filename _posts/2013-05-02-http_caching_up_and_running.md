@@ -228,7 +228,7 @@ Nota: Esta directiva no implica que las caches **no almacenen** la respuesta.
 
 #### Cache-Control: max-age
 **Request**
-  Indica que el cliente está solicitando una respuesta cuya edad no es mayor al valor especificado. A menos que el request posea también un valor para max-stale, significa que el cliente no acpetará una respuesta vencida.
+  Indica que el cliente está solicitando una respuesta cuya edad no es mayor al valor especificado. A menos que el request posea también un valor para max-stale, significa que el cliente no aceptará una respuesta vencida.
 
 **Response**
   Indica a las caches la edad para la cual el recurso debe dejar de considerarse fresco.
