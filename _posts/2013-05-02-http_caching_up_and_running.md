@@ -317,25 +317,25 @@ Client_Cache -> Client: 200 OK /hola.php
 <div class="wsd" wsd_style="napkin"><pre>
 title validation in action
 
-Client -> BC: GET /hola.php
-BC -> Server: GET /hola.php
-Server -> BC: 200 OK /hola.php [Cache-Control: max-age=10; Last-Modified: Tue, 06 May 2013 12:45:26 GMT]
-note over BC: Cache store
-BC -> Client: 200 OK /hola.php
+Client -> Client_Cache: GET /hola.php
+Client_Cache -> Server: GET /hola.php
+Server -> Client_Cache: 200 OK /hola.php [Cache-Control: max-age=10; Last-Modified: Tue, 06 May 2013 12:45:26 GMT]
+note over Client_Cache: Cache store
+Client_Cache -> Client: 200 OK /hola.php
 
-Client -> BC: GET /hola.php
-BC -> BC: fresh? True
-BC -> Client: 200 OK GET /hola.php
+Client -> Client_Cache: GET /hola.php
+Client_Cache -> Client_Cache: fresh? True
+Client_Cache -> Client: 200 OK GET /hola.php
 
-note right of BC: After 10 seconds...
+note right of Client_Cache: After 10 seconds...
 
-Client -> BC: GET /hola.php
-BC -> BC: fresh? false
+Client -> Client_Cache: GET /hola.php
+Client_Cache -> Client_Cache: fresh? false
 
-BC -> Server: GET /hola.php [If-Not-Modified: Tue, 06 May 2013 12:45:26 GMT]
-Server -> BC: 304 Not Modified /hola.php [Cache-Control: max-age=10]
-note over BC: Update cache
-BC -> Client: 200 OK /hola.php
+Client_Cache -> Server: GET /hola.php [If-Not-Modified: Tue, 06 May 2013 12:45:26 GMT]
+Server -> Client_Cache: 304 Not Modified /hola.php [Cache-Control: max-age=10]
+note over Client_Cache: Update cache
+Client_Cache -> Client: 200 OK /hola.php
 </pre></div>
 
 
@@ -350,17 +350,17 @@ existieran caches intermedias, sucedería lo mismo con cada una de ellas.
 <div class="wsd" wsd_style="napkin"><pre>
 title no-cache request
 
-Client -> BC: GET /hola.php
-BC -> Server: GET /hola.php
-Server -> BC: 200 OK /hola.php [Cache-Control: max-age=10; Last-Modified: Tue, 06 May 2013 12:45:26 GMT]
-note over BC: Cache store
-BC -> Client: 200 OK /hola.php
+Client -> Client_Cache: GET /hola.php
+Client_Cache -> Server: GET /hola.php
+Server -> Client_Cache: 200 OK /hola.php [Cache-Control: max-age=10; Last-Modified: Tue, 06 May 2013 12:45:26 GMT]
+note over Client_Cache: Cache store
+Client_Cache -> Client: 200 OK /hola.php
 
-Client -> BC: GET /hola.php [Cache-Control: no-store]
-BC -> Server: GET /hola.php [If-Not-Modified: Tue, 06 May 2013 12:45:26 GMT]
-Server -> BC: 304 Not Modified /hola.php [Cache-Control: max-age=10]
-note over BC: Update cache
-BC -> Client: 200 OK /hola.php
+Client -> Client_Cache: GET /hola.php [Cache-Control: no-store]
+Client_Cache -> Server: GET /hola.php [If-Not-Modified: Tue, 06 May 2013 12:45:26 GMT]
+Server -> Client_Cache: 304 Not Modified /hola.php [Cache-Control: max-age=10]
+note over Client_Cache: Update cache
+Client_Cache -> Client: 200 OK /hola.php
 </pre></div>
 
 <script type="text/javascript" src="http://www.websequencediagrams.com/service.js"></script>
