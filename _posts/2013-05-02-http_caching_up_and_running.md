@@ -32,6 +32,10 @@ si poseen una repuesta **aceptable**, en caso afirmativo lo devuelven sin accede
 y de lo contrario, consultan al servidor y (a veces) almacenan la respuesta.
 
 ##HTTP - Expiración y Validación
+
+<img src="/static/caching_workflow.png"/>
+<p><i>Image from OReilly HTTP The Definitive Guide 2002 about Caching</i></p>
+
 Como dijimos anteriormente, cuando alguien hace un requerimiento HTTP,
 queda en la cache determinar si lo que está almacenado puede ser utilizado o si
 es necesario consultar el servidor por una nueva respuesta.
@@ -150,7 +154,7 @@ por defecto se considera que una petición es privada si posee un header Authori
 ## Cache Control Headers
 
 Algunos de las directivas de control de cache de HTTP 1.1 se pueden utilizar tanto en las respuestas como en
-los requerimientos ty en ciertos casos, su sempantica cambia. Su distribución es la siguiente:
+los requerimientos y en ciertos casos, su semántica cambia. Su distribución es la siguiente:
 
 
 | Request                             |   Response                    |
