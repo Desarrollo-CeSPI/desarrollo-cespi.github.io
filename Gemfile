@@ -1,4 +1,3 @@
-# A sample Gemfile
-source "https://rubygems.org"
+source 'http://gems.desarrollo.unlp.edu.ar'
 
-gem "jekyll", '~> 3.0.0'
+gem 'jekyll', '~> 3.0.0'
