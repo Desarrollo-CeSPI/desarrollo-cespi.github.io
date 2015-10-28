@@ -1,3 +1,4 @@
-source 'https://rubygems.org'
-gem 'jekyll'
-gem 'rdiscount'
+# A sample Gemfile
+source "https://rubygems.org"
+
+gem "jekyll", '~> 3.0.0'
