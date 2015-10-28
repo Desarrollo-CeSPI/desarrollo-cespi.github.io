@@ -161,7 +161,7 @@ los requerimientos y en ciertos casos, su semántica cambia. Su distribución es
 
 
 | Request                             |   Response                    |
-| ------------------------------------|-------------------------------|
+|:------------------------------------|:------------------------------|
 | "no-cache"                          | "public"                      | 
 | "no-store"                          | "private"  [="field-name"]    | 
 | "max-age" = {delta-seconds}         | "no-cache" [="field-name"]    | 
@@ -169,8 +169,8 @@ los requerimientos y en ciertos casos, su semántica cambia. Su distribución es
 | "min-fresh" = {delta-seconds}       | "no-transform"                | 
 | "no-transform"                      | "must-revalidate"             | 
 | "only-if-cached"                    | "proxy-revalidate"            | 
-| cache-extension                     | "max-age"  = {delta-seconds}  | 
-|                                     | "s-maxage" = {delta-seconds}  | 
+| cache-extension                     | "max-age"  = {delta-seconds}, "s-maxage" = {delta-seconds} |
+{: class="table table-striped"}
 
 
 
