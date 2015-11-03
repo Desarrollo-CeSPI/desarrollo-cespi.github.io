@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Nuevo Proyecto
+title: Procedimiento Iniciar Proyecto
 permalink: /procedimientos/nuevo_proyecto
 ---
 
