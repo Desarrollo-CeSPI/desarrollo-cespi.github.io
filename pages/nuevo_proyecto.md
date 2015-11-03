@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Procedimiento Iniciar Proyecto
-permalink: /procedimientos/nuevo_proyecto
+permalink: /procedimientos/nuevo_proyecto/
 ---
 
 * Al inicio del proyecto, se debe conformar un grupo de al menos dos personas. Nunca el proyecto se iniciará por un único recurso
