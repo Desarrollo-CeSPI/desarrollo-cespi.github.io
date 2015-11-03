@@ -1,10 +1,7 @@
 ---
-date: 2015-11-02 09:00:00 -3000
-layout: post
+layout: page
 title: Nuevo Proyecto
 permalink: /procedimientos/nuevo_proyecto
-author: [Desarrollo]
-categories: gestión proyectos
 ---
 
 * Al inicio del proyecto, se debe conformar un grupo de al menos dos personas. Nunca el proyecto se iniciará por un único recurso
