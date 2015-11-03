@@ -3,6 +3,7 @@ layout: page
 title: Acerca de
 show_in_navbar: true
 permalink: /about/
+order: 5
 ---
 
 El área de Desarrollo del [CeSPI][CeSPI] pertenece a la [Universidad Nacional de
