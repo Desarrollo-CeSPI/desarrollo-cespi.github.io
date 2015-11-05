@@ -3,21 +3,27 @@ layout: default
 ---
 
 <div class="home">
-
-  <h1 class="page-heading">Publicaciones</h1>
+  <h1 class="page-heading"><i>**</i> Publicaciones</h1>
 
   <ul class="post-list">
     {% for post in site.posts %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
-      </li>
+      <div class="col-md-4 post-style ">
+        <li>
+          <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+          <h2>
+            <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+          </h2>
+          <div class="post-content-truncate">
+            {% if post.content contains "<!-- more -->" %}
+              {{ post.content | split:"<!-- more -->" | first % | remove_first: post.title }}
+            {% else %}
+              {{ post.content | strip_html | truncatewords:50 | remove_first: post.title }}
+            {% endif %}
+          </div>
+        </li>
+      </div>
     {% endfor %}
   </ul>
-
-  <p class="rss-subscribe">Suscribirse <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
-
+  <!-- <p class="rss-subscribe">Suscribirse <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p> -->
 </div>
+

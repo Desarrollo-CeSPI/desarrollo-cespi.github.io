@@ -1,7 +1,7 @@
 ---
 date: 2013-05-02 09:00:00 -3000
 layout: post
-title: HTTP Caching
+title: HTTP caching up and running
 excerpt: Análisis en profundidad del funcionamiento de cache en http
 author: Alvaro Lara & Fernando Martínez
 categories: http caching
@@ -11,9 +11,9 @@ categories: http caching
 
 Todos en algún momento nos topamos con la necesidad de tener que optimizar nuestro
 sistema para que se aproveche las ventaja de usar cache, pero ¿cómo funciona una cache?
+<!-- more -->
 ¿y qué parámetros son los que tenemos que tener en cuenta?. De eso se va a tratar este
 post y esperamos pueda quedar claro qué nos brinda HTTP para lograrlo.
-
 ##HTTP - Niveles de cache
 
 Las cache HTTP no son mas que un repositorio donde se almacenan páginas en base
