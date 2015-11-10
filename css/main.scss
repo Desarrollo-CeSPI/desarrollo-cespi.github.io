@@ -390,12 +390,20 @@ pre {
   color: #FFF;
   background-color: #1ABC9C;
   padding: 20px 5px 20px 5px;
-  text-align: right;
+  text-align: center;
   margin-top: 0em;
+  margin-right: 1em;
  }
 
 .post-meta span{
   padding-right: 1em;
+}
+
+.post-author{
+  color: #1ABC9C;
+  font-size: 17px;
+  margin-top: -10px!important;
+  font-style: italic;
 }
 
 .post-link {
@@ -414,11 +422,8 @@ pre {
 }
 
 .post-link-button{
-  padding: 0.5em 1em 0.5em 1em;
-  background-color: #e74c3c;
-  -webkit-box-shadow: 10px 10px 3px -8px rgba(0,0,0,0.23);
-  -moz-box-shadow: 10px 10px 3px -8px rgba(0,0,0,0.23);
-  box-shadow: 10px 10px 3px -8px rgba(0,0,0,0.23); }
+  padding: 0em 1em 0em 1em;
+  background-color: #e74c3c; }
 
 .post-link-button i.more-post{
   font-size: 20px;

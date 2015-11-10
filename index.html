@@ -4,9 +4,13 @@ layout: default
 
 <div class="home">
     <div class="row">
+
       <div class="col-md-4 colum-tags pull-right">
-        <!-- <h2 class="page-heading">Tags</h2> -->
+        <!--<h2 class="page-heading">Categorías</h2>-->
       </div>
+
+
+
       <ul class="post-list">
         <!-- <h1 class="page-heading">Publicaciones</h1> -->
         {% for post in site.posts %}
@@ -14,13 +18,13 @@ layout: default
             <div class="row">
               <div class="col-md-2 post-meta">
                   <span class="">{{ post.date | date: "%b %-d, %Y" }}</span>
-                  {% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span>
               </div>
               <div class="col-md-9 post-style ">
                 <li>
                   <h2>
                     <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
                   </h2>
+                  <h5 class="post-author"><span itemprop="name">** {{ post.author }}</span></h5>
                   <div class="post-content-truncate">
                     {% if post.content contains "<!-- more -->" %}
                       {{ post.content | split:"<!-- more -->" | first % | remove_first: post.title }}
