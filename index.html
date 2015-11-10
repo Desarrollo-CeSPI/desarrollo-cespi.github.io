@@ -3,27 +3,39 @@ layout: default
 ---
 
 <div class="home">
-  <h1 class="page-heading"><i>**</i> Publicaciones</h1>
-
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <div class="col-md-4 post-style ">
-        <li>
-          <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-          <h2>
-            <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-          </h2>
-          <div class="post-content-truncate">
-            {% if post.content contains "<!-- more -->" %}
-              {{ post.content | split:"<!-- more -->" | first % | remove_first: post.title }}
-            {% else %}
-              {{ post.content | strip_html | truncatewords:50 | remove_first: post.title }}
-            {% endif %}
-          </div>
-        </li>
+    <div class="row">
+      <div class="col-md-4 colum-tags pull-right">
+        <!-- <h2 class="page-heading">Tags</h2> -->
       </div>
-    {% endfor %}
-  </ul>
-  <!-- <p class="rss-subscribe">Suscribirse <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p> -->
+      <ul class="post-list">
+        <!-- <h1 class="page-heading">Publicaciones</h1> -->
+        {% for post in site.posts %}
+          <div class="col-md-8 single-post">
+            <div class="row">
+              <div class="col-md-2 post-meta">
+                  <span class="">{{ post.date | date: "%b %-d, %Y" }}</span>
+                  {% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span>
+              </div>
+              <div class="col-md-9 post-style ">
+                <li>
+                  <h2>
+                    <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+                  </h2>
+                  <div class="post-content-truncate">
+                    {% if post.content contains "<!-- more -->" %}
+                      {{ post.content | split:"<!-- more -->" | first % | remove_first: post.title }}
+                    {% else %}
+                      {{ post.content | strip_html | truncatewords:50 | remove_first: post.title }}
+                    {% endif %}
+                  </div>
+                    <a class="post-link-button pull-right" href="{{ post.url | prepend: site.baseurl }}"><i class="more-post">+</i></a>
+                </li>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+      </ul>
+  </div>
+    <!-- <p class="rss-subscribe">Suscribirse <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p> -->
 </div>
 

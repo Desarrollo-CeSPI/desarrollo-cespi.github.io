@@ -7,11 +7,9 @@ author: Susana
 categories: prueba
 ---
 
-#Prueba de post
-
 There are a ton of major changes to Bootstrap and it’s impossible to cover them all in detail here, so here are some of our favorite highlights:
-<!-- more -->
 And that barely scratches the surface of the 1,100 commits and 120,000 lines of changes in v4 so far. Plus, we’re not even done yet!
+<!-- more -->
 
 Ready to check it out? Then head to the v4 alpha docs!
 Development plan

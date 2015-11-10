@@ -8,9 +8,9 @@ categories: String Filters
 ---
 
 We need your help to make Bootstrap 4 the best it can be. Starting today, the source code for v4 will be available in a v4-dev branch on GitHub. In 
-<!-- more -->
 addition, we have a v4 development and tracking pull request that includes a 
 master checklist of changes we’ve made and our remaining possible todos. We’d love for y’all to help chip away at those todos.
+<!-- more -->
 
 Append
 Appends characters to a string.

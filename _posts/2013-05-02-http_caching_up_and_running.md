@@ -7,8 +7,6 @@ author: Alvaro Lara & Fernando Martínez
 categories: http caching
 ---
 
-# HTTP caching up and running
-
 Todos en algún momento nos topamos con la necesidad de tener que optimizar nuestro
 sistema para que se aproveche las ventaja de usar cache, pero ¿cómo funciona una cache?
 <!-- more -->
