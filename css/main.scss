@@ -6,9 +6,10 @@
 
 
 // Our variables
-@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700|Josefin+Sans|Raleway:400,300,600,800);
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700|Raleway:400,300,600,800|Oswald:400,700,300);
 
-$base-font-family: "Josefin Sans","Raleway","Roboto","Helvetica Neue", Helvetica, Arial, sans-serif;
+
+$base-font-family: "Oswald","Raleway","Roboto","Helvetica Neue", Helvetica, Arial, sans-serif;
 $base-font-size:   16px;
 $base-font-weight: 400;
 $small-font-size:  $base-font-size * 0.875;
@@ -127,7 +128,7 @@ a {
   text-decoration: none;
   font-size: 14px; }
   a:visited {
-    color: #1756a9; }
+    color: #3498DB; }
   a:hover {
     color: #111;
     text-decoration: none; }
@@ -227,7 +228,7 @@ pre {
 
 .site-title {
   font-size: 32px;
-  font-weight: 300;
+  font-weight: 400;
   font-family: "Roboto";
   line-height: 56px;
   letter-spacing: -1px;
@@ -252,10 +253,15 @@ pre {
       font-weight: 400;
       color: white;
       line-height: 1.5;
-      padding: 0px 40px;}
+      padding: 9px 14px 9px 14px;
+      font-size: medium;}
     .site-nav .page-link:not(:last-child) {
-      margin-right: 23px;
+      margin-right: 10px;
        }
+.site-nav a:hover{
+      border: 2px solid rgba(255,255,255,0.7);
+      background-color: rgba(255, 255, 255, 0.21) !important;}
+
 .site-nav i.page-link-separator{
   margin-right: 1em;
   color: white;
@@ -389,10 +395,10 @@ pre {
   font-weight: 600;
   color: #FFF;
   background-color: #1ABC9C;
-  padding: 20px 5px 20px 5px;
+  padding: 25px 0px 25px 0px;
   text-align: center;
   margin-top: 0em;
-  margin-right: 1em;
+  margin-right: 0.5em;
  }
 
 .post-meta span{
@@ -423,14 +429,14 @@ pre {
 
 .post-link-button{
   padding: 0em 1em 0em 1em;
-  background-color: #e74c3c; }
+  background-color: #FFB61E; }
 
 .post-link-button i.more-post{
-  font-size: 20px;
+  font-size: 16px;
   color: white;
   text-decoration: none;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 400;
 }
 
 /**
@@ -456,7 +462,7 @@ pre {
 .post-meta-post{
   color: #1ABC9C;
   text-align: left;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 400;
   margin-top: -9px;}
 
