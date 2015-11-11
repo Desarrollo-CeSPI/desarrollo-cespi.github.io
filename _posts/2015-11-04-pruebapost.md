@@ -5,6 +5,7 @@ title: Prueba de post
 excerpt: Análisis en profundidad del funcionamiento de cache en http
 author: Susana 
 categories: prueba
+tag: [cuatro, cinco, seis] 
 ---
 
 There are a ton of major changes to Bootstrap and it’s impossible to cover them all in detail here, so here are some of our favorite highlights:

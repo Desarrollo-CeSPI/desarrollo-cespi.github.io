@@ -5,6 +5,7 @@ title: String Filters
 excerpt: conociendo Jeckyll
 author: Ana
 categories: String Filters
+tags: [uno, dos, tres]
 ---
 
 We need your help to make Bootstrap 4 the best it can be. Starting today, the source code for v4 will be available in a v4-dev branch on GitHub. In 

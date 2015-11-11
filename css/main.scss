@@ -178,8 +178,34 @@ pre {
 
 .colum-tags{
   background-color: #D4D4D4;
-  height: 33em;
   margin-top: 1em;
+  padding: 1em;
+}
+
+.tags-style a{
+  background-color: #1ABC9C;
+  padding: 6px;
+  margin: 3px;
+  color: white;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.tags-style.all-tags ul{
+  list-style-type: none;
+  margin-top: -0.5em;
+}
+.tags-style.all-tags ul li{
+  text-decoration: none;
+}
+
+.tags-style.all-tags ul li a{
+  margin: 1px !important;
+}
+
+.nav-arrows a{
+  color: #3498db;
+  font-weight: 500;
 }
 
 .wrapper {
@@ -361,8 +387,11 @@ pre {
   padding: 2em; }
 
 .page-heading {
-  font-size: 26px; 
-  color: #5D5D5D;}
+  font-size: 20px;
+  color: #5D5D5D;
+  font-weight: 500;
+  padding-left: 1em;
+  padding-top: 0.5em;}
 
 .page-heading i {
   margin-top: -5px;
