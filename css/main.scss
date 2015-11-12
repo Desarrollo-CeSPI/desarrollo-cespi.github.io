@@ -176,6 +176,15 @@ pre {
 //   background-color: #59ADE3; 
 // }
 
+.glyphicon-calendar{
+  font-size: 12px;
+}
+
+#author-color{
+  color: grey !important;
+  font-style: italic;
+}
+
 .colum-tags{
   background-color: #D4D4D4;
   margin-top: 1em;
@@ -474,10 +483,14 @@ pre {
  */
 .post {
   max-width: 80%;
-  margin: 0 auto; }
+  margin: 0 auto;}
 
 .post-header {
-  margin-bottom: 30px; }
+    background-color: white;
+    padding: 2em;
+    padding-left: 3em;
+    margin-bottom: -3em!important;
+    padding-top: 1em;}
 
 .post-title {
   margin-top: 1.5em;
@@ -495,7 +508,7 @@ pre {
   font-size: 16px;
   font-weight: 400;
   margin-top: -9px;
-  font-style: italic;}
+  font-style: normal;}
 
 .post-content {
   background-color: white;
