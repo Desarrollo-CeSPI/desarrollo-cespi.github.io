@@ -4,8 +4,8 @@ layout: post
 title: HTTP caching up and running
 excerpt: Análisis en profundidad del funcionamiento de cache en http
 author: Alvaro Lara & Fernando Martínez
-categories: http caching
-tags: [github, github-pages, jekyll]
+categories: HTTP
+tags: [http, caching, protocolos]
 ---
 
 Todos en algún momento nos topamos con la necesidad de tener que optimizar nuestro sistema para que se aproveche las ventaja de usar cache, pero ¿cómo funciona una cache?
