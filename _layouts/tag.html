@@ -1,0 +1,9 @@
+---
+layout: default
+---
+<div class="archives">
+  <h2 class="archive-year">Posts tagged with tag {{ page.url | remove: '/tags/' | remove: '.html' }}</h2>
+  {% for post in page.posts %}
+  <h3 class="archives-entry"><a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></h3>
+  {% endfor %}
+</div>
