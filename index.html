@@ -6,7 +6,19 @@ layout: default
     <div class="row">
       <div class="col-md-3 colum-tags pull-right">
         <h2 class="page-heading"><i class="glyphicon glyphicon-bookmark"></i>Categorías</h2>
-
+        <legend></legend>
+          <div class="categories-style">
+            {% for post in site.posts %}
+            <ul>
+              <li>
+                {% for category in post.categories %}
+                   <i href="/tags/{{ categories }}.html" title="View posts tagged with &quot;{{ categories | first }}&quot;">{{ category }}</i>  
+                   <legend></legend>
+                {% endfor%}
+              </li>
+            </ul>
+            {% endfor%}
+          </div>
         <legend></legend>
         <h2 class="page-heading"><i class="glyphicon glyphicon-tag"></i>Tags</h2>
         <legend></legend>
@@ -28,8 +40,13 @@ layout: default
         {% for post in site.posts %}
           <div class="col-md-9 single-post">
             <div class="row">
-              <div class="col-md-2 post-meta">
-                  <span class="">{{ post.date | date: "%b %-d, %Y" }}</span>
+              <div class="col-md-1 post-meta">
+                <div class="row">
+                  <span class="date">{{ post.date | date: "%-d"}}</span>
+                </div>
+                <div class="row">
+                   <span class="date-format">{{ post.date | date: "%-m-%Y" }}</span>
+                </div>
               </div>
               <div class="col-md-9 post-style ">
                 <li>
@@ -44,7 +61,7 @@ layout: default
                       {{ post.content | strip_html | truncatewords:50 | remove_first: post.title }}
                     {% endif %}
                   </div>
-                    <a class="post-link-button pull-right" href="{{ post.url | prepend: site.baseurl }}"><i class="more-post">Ver...</i></a>
+                    <a class="post-link-button pull-right" href="{{ post.url | prepend: site.baseurl }}"><i class="more-post">Ver</i></a>
                 </li>
               </div>
             </div>

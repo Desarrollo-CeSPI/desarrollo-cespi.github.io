@@ -8,10 +8,9 @@ categories: http caching
 tags: [github, github-pages, jekyll]
 ---
 
-Todos en algún momento nos topamos con la necesidad de tener que optimizar nuestro
-sistema para que se aproveche las ventaja de usar cache, pero ¿cómo funciona una cache?
-<!-- more -->
+Todos en algún momento nos topamos con la necesidad de tener que optimizar nuestro sistema para que se aproveche las ventaja de usar cache, pero ¿cómo funciona una cache?
 ¿y qué parámetros son los que tenemos que tener en cuenta?. De eso se va a tratar este
+<!-- more -->
 post y esperamos pueda quedar claro qué nos brinda HTTP para lograrlo.
 ##HTTP - Niveles de cache
 
