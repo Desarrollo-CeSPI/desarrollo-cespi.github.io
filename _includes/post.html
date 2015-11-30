@@ -1,0 +1,29 @@
+<div class="single-post">
+  <div class="row">
+    <div class="col-md-2 post-meta">
+      <div class="row">
+        <span class="date">{{ post.date | date: "%d"}}</span>
+      </div>
+      <div class="row">
+        <span class="date-format">{{ post.date | date: "%m-%Y" }}</span>
+      </div>
+    </div>
+    <div class="col-md-9 post-style ">
+      <li>
+        <h2>
+          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+        </h2>
+        <h5 class="post-author"><span itemprop="name">{{ post.author }}</span></h5>
+        <div class="post-content-truncate">
+          {% if post.content contains "<!-- more -->" %}
+          {{ post.content | split:"<!-- more -->" | first % | remove_first: post.title }}
+          {% else %}
+          {{ post.content | strip_html | truncatewords:50 | remove_first: post.title }}
+          {% endif %}
+        </div>
+        <a class="post-link-button" href="{{ post.url | prepend: site.baseurl }}"><i class="more-post">Ver</i></a>
+      </li>
+    </div>
+  </div>
+</div>
+
