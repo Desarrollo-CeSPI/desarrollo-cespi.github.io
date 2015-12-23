@@ -8,3 +8,7 @@ github_username:  Desarrollo-CeSPI
 
 # Build settings
 markdown: kramdown
+
+exclude: 
+  - Gemfile
+  - Gemfile.lock
