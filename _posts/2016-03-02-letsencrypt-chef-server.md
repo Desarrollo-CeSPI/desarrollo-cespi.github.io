@@ -34,7 +34,7 @@ Para poder obtener el primer certificado, debemos bajar el actual servicio de
 nginx:
 
 {% highlight bash %}
-sudo hef-server-ctl stop nginx
+sudo chef-server-ctl stop nginx
 {% endhighlight %}
 
 ### Corremos letsencrypt
