@@ -12,6 +12,7 @@ GEM
       mercenary (~> 0.3.3)
       rouge (~> 1.7)
       safe_yaml (~> 1.0)
+    jekyll-gravatar (0.1.0)
     jekyll-sass-converter (1.4.0)
       sass (~> 3.4)
     jekyll-watch (1.4.0)
@@ -34,6 +35,7 @@ PLATFORMS
 
 DEPENDENCIES
   jekyll (~> 3.0.4)
+  jekyll-gravatar
 
 BUNDLED WITH
    1.11.2

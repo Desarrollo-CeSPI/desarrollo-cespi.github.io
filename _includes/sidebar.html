@@ -1,21 +1,18 @@
    <div class="col-md-12 colum-tags">
-      <h2 class="page-heading"><i class="glyphicon glyphicon-bookmark"></i>Categorías</h2>
-      <legend></legend>
+      <h2 class="page-heading"><i class="glyphicon glyphicon-bookmark"></i>CATEGORÍAS</h2>
       <div class="categories-style">
         {% for post in site.posts %}
         <ul>
           <li>
+            <i class="fa fa-caret-right" aria-hidden="true"></i>
             {% for category in post.categories %}
             <i href="/tags/{{ categories }}.html" title="View posts tagged with &quot;{{ categories | first }}&quot;">{{ category }}</i>  
-            <legend></legend>
             {% endfor%}
           </li>
         </ul>
         {% endfor%}
       </div>
-      <legend></legend>
-      <h2 class="page-heading"><i class="glyphicon glyphicon-tag"></i>Tags</h2>
-      <legend></legend>
+      <h2 class="page-heading tag"><i class="glyphicon glyphicon-tag"></i>TAGS</h2>
       <div class="tags-style all-tags">
         {% for post in site.posts %}
         <ul>

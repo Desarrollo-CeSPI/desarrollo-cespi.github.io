@@ -5,6 +5,7 @@ title: Flush del DNS en Google Chrome
 excerpt: Como limpiar la cache de google chrome cuando modificamos la IP de un sitio
 author: Christian Rodriguez
 categories: chrome dns
+usernames: [ chrodriguez ]
 ---
 Es muy común, sobre todo cuando se trabaja en infraestructura probar una
 configuración que ya está funcionando en una IP determinada, pero engañando a

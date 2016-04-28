@@ -3,6 +3,7 @@ layout: post
 title: Letsencrypt y Chef 12 server
 author: Christian Rodriguez
 categories: chef ssl
+usernames: [ chrodriguez ]
 ---
 
 La idea es que el server de chef utilice certificados válidos para evitar
