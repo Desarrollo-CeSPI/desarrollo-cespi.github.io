@@ -3,6 +3,7 @@ layout: post
 title: Intro Elasticsearch - Módulo 1
 author: Maira Diaz
 categories: elasticsearch NoSQL  document  SQL
+usernames: [ maira1001001 ]
 ---
 
 Esto es una introducción a elasticsearch. Tendrá n módulos, y cada uno de los n_i módulos
