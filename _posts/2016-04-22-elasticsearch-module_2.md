@@ -25,12 +25,12 @@ En DDBMS(1) existen diferentes técnicas para particionar y luego almacenar los 
 ![Partición Horizontal vs Vertical](/assets/images/elasticsearch-modules/horizontal_vs_vertical_split_DDBMS.gif)
 
 
-Veamos un ejemplo de **partición horizontal** y **partición vertical**, haciendo referencia 
-al ejemplo mencionado en el módulo 2.
+Veamos un ejemplo de **partición horizontal** y **partición vertical**
 
 ####1.Diagrama de clases 
 
 ![Contact DB](/assets/images/elasticsearch-modules/contact_db.png){: style="height: 300px;width: 350px;"}
+
 
 id  |     name    |         email             |     type      | parent_id
 --- | ----------- | ------------------------- | ------------- | --------
@@ -44,6 +44,7 @@ id  |     name    |         email             |     type      | parent_id
 ####2.Fragmentación horizontal
 
 2.a Fragmento 1
+
 
 id  |     name    |         email             |     type      |parent_id
 --- | ----------- | ------------------------- | ------------- | --------
@@ -91,16 +92,18 @@ una o más copias de cada *shard*. A cada copia se la denomina **Replica**.
 Cree un índice como se detalla a continuación: 
 
 {% highlight bash  %}
-$ curl -XPUT 'http://localhost:9200/articles/' -d '
+$ curl -XPUT 'http://localhost:9200/articles/?pretty' -d '
 index :
     number_of_shards : 4
     number_of_replicas : 1
 '
 {% endhighlight  %}
 
-Para visualizarlo acceda a:
+Para visualizar la creación y configuración del índice, escriba en consola:
 
-> [http://localhost:9200/articles/_settings](http://localhost:9200/articles/_settings)
+{% highlight bash  %}
+$ curl -XGET 'http://localhost:9200/articles/_settings?pretty'
+{% endhighlight  %}
 
 Se creó un *índice* con los siguientes datos:
 
@@ -125,9 +128,12 @@ BASE DE DATOS
 {% endhighlight %}
 
 Para visualizar en que nodo se distribuyeron los shards y replicas del índice 
-**articles**, acceda a:
+**articles**, escriba en consola:
 
-> [http://localhost:9200/_cat/shards/articles](http://localhost:9200/_cat/shards/articles)
+{% highlight bash  %}
+$ curl -XGET 'http://localhost:9200/_cat/shards/articles'
+{% endhighlight  %}
+
 
 Si, por ejemplo, nuestro cluster contara con 3 nodos, la distribución de shards y 
 replicas, se podrían realizar de la siguiente forma:
@@ -181,9 +187,21 @@ de esos datos y participa en la indexación y búsqueda.
 
 Para visualizar los nodos de su cluster acceda a: 
 
-> [http://localhost:9200/_cat/nodes](http://localhost:9200/_cat/nodes)
+1) primero configure elasticsearch.yml -> discovery.zen.ping.multicast.enable: true
+2) 
+{% highlight bash  %}
+$ curl -XGET 'http://localhost:9200/_cat/nodes'
+{% endhighlight  %}
 
+Si tenemos 2 nodos en el cluster, por ejemplo:
+{% highlight bash  %}
+soporte-MS-7823 127.0.1.1 5 33 0.00 d m Los pitufos                        │#
+soporte-MS-7823 127.0.1.1 4 37 0.00 d * Rosario Montes
+{% endhighlight  %}
+El nodo **Los Pitufos** posee la letra **m** de master node
+El nodo **Rosario Montes** posee ***** 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 EXPLICAR SOBRE NODOS MASTER O DEDICADOS ....
 https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-node.html
 https://www.elastic.co/guide/en/elasticsearch/reference/1.4/modules-node.html
@@ -192,6 +210,7 @@ This is a powerful setting allowing to create 2 types of non-data nodes: dedicat
 1. client nodes
 2. dedicated nodes
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 
 
 ### Índices, tipos y documentos
@@ -221,8 +240,10 @@ En el siguiente módulo, se explicará como crear un índice, como se realizar u
 esta forma se comprenderá  con mayor profundidad los términos tipos y documento.
 
 
+
 ------------------------------------------------------
 
 (1)*DDBMS*: Distributed Database Management Systems
+
 
 
