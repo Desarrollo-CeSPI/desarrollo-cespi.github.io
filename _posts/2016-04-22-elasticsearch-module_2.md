@@ -58,7 +58,7 @@ id  |     name    |         email             |     type  |parent_id
 Fragmento 1
 
 id  |     name     |         email
---- |------------- | --------------------------
+--- | ------------ | --------------------------
 1   | UNLP         | email@unlp.edu.ar
 2   | CeSPI        | cespi@unlp.edu.ar
 3   | Aula Cisco   | cisco@cespi.unlp.edu.ar
@@ -80,7 +80,7 @@ una o más copias de cada *shard*. A cada copia se la denomina **Replica**.
 
 ### Shards y replicas
 
-Veamos un ejemplo creando un índice y configurando los shards y las replicas.
+Veamos un ejemplo creando un índice y configurando sus shards y replicas.
 Escriba en la consola:
 
 {% highlight bash  %}
@@ -91,14 +91,14 @@ index :
 '
 {% endhighlight  %}
 
-Se ha creado un *índice* con los siguientes datos:
+Se ha creado un índice con los siguientes datos:
 
 * nombre del índice: **article**
 * cantidad de shards: 4
 * cantidad de replicas: 1 (1 replica  por shard)
 
 
-Para visualizar la creación y configuración del índice, escriba en la consola:
+Para chequear si se ha creado correctamente, escriba en la consola:
 
 {% highlight bash  %}
 $ curl -XGET 'http://localhost:9200/articles/_settings?pretty'
@@ -198,6 +198,7 @@ Cada replica es una copia de un shard, y por lo tanto cada replica contiene info
 redundante.
 ¿Qué ventaja proveen las replicas? Proporcionan **disponibilidad** de los datos en caso 
 de en caso de que un fragmento falle.
+
 
 
 ### Cluster y nodos
