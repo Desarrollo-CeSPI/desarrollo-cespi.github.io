@@ -6,8 +6,6 @@ categories: elasticsearch DDBMS
 tags: [elasticsearch, cluster, node, shard, replica, DDBMS]
 ---
 
-
-
 ##MODULO 2
 
 Una de las características que poseen las BBDD NoSQL es que son **BBDD distribuidas**.
@@ -27,10 +25,6 @@ En DDBMS(1) existen diferentes técnicas para particionar y luego almacenar los 
 
 Veamos un ejemplo de **partición horizontal** y **partición vertical**
 
-####1.Diagrama de clases 
-
-![Contact DB](/assets/images/elasticsearch-modules/contact_db.png){: style="height: 300px;width: 350px;"}
-
 
 id  |     name    |         email             |     type      | parent_id
 --- | ----------- | ------------------------- | ------------- | --------
@@ -40,18 +34,16 @@ id  |     name    |         email             |     type      | parent_id
 4   | Guaraní     | guarani@cespi.unlp.edu.ar | Office        |    2
 
 
+####1.Fragmentación horizontal
 
-####2.Fragmentación horizontal
+Fragmento 1
 
-2.a Fragmento 1
-
-
-id  |     name    |         email             |     type      |parent_id
+id  |     name    |         email             |     type      | parent_id
 --- | ----------- | ------------------------- | ------------- | --------
 1   | UNLP        | email@unlp.edu.ar         | Institution   |
 2   | CeSPI       | cespi@unlp.edu.ar         | Dependency    |    1
 
-2.b Fragmento 2
+Fragmento 2
 
 id  |     name    |         email             |     type  |parent_id
 --- | ----------- | ------------------------- | --------- | ---------
@@ -59,11 +51,9 @@ id  |     name    |         email             |     type  |parent_id
 4   | Guaraní     | guarani@cespi.unlp.edu.ar | Office    |    2
 
 
+####2.Fragmentación vertical
 
-####3.Fragmentación vertical
-
-3.a Fragmento 1
-
+Fragmento 1
 
 id|     name    |         email
 --|-------------|--------------------------
@@ -72,8 +62,7 @@ id|     name    |         email
 3 | Aula Cisco  | cisco@cespi.unlp.edu.ar
 4 | Guaraní     | guarani@cespi.unlp.edu.ar
 
-3.b Fragmento 2
-
+Fragmento 2
 
 id  |     type      | parent_id
 --- | ------------- | --------
@@ -89,7 +78,8 @@ una o más copias de cada *shard*. A cada copia se la denomina **Replica**.
 
 ### Shards y replicas
 
-Cree un índice como se detalla a continuación: 
+Veamos un ejemplo creando un índice y configurando los shards y las replicas.
+Escriba en la consola:
 
 {% highlight bash  %}
 $ curl -XPUT 'http://localhost:9200/articles/?pretty' -d '
@@ -99,19 +89,21 @@ index :
 '
 {% endhighlight  %}
 
-Para visualizar la creación y configuración del índice, escriba en consola:
+Se ha creado un *índice* con los siguientes datos:
+
+* nombre del índice: **article**
+* cantidad de shards: 4
+* cantidad de replicas: 1 (1 replica  por shard)
+
+
+Para visualizar la creación y configuración del índice, escriba en la consola:
 
 {% highlight bash  %}
 $ curl -XGET 'http://localhost:9200/articles/_settings?pretty'
 {% endhighlight  %}
 
-Se creó un *índice* con los siguientes datos:
-
-* nombre del índice: **articles**
-* cantidad de shards: 4
-* cantidad de replicas: 1 (1 replica  por shard)
-
-El siguiente dibujo representa un bosquejo de como se particionarían los datos
+El siguiente dibujo representa un bosquejo de como se podrían particionar los datos respecto
+del ejemplo arriba mencionado.
 
 {% highlight bash %}
 BASE DE DATOS
@@ -127,89 +119,132 @@ BASE DE DATOS
 +_______________|_________+           +_______________|_________+
 {% endhighlight %}
 
-Para visualizar en que nodo se distribuyeron los shards y replicas del índice 
-**articles**, escriba en consola:
 
-{% highlight bash  %}
-$ curl -XGET 'http://localhost:9200/_cat/shards/articles'
-{% endhighlight  %}
+La finalidad de las particiones es que se distribuyan en diferentes nodos, para incrementar 
+la eficiencia en la búsqueda y asegurar la escalabilidad.
 
-
-Si, por ejemplo, nuestro cluster contara con 3 nodos, la distribución de shards y 
-replicas, se podrían realizar de la siguiente forma:
+Si, por ejemplo, nuestro cluster contara con 3 nodos, la distribución de shards y replicas, 
+se podrían realizar de la siguiente forma:
 
 {% highlight bash %}
+                           pc_1
                             __
-                 _________ |__|_____|--  SHARD 1
-                |         /___/     |--  SHARD 2
-                |       NODO pc_1   |--  REPLICA 3
+                 _________ |__|______|--  SHARD 0
+                |         /___/      |--  SHARD 1
+                |  NODO "Oesterheld" |--  REPLICA 2
                 |
                 |
+                |
+                |
+                |          pc_2
 CLUSTER --------|           __
-Elasticsearch   |_________ |__|_____|-- SHARD 3
-                |         /___/     |-- REPLICA 1
-                |      NODO pc_2    |-- REPLICA 4
+"Elasticsearch" |_________ |__|_______|-- SHARD 2
+                |         /___/       |-- REPLICA 0
+                | NODO "Solano Lopez" |-- REPLICA 3
                 |
+                |
+                |
+                |          pc_3
                 |           __
-                |_________ |__|_____|-- SHARD 4
-                          /___/     |-- REPLICA 2
-                       NODO pc_3
+                |_________ |__|_____|-- SHARD 3
+                          /___/     |-- REPLICA 1
+                   NODO  "Walsh"
+
 {% endhighlight %}
+
+####Propiedad de distribución de shards y replicas
+
+Sea la **replica i**, una copia del **shard i**.
+
+Si el **shard i** reside en el **nodo x**, entonces la **replica i** reside en el **nodo Y**, 
+con *X* disintito a *Y*.
+
+
+La distribución de los shards ocurre cuando se inicializa el servicio, cuando se agrega o 
+se elimina un nodo, durante la locación de las réplcias y durante un rebalanceo.
+
+####cat Shards API
+
+Para visualizar la distribución de los shards y replicas del índice **articles**, escriba 
+en la consola:
+
+{% highlight bash  %}
+$ curl -XGET 'http://localhost:9200/_cat/shards/articles?v'
+{% endhighlight  %}
+
+Volviendo al ejemplo arriba mencionado, donde teníamos 3 nodos en el cluster "Elasticsearch",
+podriamos imaginar el siguiente esquema:
+
+{% highlight bash  %}
+
+index    shard prirep(*) state   docs store ip        node
+articles 0     p         STARTED    0   79b 127.0.1.1 Oesterheld
+articles 0     r         STARTED    0   79b 127.0.1.1 Solano López
+articles 1     p         STARTED    0   79b 127.0.1.1 Oesterheld
+articles 1     r         STARTED    0   79b 127.0.1.1 Walsh
+articles 2     p         STARTED    0  115b 127.0.1.1 Solano López
+articles 2     r         STARTED    0   79b 127.0.1.1 Oesterheld
+articles 3     p         STARTED    0  115b 127.0.1.1 Walsh
+articles 3     r         STARTED    0   79b 127.0.1.1 Solano López
+{% endhighlight  %}
+
+(*)prirep: primary/replica
 
 ¿Qué ventaja tiene esta forma de distribuir los datos? Nos permite **paralelizar**
 las operaciones a través de los shards aumentando de esta forma el rendimiento.
-
 Cada replica es una copia de un shard, y por lo tanto cada replica contiene información
 redundante.
-
 ¿Qué ventaja proveen las replicas? Proporcionan **disponibilidad** de los datos en caso 
 de en caso de que un fragmento falle.
 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-EXPLICAR COMO SE DISTRIBUYEN y acceden a LOS DATOS de cada shard. COMO ES EL MECANISMO DE PARTICIONAMIENTO 
-https://www.elastic.co/guide/en/elasticsearch/guide/current/distrib-write.html
-The node uses the document’s _id to determine that the document belongs to shard 0.
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 ### Cluster y nodos
 
-Elasticsearch se va a organizar en 
+Elasticsearch opera en un ambiente distribuido, y corre un
 [clusters](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_cluster),
-conjunto de 1 o más
+definido como una colleción de 1 o más
 [nodos](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_node)
+conectados.
 
-Para visualizar el cluster al que usted pertenece:
+Para visualizar el cluster al que usted pertenece, escriba en la consola:
 
->[http://localhost:9200/](http://localhost:9200/)
+{% highlight bash  %}
+$ curl -XGET 'http://localhost:9200'
+{% endhighlight  %}
 
-Los *n* nodos contienen la totalidad de los datos. Cada nodo almacena un subconjunto 
-de esos datos y participa en la indexación y búsqueda.
 
-Para visualizar los nodos de su cluster acceda a: 
+Cada nodo conoce a los otros nodos del cluster. Pero, ¿Qué rol tienen los 
+[nodos](https://www.elastic.co/guide/en/elasticsearch/reference/1.4/modules-node.html)
+dentro del cluster?
 
-1) primero configure elasticsearch.yml -> discovery.zen.ping.multicast.enable: true
-2) 
+1. **Data node**: contienen los datos y ejecutan operaciones (CRUD, búsqueda, agregaciones).
+Por defecto un nodo es considerado como *data node*
+2. **Client node**: no son *data node*  ni *master node*. Equilibran la carga.
+Pueden redireccionar operaciones a los nodos que contienen los datos relevantes sin tener que
+preguntar a todos los nodos.
+3. **Master node** que posee el control del cluster
+
+#### Cat nodes API
+
+Para visualizar los nodos de su cluster, usando
+[cat nodes API](https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-nodes.html),
+escriba en su consola:
+
 {% highlight bash  %}
 $ curl -XGET 'http://localhost:9200/_cat/nodes'
 {% endhighlight  %}
 
-Si tenemos 2 nodos en el cluster, por ejemplo:
-{% highlight bash  %}
-soporte-MS-7823 127.0.1.1 5 33 0.00 d m Los pitufos                        │#
-soporte-MS-7823 127.0.1.1 4 37 0.00 d * Rosario Montes
-{% endhighlight  %}
-El nodo **Los Pitufos** posee la letra **m** de master node
-El nodo **Rosario Montes** posee ***** 
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Si volvemos al ejemplo arriba mencionado, donde teníamos 3 nodos en el cluster "Elasticsearch",
+podriamos imaginar el siguiente esquema:
 
-EXPLICAR SOBRE NODOS MASTER O DEDICADOS ....
-https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-node.html
-https://www.elastic.co/guide/en/elasticsearch/reference/1.4/modules-node.html
-By default, each node is considered to be a data node, and it can be turned off by setting node.data to false.
-This is a powerful setting allowing to create 2 types of non-data nodes: dedicated master nodes and client nodes.
-1. client nodes
-2. dedicated nodes
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+{% highlight bash  %}
+ nodeIp  ip         port  nodeRole(*) master name
+ pc_1    127.0.1.1  9200  d           *      Oesterheld
+ pc_2    127.0.1.1  9200  d           *      Solano López
+ pc_3    127.0.1.1  9200  d           m      Walsh
+{% endhighlight  %}
+
+(*)nodeRole: Data node (d); Client node (c)
 
 
 
@@ -241,9 +276,14 @@ esta forma se comprenderá  con mayor profundidad los términos tipos y document
 
 
 
+
 ------------------------------------------------------
 
 (1)*DDBMS*: Distributed Database Management Systems
 
+
+
+
+https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-node.html
 
 
