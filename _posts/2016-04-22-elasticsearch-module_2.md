@@ -6,10 +6,11 @@ categories: elasticsearch DDBMS
 tags: [elasticsearch, cluster, node, shard, replica, DDBMS]
 ---
 
+
 ##MODULO 2
 
-Una de las características que poseen las BBDD NoSQL es que son **BBDD distribuidas**.
-Como se va  a manejar grandes volúmenes de datos, necesitaremos particionar el conjunto de
+Una de las características que poseen las **BBDD NoSQL** es que son **BBDD distribuidas**.
+Como se van a manejar grandes volúmenes de datos, necesitaremos particionar el conjunto de
 datos.
 El  **Particionamiento**  divide de forma lógica a una base de datos, reubicandola en diferentes 
 entidades físicas. El particionamiento mejora el *rendimiento*, *manejabilidad* y 
@@ -38,6 +39,7 @@ id  |     name    |         email             |     type      | parent_id
 
 Fragmento 1
 
+
 id  |     name    |         email             |     type      | parent_id
 --- | ----------- | ------------------------- | ------------- | --------
 1   | UNLP        | email@unlp.edu.ar         | Institution   |
@@ -55,12 +57,12 @@ id  |     name    |         email             |     type  |parent_id
 
 Fragmento 1
 
-id|     name    |         email
---|-------------|--------------------------
-1 | UNLP        | email@unlp.edu.ar
-2 | CeSPI       | cespi@unlp.edu.ar
-3 | Aula Cisco  | cisco@cespi.unlp.edu.ar
-4 | Guaraní     | guarani@cespi.unlp.edu.ar
+id  |     name     |         email
+--- |------------- | --------------------------
+1   | UNLP         | email@unlp.edu.ar
+2   | CeSPI        | cespi@unlp.edu.ar
+3   | Aula Cisco   | cisco@cespi.unlp.edu.ar
+4   | Guaraní      | guarani@cespi.unlp.edu.ar
 
 Fragmento 2
 
@@ -285,5 +287,6 @@ esta forma se comprenderá  con mayor profundidad los términos tipos y document
 
 
 https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-node.html
+
 
 
