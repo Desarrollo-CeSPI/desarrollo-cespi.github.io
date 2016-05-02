@@ -125,7 +125,7 @@ BASE DE DATOS
 La finalidad de las particiones es que se distribuyan en diferentes nodos, para incrementar 
 la eficiencia en la búsqueda y asegurar la escalabilidad.
 
-Si, por ejemplo, nuestro cluster contara con 3 nodos, la distribución de shards y replicas, 
+Si, por ejemplo, nuestro cluster contara con 3 nodos, la distribución de shards y replicas 
 se podrían realizar de la siguiente forma:
 
 {% highlight bash %}
@@ -154,16 +154,14 @@ CLUSTER --------|           __
 
 {% endhighlight %}
 
-####Propiedad de distribución de shards y replicas
 
-Sea la **replica i**, una copia del **shard i**.
+Dado un shard que reside en un nodo, su réplcia no puede estar en el mismo nodo.
+Cada replica es una copia de un shard, y por lo tanto cada replica contiene información
+redundante.
 
-Si el **shard i** reside en el **nodo x**, entonces la **replica i** reside en el **nodo Y**, 
-con *X* disintito a *Y*.
-
-
-La distribución de los shards ocurre cuando se inicializa el servicio, cuando se agrega o 
+La **distribución de los shards** ocurre cuando se inicializa el servicio, cuando se agrega o 
 se elimina un nodo, durante la locación de las réplcias y durante un rebalanceo.
+
 
 ####cat Shards API
 
@@ -194,8 +192,7 @@ articles 3     r         STARTED    0   79b 127.0.1.1 Solano López
 
 ¿Qué ventaja tiene esta forma de distribuir los datos? Nos permite **paralelizar**
 las operaciones a través de los shards aumentando de esta forma el rendimiento.
-Cada replica es una copia de un shard, y por lo tanto cada replica contiene información
-redundante.
+
 ¿Qué ventaja proveen las replicas? Proporcionan **disponibilidad** de los datos en caso 
 de en caso de que un fragmento falle.
 
@@ -234,17 +231,17 @@ Para visualizar los nodos de su cluster, usando
 escriba en su consola:
 
 {% highlight bash  %}
-$ curl -XGET 'http://localhost:9200/_cat/nodes'
+$ curl -XGET 'http://localhost:9200/_cat/nodes?v&h=host,ip,port,nodeRole,master,name'
 {% endhighlight  %}
 
 Si volvemos al ejemplo arriba mencionado, donde teníamos 3 nodos en el cluster "Elasticsearch",
 podriamos imaginar el siguiente esquema:
 
 {% highlight bash  %}
- nodeIp  ip         port  nodeRole(*) master name
- pc_1    127.0.1.1  9200  d           *      Oesterheld
- pc_2    127.0.1.1  9200  d           *      Solano López
- pc_3    127.0.1.1  9200  d           m      Walsh
+ host  ip         port  nodeRole(*) master name
+ pc_1  127.0.1.1  9200  d           *      Oesterheld
+ pc_2  127.0.1.1  9200  d           *      Solano López
+ pc_3  127.0.1.1  9200  d           m      Walsh
 {% endhighlight  %}
 
 (*)nodeRole: Data node (d); Client node (c)
