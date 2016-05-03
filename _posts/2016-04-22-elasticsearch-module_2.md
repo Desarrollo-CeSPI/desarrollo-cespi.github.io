@@ -142,7 +142,7 @@ se podrían realizar de la siguiente forma:
 CLUSTER --------|           __
 "Elasticsearch" |_________ |__|_______|-- SHARD 2
                 |         /___/       |-- REPLICA 0
-                | NODO "Solano Lopez" |-- REPLICA 3
+                | NODO "Solano López" |-- REPLICA 3
                 |
                 |
                 |
@@ -155,12 +155,15 @@ CLUSTER --------|           __
 {% endhighlight %}
 
 
-Dado un shard que reside en un nodo, su réplcia no puede estar en el mismo nodo.
-Cada replica es una copia de un shard, y por lo tanto cada replica contiene información
-redundante.
+Dado un shard que reside en un nodo, su réplica no puede estar en el mismo nodo. 
+¿Porqué no puede ocurrir esto? 
+Si el shard y su réplica residieran en el mismo nodo, y el nodo fallara o se desconectara,
+entonces el shard y su réplica se perderían.
+De esta forma, la réplica no cumpliría con una de sus funciones originales, que es servir
+como copia al shard ante un fallo.
 
 La **distribución de los shards** ocurre cuando se inicializa el servicio, cuando se agrega o 
-se elimina un nodo, durante la locación de las réplcias y durante un rebalanceo.
+se elimina un nodo, durante la locación de las réplcias o durante un rebalanceo.
 
 
 ####cat Shards API
@@ -214,15 +217,20 @@ $ curl -XGET 'http://localhost:9200'
 
 
 Cada nodo conoce a los otros nodos del cluster. Pero, ¿Qué rol tienen los 
-[nodos](https://www.elastic.co/guide/en/elasticsearch/reference/1.4/modules-node.html)
-dentro del cluster?
+[nodos](https://www.elastic.co/guide/en/elasticsearch/reference/2.3/modules-node.html)
+dentro del cluster? Cada nodo sirve para uno o más  de los  propósitos, como se detalla a continuación:
 
 1. **Data node**: contienen los datos y ejecutan operaciones (CRUD, búsqueda, agregaciones).
 Por defecto un nodo es considerado como *data node*
-2. **Client node**: no son *data node*  ni *master node*. Equilibran la carga.
+2. **Client node**: son balanceadores de carga. No son *data node*  ni *master node*.
 Pueden redireccionar operaciones a los nodos que contienen los datos relevantes sin tener que
 preguntar a todos los nodos.
-3. **Master node** que posee el control del cluster
+3. **Master node**: posee el control del cluster. Es responsable de, por ejemplo, crear o
+eliminar índices, identificar que nodos son parte del cluster, reubicar los shards dentro 
+de los nodos.
+4. **Tribe node**: es un tipo de *client node*, que se conecta con múltiples cluster. 
+Permite realizar búsqueda y operaciones de lectura/escritura sobre los clusters
+conectados.
 
 #### Cat nodes API
 
