@@ -288,11 +288,3 @@ esta forma se comprenderá  con mayor profundidad los términos tipos y document
 ------------------------------------------------------
 
 (1)*DDBMS*: Distributed Database Management Systems
-
-
-
-
-https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-node.html
-
-
-
