@@ -1,6 +1,6 @@
 #content {
   float:left;
-  width: 75%;
+  width: 80%;
 }
 
 #sidebar {
@@ -13,12 +13,13 @@
  * Site header
  */
 .site-header {
-  border-top: 5px solid $grey-color-dark;
-  border-bottom: 1px solid $grey-color-light;
-  padding: 1em;
-  background-color: #ecf0f1;
-  // Positioning context for the mobile navigation icon
-  position: relative;
+  border-top: 5px solid #000000!important;
+  border-bottom: 1px solid #e8e8e8!important;
+  padding: 1em!important;
+}
+
+.wrapper.header-wrapper {
+  max-width: 1300px;
 }
 
 .site-title {
@@ -179,7 +180,7 @@
  * Page content
  */
 .page-content {
-  padding: $spacing-unit 0;
+  padding: 1em;
 }
 
 .page-heading {
@@ -211,7 +212,7 @@
  */
 
 .post {
-  max-width: 80%;
+  max-width: 100%!important;
   margin: 0 auto;
  }
 
@@ -234,7 +235,6 @@
 
   h2 {
       font-size: 32px;
-
       @include media-query($on-laptop) {
         font-size: 28px;
       }
@@ -284,9 +284,10 @@
 }
 
 .categories-style ul li {
-  font-size: 0.9em!important;
+  font-size: 0.8em !important;
   font-weight: 400;
-  margin-bottom: 0.5em; 
+  margin-bottom: 0.5em;
+  padding-left: 0.8em;
 }
 
 .categories-style ul li i {
@@ -301,11 +302,13 @@
 }
 
 .tags-style a {
-  background-color: #16A085;
-  padding: 5px;
+  background-color: #63D3FF!important;
+  padding: 0.7em!important;
   color: #FFF;
-  font-size: 10px;
-  font-weight: 400; }
+  font-size: 0.7em!important;
+  font-weight: 500!important;
+  margin-left: 0.2em!important;
+}
 
 .tags-style.all-tags ul {
   list-style-type: none;
@@ -318,8 +321,12 @@
   margin: 1px !important; }
 
 .nav-arrows a {
-  color: #4183D7;
-  font-weight: 500; 
+  color: black !important;
+  font-weight: 300 !important; 
+}
+
+.nav-arrows i {
+  margin: 0.5em;
 }
 
 .page-heading.tag {
@@ -365,4 +372,20 @@
   border-top: solid 0.1em #ccc;
   padding: 1em;
   border-bottom: solid 0.1em #ccc;
+  font-size: 1.5em;
+}
+
+article h1.post-title {
+  padding-left:0em;
+  font-size: 1.8em;
+}
+
+article .post-content ul li a {
+  font-weight: 300;
+  text-transform: lowercase;
+  padding: 0.5em;
+}
+
+article .post-content ul li a:visited {
+  color: #64A29D;
 }

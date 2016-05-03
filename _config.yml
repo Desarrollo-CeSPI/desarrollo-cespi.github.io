@@ -12,4 +12,6 @@ markdown: kramdown
 exclude: 
   - Gemfile
   - Gemfile.lock
-  - jekyll-gravatar
+
+kramdown:
+  input: GFM

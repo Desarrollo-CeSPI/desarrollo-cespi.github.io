@@ -2,23 +2,31 @@
   <div class="row">
     <div class="post-style ">
       <li>
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
-        <h5 class="post-author">
-          <i class="fa fa-calendar" aria-hidden="true"></i>
-          <span class="">{{ post.date | date: "%d-%m-%Y" }}</span> | 
-          <i class="fa fa-user" aria-hidden="true"></i>
-          <span itemprop="name">{{ post.author }}</span>
-        </h5>
-        <div class="post-content-truncate">
-          {% if post.content contains "<!-- more -->" %}
-          {{ post.content | split:"<!-- more -->" | first % | remove_first: post.title }}
-          {% else %}
-          {{ post.content | strip_html | truncatewords:50 | remove_first: post.title }}
-          {% endif %}
+        <div class="row">
+          <div class="col-md-12">
+            <h2>
+              <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+            </h2>
+            <h5 class="post-author">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+              <span class="">{{ post.date | date: "%d-%m-%Y" }}</span> | 
+              <i class="fa fa-user" aria-hidden="true"></i>
+              <span itemprop="name">{{ post.author }}</span>
+            </h5>
+            <div class="post-content-truncate">
+              {% if post.content contains "<!-- more -->" %}
+              {{ post.content | split:"<!-- more -->" | first % | remove_first: post.title }}
+              {% else %}
+              {{ post.content | strip_html | truncatewords:20 | remove_first: post.title }}
+              {% endif %}
+            </div>
+          </div>
         </div>
-        <a class="post-link-button" href="{{ post.url | prepend: site.baseurl }}"><i class="more-post">Ver</i></a>
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1">
+            <a class="post-link-button" href="{{ post.url | prepend: site.baseurl }}"><i class="more-post">Ver</i></a>
+          </div>
+        </div>
       </li>
     </div>
   </div>

@@ -6,12 +6,11 @@ layout: default
   <div class="row">
     <div class="col-md-12 verticalLine">
       {% for post in site.posts %}
-      <div class="post-list col-md-5">
+      <div class="post-list col-md-4">
         {% include post.html %}
       </div>
       {% endfor %}
     </div>
   </div>
-  <!-- <p class="rss-subscribe">Suscribirse <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p> -->
 </div>
 
