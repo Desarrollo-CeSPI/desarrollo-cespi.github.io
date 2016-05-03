@@ -1,94 +1,106 @@
+#content {
+  float:left;
+  width: 80%;
+}
+
+#sidebar {
+  float:left;
+  width: 20%;
+  margin-top: 4em;
+}
+
 /**
  * Site header
  */
 .site-header {
-    border-top: 5px solid $grey-color-dark;
-    border-bottom: 1px solid $grey-color-light;
-    padding: 1em;
-    background-color: #ecf0f1;
-    // Positioning context for the mobile navigation icon
-    position: relative;
+  border-top: 5px solid #000000!important;
+  border-bottom: 1px solid #e8e8e8!important;
+  padding: 1em!important;
+}
+
+.wrapper.header-wrapper {
+  max-width: 1300px;
 }
 
 .site-title {
-    font-size: 30px;
-    font-weight: 300;
-    line-height: 56px;
-    letter-spacing: -1px;
-    margin-bottom: 0;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 56px;
+  letter-spacing: -1px;
+  margin-bottom: 0;
 
-    &,
-    &:visited {
-        color: $grey-color-dark;
-    }
+  &,
+  &:visited {
+      color: $grey-color-dark;
+  }
 }
 
 .site-nav {
-    float: right;
-    line-height: 56px;
+  float: right;
+  line-height: 56px;
+
+  .menu-icon {
+    display: none;
+  }
+
+  .page-link {
+    color: $text-color;
+    line-height: $base-line-height;
+
+    // Gaps between nav items, but not on the last one
+    &:not(:last-child) {
+        margin-right: 20px;
+    }
+  }
+
+  @include media-query($on-palm) {
+    position: absolute;
+    top: 9px;
+    right: $spacing-unit / 2;
+    background-color: $background-color;
+    border: 1px solid $grey-color-light;
+    border-radius: 5px;
+    text-align: right;
 
     .menu-icon {
-        display: none;
+      display: block;
+      float: right;
+      width: 36px;
+      height: 26px;
+      line-height: 0;
+      padding-top: 10px;
+      text-align: center;
+
+      > svg {
+        width: 18px;
+        height: 15px;
+
+        path {
+            fill: $grey-color-dark;
+        }
+      }
+    }
+
+    .trigger {
+      clear: both;
+      display: none;
+    }
+
+    &:hover .trigger {
+      display: block;
+      padding-bottom: 5px;
     }
 
     .page-link {
-        color: $text-color;
-        line-height: $base-line-height;
+      display: block;
+      padding: 5px 10px;
 
-        // Gaps between nav items, but not on the last one
-        &:not(:last-child) {
-            margin-right: 20px;
-        }
+      &:not(:last-child) {
+          margin-right: 0;
+      }
+      margin-left: 20px;
     }
-
-    @include media-query($on-palm) {
-        position: absolute;
-        top: 9px;
-        right: $spacing-unit / 2;
-        background-color: $background-color;
-        border: 1px solid $grey-color-light;
-        border-radius: 5px;
-        text-align: right;
-
-        .menu-icon {
-            display: block;
-            float: right;
-            width: 36px;
-            height: 26px;
-            line-height: 0;
-            padding-top: 10px;
-            text-align: center;
-
-            > svg {
-                width: 18px;
-                height: 15px;
-
-                path {
-                    fill: $grey-color-dark;
-                }
-            }
-        }
-
-        .trigger {
-            clear: both;
-            display: none;
-        }
-
-        &:hover .trigger {
-            display: block;
-            padding-bottom: 5px;
-        }
-
-        .page-link {
-            display: block;
-            padding: 5px 10px;
-
-            &:not(:last-child) {
-                margin-right: 0;
-            }
-            margin-left: 20px;
-        }
-    }
+  }
 }
 
 
@@ -97,68 +109,69 @@
  * Site footer
  */
 .site-footer {
-    border-top: 1px solid $grey-color-light;
-    padding: $spacing-unit 0;
+  border-top: 1px solid $grey-color-light;
+  padding: $spacing-unit 0;
+  clear:both;
 }
 
 .footer-heading {
-    font-size: 18px;
-    margin-bottom: $spacing-unit / 2;
+  font-size: 18px;
+  margin-bottom: $spacing-unit / 2;
 }
 
 .contact-list,
 .social-media-list {
-    list-style: none;
-    margin-left: 0;
+  list-style: none;
+  margin-left: 0;
 }
 
 .footer-col-wrapper {
-    font-size: 15px;
-    color: $grey-color;
-    margin-left: -$spacing-unit / 2;
-    @extend %clearfix;
+  font-size: 15px;
+  color: $grey-color;
+  margin-left: -$spacing-unit / 2;
+  @extend %clearfix;
 }
 
 .footer-col {
-    float: left;
-    margin-bottom: $spacing-unit / 2;
-    padding-left: $spacing-unit / 2;
+  float: left;
+  margin-bottom: $spacing-unit / 2;
+  padding-left: $spacing-unit / 2;
 }
 
 .footer-col-1 {
-    width: -webkit-calc(35% - (#{$spacing-unit} / 2));
-    width:         calc(35% - (#{$spacing-unit} / 2));
+  width: -webkit-calc(35% - (#{$spacing-unit} / 2));
+  width:         calc(35% - (#{$spacing-unit} / 2));
 }
 
 .footer-col-2 {
-    width: -webkit-calc(20% - (#{$spacing-unit} / 2));
-    width:         calc(20% - (#{$spacing-unit} / 2));
+  width: -webkit-calc(20% - (#{$spacing-unit} / 2));
+  width:         calc(20% - (#{$spacing-unit} / 2));
 }
 
 .footer-col-3 {
-    width: -webkit-calc(45% - (#{$spacing-unit} / 2));
-    width:         calc(45% - (#{$spacing-unit} / 2));
+  width: -webkit-calc(45% - (#{$spacing-unit} / 2));
+  width:         calc(45% - (#{$spacing-unit} / 2));
 }
 
 @include media-query($on-laptop) {
-    .footer-col-1,
-    .footer-col-2 {
-        width: -webkit-calc(50% - (#{$spacing-unit} / 2));
-        width:         calc(50% - (#{$spacing-unit} / 2));
-    }
+  .footer-col-1,
+  .footer-col-2 {
+      width: -webkit-calc(50% - (#{$spacing-unit} / 2));
+      width:         calc(50% - (#{$spacing-unit} / 2));
+  }
 
-    .footer-col-3 {
-        width: -webkit-calc(100% - (#{$spacing-unit} / 2));
-        width:         calc(100% - (#{$spacing-unit} / 2));
-    }
+  .footer-col-3 {
+      width: -webkit-calc(100% - (#{$spacing-unit} / 2));
+      width:         calc(100% - (#{$spacing-unit} / 2));
+  }
 }
 
 @include media-query($on-palm) {
-    .footer-col {
-        float: none;
-        width: -webkit-calc(100% - (#{$spacing-unit} / 2));
-        width:         calc(100% - (#{$spacing-unit} / 2));
-    }
+  .footer-col {
+      float: none;
+      width: -webkit-calc(100% - (#{$spacing-unit} / 2));
+      width:         calc(100% - (#{$spacing-unit} / 2));
+  }
 }
 
 
@@ -167,32 +180,31 @@
  * Page content
  */
 .page-content {
-    padding: $spacing-unit 0;
+  padding: 1em;
 }
 
 .page-heading {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .post-list {
-    margin-left: 0;
-    list-style: none;
+  margin-left: 0;
+  list-style: none;
 
-    > li {
-        margin-bottom: $spacing-unit;
-    }
+  > li {
+      margin-bottom: $spacing-unit;
+  }
 }
 
 .post-meta {
-    font-size: $small-font-size;
-    color: $grey-color;
+  font-size: $small-font-size;
+  color: $grey-color;
 }
 
 .post-link {
-    display: block;
-    font-size: 24px;
+  display: block;
+  font-size: 24px;
 }
-
 
 
 /**
@@ -200,48 +212,180 @@
  */
 
 .post {
-    max-width: 80%;
-    margin: 0 auto;
+  max-width: 100%!important;
+  margin: 0 auto;
  }
 
 .post-header {
-    margin-bottom: $spacing-unit;
+  margin-bottom: $spacing-unit;
 }
 
 .post-title {
-    font-size: 42px;
-    letter-spacing: -1px;
-    line-height: 1;
+  font-size: 42px;
+  letter-spacing: -1px;
+  line-height: 1;
 
-    @include media-query($on-laptop) {
-        font-size: 36px;
-    }
+  @include media-query($on-laptop) {
+    font-size: 36px;
+  }
 }
 
 .post-content {
-    margin-bottom: $spacing-unit;
+  margin-bottom: $spacing-unit;
 
-    h2 {
-        font-size: 32px;
+  h2 {
+      font-size: 32px;
+      @include media-query($on-laptop) {
+        font-size: 28px;
+      }
+  }
 
-        @include media-query($on-laptop) {
-            font-size: 28px;
-        }
-    }
+  h3 {
+      font-size: 26px;
 
-    h3 {
-        font-size: 26px;
+      @include media-query($on-laptop) {
+        font-size: 22px;
+      }
+  }
 
-        @include media-query($on-laptop) {
-            font-size: 22px;
-        }
-    }
+  h4 {
+      font-size: 20px;
 
-    h4 {
-        font-size: 20px;
+      @include media-query($on-laptop) {
+        font-size: 18px;
+      }
+  }
+}
 
-        @include media-query($on-laptop) {
-            font-size: 18px;
-        }
-    }
+.verticalLine {
+  -webkit-box-shadow: 10px -2px 15px -8px rgba(0,0,0,0.18);
+  -moz-box-shadow: 10px -2px 15px -8px rgba(0,0,0,0.18);
+  box-shadow: 6px 0px 15px -8px rgba(0,0,0,0.18);
+}
+
+
+/**
+ * Wrapper
+ */
+
+#author-color {
+  color: gray !important;
+}
+.categories-style {
+  padding-left: 0em;
+}
+
+.categories-style ul {
+  list-style-type: none;
+  display: list-item;
+  padding: 0.5em 0em 0.5em 0em;
+  border-bottom: solid 0.1em #CCCCCC;
+  margin-left: 0em;
+}
+
+.categories-style ul li {
+  font-size: 0.8em !important;
+  font-weight: 400;
+  margin-bottom: 0.5em;
+  padding-left: 0.8em;
+}
+
+.categories-style ul li i {
+  text-decoration: none;
+  font-weight: 300;
+  color: #5D5D5D;
+  font-style: normal;  
+}
+
+.categories-style ul li i.fa-caret-right {
+  margin-right: 0.7em;
+}
+
+.tags-style a {
+  background-color: #63D3FF!important;
+  padding: 0.7em!important;
+  color: #FFF;
+  font-size: 0.7em!important;
+  font-weight: 500!important;
+  margin-left: 0.2em!important;
+}
+
+.tags-style.all-tags ul {
+  list-style-type: none;
+  margin-top: -0.5em; }
+
+.tags-style.all-tags ul li {
+  text-decoration: none; }
+
+.tags-style.all-tags ul li a {
+  margin: 1px !important; }
+
+.nav-arrows a {
+  color: black !important;
+  font-weight: 300 !important; 
+}
+
+.nav-arrows i {
+  margin: 0.5em;
+}
+
+.page-heading.tag {
+  margin-top: 4em;
+  margin-bottom: 2em;
+}
+
+.author-style {
+  background-color: white;
+  padding: 3em;
+}
+
+.gravatar-style {
+  text-align: center;
+}
+
+.gravatar-style img {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+  border-radius: 200px 200px 200px 200px;
+  -moz-border-radius: 200px 200px 200px 200px;
+  -webkit-border-radius: 200px 200px 200px 200px;
+  border: 0px solid #000000;
+  border: solid 0.5em #eee;
+  margin-bottom: 1.5em;
+  transition: 300ms ease-in-out;
+
+  &:hover {
+    -webkit-filter: none;
+    filter: none;
+    border-radius: 0;
+  }
+}
+
+.post-meta-post p {
+  text-align: center;
+}
+.post-meta-post p.author {
+  color: #555;
+}
+.post-meta-post p.date {
+  color: black;
+  border-top: solid 0.1em #ccc;
+  padding: 1em;
+  border-bottom: solid 0.1em #ccc;
+  font-size: 1.5em;
+}
+
+article h1.post-title {
+  padding-left:0em;
+  font-size: 1.8em;
+}
+
+article .post-content ul li a {
+  font-weight: 300;
+  text-transform: lowercase;
+  padding: 0.5em;
+}
+
+article .post-content ul li a:visited {
+  color: #64A29D;
 }

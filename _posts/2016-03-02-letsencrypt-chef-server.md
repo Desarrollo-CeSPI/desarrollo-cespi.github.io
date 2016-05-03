@@ -3,11 +3,12 @@ layout: post
 title: Letsencrypt y Chef 12 server
 author: Christian Rodriguez
 categories: chef ssl
+usernames: [ chrodriguez ]
 ---
 
-La idea es que el server de chef utilice certificados válidos para evitar
-problemas con el uso de knife, así como la integración con el supermarket de una
-intranet.
+La idea es que el server de chef utilice certificados válidos para evitar problemas con el uso de knife, así <!-- more -->como la integración con el supermarket de una intranet.
+
+
 
 ## Instalando letsencrypt
 
@@ -25,13 +26,11 @@ sudo git clone https://github.com/letsencrypt/letsencrypt /opt/letsencrypt
 
 ## Obtenemos los certificados
 
-Asumiendo que deseamos un certificado para el dominio
-chef.miorganizacion.com.ar, entonces procedemos con los siguientes pasos:
+Asumiendo que deseamos un certificado para el dominio chef.miorganizacion.com.ar, entonces procedemos con los siguientes pasos:
 
 ### Liberamos provisoriamente el puerto 80
 
-Para poder obtener el primer certificado, debemos bajar el actual servicio de
-nginx:
+Para poder obtener el primer certificado, debemos bajar el actual servicio de nginx:
 
 {% highlight bash %}
 sudo chef-server-ctl stop nginx
@@ -44,13 +43,11 @@ cd /opt/letsencrypt
 sudo ./letsencrypt-auto certonly --standalone
 {% endhighlight %}
 
-Seguimos la ayuda en pantalla y se completa la instalación dejando los
-certificados en el directorio `/etc/letsencrypt/live/chef.miorganizacion.com.ar`
+Seguimos la ayuda en pantalla y se completa la instalación dejando los certificados en el directorio `/etc/letsencrypt/live/chef.miorganizacion.com.ar`
 
 ## Configuramos chef
 
-Editamos `/etc/opscode/chef-server.rb` que probablemente no exista, con el
-siguiente contenido:
+Editamos `/etc/opscode/chef-server.rb` que probablemente no exista, con el siguiente contenido:
 
 {% highlight ruby linenos %}
 nginx['ssl_certificate'] = '/etc/letsencrypt/live/chef.miorganizacion.com.ar/fullchain.pem'
@@ -67,26 +64,17 @@ sudo chef-server-ctl reconfigure
 
 ## Configurando la auto renovación de los certificados
 
-Para simplificar este paso, utilizaremos un plugin de `letsencrypt` llamado
-`webroot` que permite *actualizar los certificados en caliente*, esto es sin reiniciar el
-servidor. La idea detrás de este script es:
+Para simplificar este paso, utilizaremos un plugin de `letsencrypt` llamado `webroot` que permite *actualizar los certificados en caliente*, esto es sin reiniciar el servidor. La idea detrás de este script es:
 
-1. Al correr el script de `letsencrypt` se crea un archivo en un directorio bajo
-nuestro document root
-2. El servicio de letsencrypt consultará nuestro server en busca de este archivo,
-por lo que el mismo debe estar disponible desde la WEB
-  1. Como el script se crea con un nombre aleatorio, el servicio, y sólo el
-servicio de letsencrypt conocerá la ubicación real del mismo, y la
-contravalidación se hará con nuestro server
+1. Al correr el script de `letsencrypt` se crea un archivo en un directorio bajo nuestro document root
+2. El servicio de letsencrypt consultará nuestro server en busca de este archivo, por lo que el mismo debe estar disponible desde la WEB
+  1. Como el script se crea con un nombre aleatorio, el servicio, y sólo el servicio de letsencrypt conocerá la ubicación real del mismo, y la contravalidación se hará con nuestro server.
 
-Para poder habilitar este plugin, debemos modificar la configuración del nginx
-embebido que provee `chef-server`. 
+Para poder habilitar este plugin, debemos modificar la configuración del nginx embebido que provee `chef-server`. 
 
 ### Habilitando el directorio `.well-known/` en nuestro web server
 
-Para habilitar este `location` en nginx, debemos agregar una configuración en el
-archivo `/var/opt/opscode/nginx/etc/addon.d/10-letsencrypt_external.conf` con el
-contenido:
+Para habilitar este `location` en nginx, debemos agregar una configuración en el archivo `/var/opt/opscode/nginx/etc/addon.d/10 letsencrypt_external.conf` con el contenido:
 
 {% highlight bash %}
 
@@ -104,8 +92,7 @@ sudo chef-server-ctl restart nginx
 
 ### Probamos la actualización del certificado
 
-Ejecutamos el siguiente comando, modificando con los datos del dominio
-correspondiente para el caso de su chef server
+Ejecutamos el siguiente comando, modificando con los datos del dominio correspondiente para el caso de su chef server
 
 {% highlight bash %}
 cd /opt/letsencrypt && \
@@ -118,9 +105,7 @@ cd /opt/letsencrypt && \
 
 ### Simplificamos el script anterior
 
-Creando un archivo de configuración con los dato que enviamos como parámetro,
-podemos simplificar la ejecución del comando anterior. Creamos el archivo
-`/etc/letsencrypt/miorganizacion-webroot.ini` con el siguiente contenido:
+Creando un archivo de configuración con los dato que enviamos como parámetro, podemos simplificar la ejecución del comando anterior. Creamos el archivo `/etc/letsencrypt/miorganizacion-webroot.ini` con el siguiente contenido:
 
 {% highlight bash  %}
 rsa-key-size = 4096
@@ -141,8 +126,7 @@ cd /opt/letsencrypt && \
 
 ### Script de renovacion por demanda
 
-El siguiente script verificará la validez del certificado y generará un nuevo
-certificado, sólo si es necesario:
+El siguiente script verificará la validez del certificado y generará un nuevo certificado, sólo si es necesario:
 
 {% highlight bash linenos %}
 #!/bin/bash
@@ -184,9 +168,7 @@ else
 fi
 {% endhighlight %}
 
-Creamos un archivo con el contenido de arriba llamado `/usr/local/sbin/le-renew`
-y modificamoss la segunda línea donde hace mención al archivo de configuración.
-Damos permiso de ejecución:
+Creamos un archivo con el contenido de arriba llamado `/usr/local/sbin/le-renew` y modificamoss la segunda línea donde hace mención al archivo de configuración. Damos permiso de ejecución:
 
 {% highlight bash %}
 sudo chmod +x /usr/local/sbin/le-renew 

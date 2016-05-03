@@ -1,0 +1,27 @@
+   <div class="col-md-12 colum-tags">
+      <h2 class="page-heading"><i class="fa fa-star" aria-hidden="true"></i>CATEGORÍAS</h2>
+      <div class="categories-style">
+        {% for post in site.posts %}
+        <ul>
+          <li>
+            <i class="fa fa-caret-right" aria-hidden="true"></i>
+            {% for category in post.categories %}
+            <i href="/tags/{{ categories }}.html" title="View posts tagged with &quot;{{ categories | first }}&quot;">{{ category }}</i>  
+            {% endfor%}
+          </li>
+        </ul>
+        {% endfor%}
+      </div>
+      <h2 class="page-heading tag"><i class="glyphicon glyphicon-tag"></i>TAGS</h2>
+      <div class="tags-style all-tags">
+        {% for post in site.posts %}
+        <ul>
+          <li>
+            {% for tag in post.tags %}
+            <a href="/tags/{{ tag }}.html" title="View posts tagged with &quot;{{ post.tag }}&quot;">{{ tag }}</a>  
+            {% endfor %}
+          </li>
+        </ul>
+        {% endfor %}
+      </div>
+    </div>

@@ -1,53 +1,72 @@
 ---
 layout: default
 ---
-
-<div class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <header class="post-header">
-    <h1 class="post-title"  itemprop="name headline">{{ page.title }}</h1>
+<div class="row">
+  <div class="col-md-3 author-style">
+    <div class="row">
+      <div class="gravatar-style">
+        {% for username in page.usernames %}
+          <img class="gravatar" src="https://avatars3.githubusercontent.com/{{ username | to_gravatar }}?s=68" />
+          <div class="row">
+            <div class="col-md-12 post-meta-post">
+              <p class="author">
+              <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span itemprop="name">
+                  <b>Autor</b><br> 
+                  <a href="https://github.com/{{ username }}">{{ username }}</a>
+                </span>
+              </span>
+              </p>
+            </div>
+          </div>
+        {% endfor%}
+      </div>
+    </div>
     <div class="row">
       <div class="col-md-12 post-meta-post">
-        <p>
-        <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
-          <i class="glyphicon glyphicon-calendar"></i> {{ page.date | date: "%b %-d, %Y" }}
-        </time>
-        {% if page.author %}
-        <span itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <span itemprop="name" id="author-color"> by {{ page.author }} </span>
-        </span>
-        {% endif %}
+        <p class="date">
+          <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished"><i class="glyphicon glyphicon-calendar"></i> 
+           <span class="">{{ page.date | date: "%d-%m-%Y" }}</span>
+          </time>
         </p>
       </div>
     </div>
-  </header>
-  <article class="post-content" itemprop="articleBody">
-    {{ content }}
-  </article>
-  <legend></legend>
-  <div class="row">
-    {% if page.tags %}
-    <div class="col-md-12 tags-style pull-right">
-      <p><strong>Tags</strong>
-      {% for tag in page.tags %}
-      <a href="/tags/{{ tag }}.html" title="View posts tagged with &quot;{{ tag }}&quot;">{{ tag }}</a>
-      {% endfor %}
-      </p>
-    </div>
   </div>
-  {% endif %}
-  <br>
-  <div class="nav-arrows">
-    <div class="row">
-      {% if page.previous %}
-      <div class="col-md-6">
-        <a href="{{ page.previous.url }}">&larr; {{ page.previous.title }}</a>
+  <div class="col-md-9">
+    <div class="post" itemscope itemtype="http://schema.org/BlogPosting">
+      <header class="post-header">
+        <h1 class="post-title"  itemprop="name headline">{{ page.title }}</h1>
+      </header>
+      <article class="post-content" itemprop="articleBody">
+        {{ content }}
+      </article>
+      <legend></legend>
+      <div class="row">
+        {% if page.tags %}
+        <div class="col-md-12 tags-style pull-right">
+          <p><strong>Tags</strong>
+          {% for tag in page.tags %}
+          <a href="/tags/{{ tag }}.html" title="View posts tagged with &quot;{{ tag }}&quot;">{{ tag }}</a>
+          {% endfor %}
+          </p>
+        </div>
       </div>
       {% endif %}
-      {% if page.next %}
-      <div class="col-md-6 text-right pull-right">
-        <a href="{{ page.next.url }}">{{ page.next.title }} &rarr;</a>
+      <br>
+      <div class="nav-arrows">
+        <div class="row">
+          {% if page.previous %}
+          <div class="col-md-6">
+            <a href="{{ page.previous.url }}"><i class="fa fa-chevron-circle-left fa-lg" aria-hidden="true"></i> {{ page.previous.title }}</a>
+          </div>
+          {% endif %}
+          {% if page.next %}
+          <div class="col-md-6 text-right pull-right">
+            <a href="{{ page.next.url }}">{{ page.next.title }} <i class="fa fa-chevron-circle-right fa-lg" aria-hidden="true"></i></a>
+          </div>
+          {% endif %}
+        </div>
       </div>
-      {% endif %}
     </div>
   </div>
 </div>
