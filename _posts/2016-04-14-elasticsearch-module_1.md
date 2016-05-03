@@ -2,12 +2,14 @@
 layout: post
 title: Intro Elasticsearch - Módulo 1
 author: Maira Diaz
-categories: elasticsearch NoSQL  document  SQL
+categories: elasticsearch NoSQL
+tags: [elasticsearch, NoSQL, document, SQL]
 ---
 
 Esto es una introducción a elasticsearch. Tendrá n módulos, y cada uno de los n_i módulos
 tienen una duración de 4 horas de aprendizaje.
 Se calcula que este post se aprendería en n día
+
 
 
 
@@ -181,5 +183,6 @@ conjuntos de datos.
 
 Elasticsearch utiliza almacenamiento de tipo **Document**. 
 Cada documento es un objeto **JSON**.
+
 
 
