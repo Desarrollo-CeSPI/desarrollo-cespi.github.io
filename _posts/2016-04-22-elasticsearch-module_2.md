@@ -4,6 +4,7 @@ title: Elasticsearch, base de datos distribuida
 author: Maira Diaz
 categories: elasticsearch DDBMS
 tags: [elasticsearch, cluster, node, shard, replica, DDBMS]
+usernames: [ maira1001001 ]
 ---
 
 

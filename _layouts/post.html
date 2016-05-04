@@ -40,14 +40,17 @@ layout: default
       <article class="post-content" itemprop="articleBody">
         {{ content }}
       </article>
-      <legend></legend>
-      <div class="row">
+      <div class="row tags-post-row">
         {% if page.tags %}
-        <div class="col-md-12 tags-style pull-right">
+        <div class="col-md-12 tags-style all-tags">
           <p><strong>Tags</strong>
-          {% for tag in page.tags %}
-          <a href="/tags/{{ tag }}.html" title="View posts tagged with &quot;{{ tag }}&quot;">{{ tag }}</a>
-          {% endfor %}
+          <ul>
+            {% for tag in page.tags %}
+            <li>
+              <a href="/tags/{{ tag }}.html" title="View posts tagged with &quot;{{ tag }}&quot;">{{ tag }}</a>
+            </li>
+            {% endfor %}  
+          </ul>
           </p>
         </div>
       </div>
