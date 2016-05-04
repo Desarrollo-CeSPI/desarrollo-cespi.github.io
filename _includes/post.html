@@ -3,6 +3,11 @@
     <div class="post-style ">
       <li>
         <div class="row">
+          <div class="col-md-12 more-views text-right">
+            <a class="post-link-button" href="{{ post.url | prepend: site.baseurl }}"><i class="more-post"><b>+</b></i></a>
+          </div>
+        </div>
+        <div class="row">
           <div class="col-md-12">
             <h2>
               <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
@@ -20,11 +25,6 @@
               {{ post.content | strip_html | truncatewords:20 | remove_first: post.title }}
               {% endif %}
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-10 col-md-offset-1">
-            <a class="post-link-button" href="{{ post.url | prepend: site.baseurl }}"><i class="more-post">Ver</i></a>
           </div>
         </div>
       </li>

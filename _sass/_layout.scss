@@ -31,7 +31,7 @@
 
   &,
   &:visited {
-      color: $grey-color-dark;
+      color: black;
   }
 }
 
@@ -278,8 +278,8 @@
 .categories-style ul {
   list-style-type: none;
   display: list-item;
-  padding: 0.5em 0em 0.5em 0em;
-  border-bottom: solid 0.1em #CCCCCC;
+  padding: 0em 0em 0em 0em;
+  // border-bottom: solid 0.1em #CCCCCC;
   margin-left: 0em;
 }
 
@@ -298,27 +298,29 @@
 }
 
 .categories-style ul li i.fa-caret-right {
-  margin-right: 0.7em;
+  margin-right: 1.7em;
+  margin-left: 1em;
 }
 
-.tags-style a {
-  background-color: #63D3FF!important;
-  padding: 0.7em!important;
-  color: #FFF;
-  font-size: 0.7em!important;
-  font-weight: 500!important;
-  margin-left: 0.2em!important;
-}
 
-.tags-style.all-tags ul {
-  list-style-type: none;
-  margin-top: -0.5em; }
+// .tags-style a {
+//   background-color: #63D3FF!important;
+//   padding: 0.7em!important;
+//   color: #FFF;
+//   font-size: 0.7em!important;
+//   font-weight: 500!important;
+//   margin-left: 0.2em!important;
+// }
 
-.tags-style.all-tags ul li {
-  text-decoration: none; }
+// .tags-style.all-tags ul {
+//   list-style-type: none;
+//   margin-top: -0.5em; }
 
-.tags-style.all-tags ul li a {
-  margin: 1px !important; }
+// .tags-style.all-tags ul li {
+//   text-decoration: none; }
+
+// .tags-style.all-tags ul li a {
+//   margin: 1px !important; }
 
 .nav-arrows a {
   color: black !important;
@@ -331,7 +333,7 @@
 
 .page-heading.tag {
   margin-top: 4em;
-  margin-bottom: 2em;
+  margin-bottom: 1em;
 }
 
 .author-style {
