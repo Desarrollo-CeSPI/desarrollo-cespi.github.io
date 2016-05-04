@@ -1,19 +1,17 @@
 ---
 layout: post
-title: Intro Elasticsearch - Módulo 1
+title: 1. Intro Elasticsearch
 author: Maira Diaz
+usernames: [ maira1001001 ]
 categories: elasticsearch NoSQL
 tags: [elasticsearch, NoSQL, document, SQL]
 ---
 
-Esto es una introducción a elasticsearch. Tendrá n módulos, y cada uno de los n_i módulos
-tienen una duración de 4 horas de aprendizaje.
-Se calcula que este post se aprendería en n día
-
-
-
+## Modulo 1
 
 ## Definición
+
+
 
 [Elasticsearch](https://www.elastic.co/) es un servidor de búsqueda basado en Lucene.
 Provee un motor de búsqueda de texto completo, distribuido y con capacidad de multi-tenencia con una interfaz web RESTful y con documentos JSON. 
@@ -183,6 +181,7 @@ conjuntos de datos.
 
 Elasticsearch utiliza almacenamiento de tipo **Document**. 
 Cada documento es un objeto **JSON**.
+
 
 
 

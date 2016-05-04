@@ -1,13 +1,14 @@
 ---
 layout: post
-title: Elasticsearch, base de datos distribuida
+title: 2. Elasticsearch, base de datos distribuida
 author: Maira Diaz
+usernames: [ maira1001001 ]
 categories: elasticsearch DDBMS
 tags: [elasticsearch, cluster, node, shard, replica, DDBMS]
 ---
 
 
-##MODULO 2
+# MODULO 2
 
 Una de las características que poseen las **BBDD NoSQL** es que son **BBDD distribuidas**.
 Como se van a manejar grandes volúmenes de datos, necesitaremos particionar el conjunto de
@@ -17,7 +18,7 @@ entidades físicas. El particionamiento mejora el *rendimiento*, *manejabilidad*
 *disponibilidad* de los datos, y ayuda a reducir el coste total de propiedad para almacenar
 grandes volúmenes de datos.
 
-### Partición horizontal y partición vertical
+## Partición horizontal y partición vertical
 
 En DDBMS(1) existen diferentes técnicas para particionar y luego almacenar los datos:
 
@@ -25,6 +26,7 @@ En DDBMS(1) existen diferentes técnicas para particionar y luego almacenar los 
 
 
 Veamos un ejemplo de **partición horizontal** y **partición vertical**
+
 
 
 id  |     name    |         email             |     type      | parent_id
@@ -35,9 +37,10 @@ id  |     name    |         email             |     type      | parent_id
 4   | Guaraní     | guarani@cespi.unlp.edu.ar | Office        |    2
 
 
-####1.Fragmentación horizontal
+### 1.Fragmentación horizontal
 
 Fragmento 1
+
 
 
 id  |     name    |         email             |     type      | parent_id
@@ -47,15 +50,17 @@ id  |     name    |         email             |     type      | parent_id
 
 Fragmento 2
 
+
 id  |     name    |         email             |     type  |parent_id
 --- | ----------- | ------------------------- | --------- | ---------
 3   | Aula Cisco  | cisco@cespi.unlp.edu.ar   | Office    |    2
 4   | Guaraní     | guarani@cespi.unlp.edu.ar | Office    |    2
 
 
-####2.Fragmentación vertical
+### 2.Fragmentación vertical
 
 Fragmento 1
+
 
 id  |     name     |         email
 --- | ------------ | --------------------------
@@ -65,6 +70,7 @@ id  |     name     |         email
 4   | Guaraní      | guarani@cespi.unlp.edu.ar
 
 Fragmento 2
+
 
 id  |     type      | parent_id
 --- | ------------- | --------
@@ -78,7 +84,7 @@ Es útil y recomendable contar con mecanismos de conmutación por error en caso 
 nodo o shard fallen o se desconecten por cualquier razón. Elasticsearch permite realizar 
 una o más copias de cada *shard*. A cada copia se la denomina **Replica**.
 
-### Shards y replicas
+## Shards y replicas
 
 Veamos un ejemplo creando un índice y configurando sus shards y replicas.
 Escriba en la consola:
@@ -166,7 +172,7 @@ La **distribución de los shards** ocurre cuando se inicializa el servicio, cuan
 se elimina un nodo, durante la locación de las réplcias o durante un rebalanceo.
 
 
-####cat Shards API
+### cat Shards API
 
 Para visualizar la distribución de los shards y replicas del índice **articles**, escriba 
 en la consola:
@@ -201,7 +207,7 @@ de en caso de que un fragmento falle.
 
 
 
-### Cluster y nodos
+## Cluster y nodos
 
 Elasticsearch opera en un ambiente distribuido, y corre un
 [clusters](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_cluster),
@@ -232,7 +238,7 @@ de los nodos.
 Permite realizar búsqueda y operaciones de lectura/escritura sobre los clusters
 conectados.
 
-#### Cat nodes API
+### Cat nodes API
 
 Para visualizar los nodos de su cluster, usando
 [cat nodes API](https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-nodes.html),
@@ -256,7 +262,7 @@ podriamos imaginar el siguiente esquema:
 
 
 
-### Índices, tipos y documentos
+## Índices, tipos y documentos
 
 Como se mencionó en el módulo 1, un 
 [índice](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_index)
@@ -288,3 +294,4 @@ esta forma se comprenderá  con mayor profundidad los términos tipos y document
 ------------------------------------------------------
 
 (1)*DDBMS*: Distributed Database Management Systems
+
