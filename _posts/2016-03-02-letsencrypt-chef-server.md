@@ -6,8 +6,8 @@ categories: chef ssl
 usernames: [ chrodriguez ]
 ---
 
-La idea es que el server de chef utilice certificados válidos para evitar problemas con el uso de knife, así <!-- more -->como la integración con el supermarket de una intranet.
-
+La idea es que el server de chef utilice certificados válidos para evitar problemas con el uso de knife, así como la integración con el supermarket de una intranet.
+<!-- more -->
 
 
 ## Instalando letsencrypt

@@ -7,7 +7,8 @@ author: Federico Otaran
 categories: ajax bootstrap
 usernames: [ fedeotaran ] 
 ---
-Surgió la necesidad de mostrar mayor cantidad información de un registro dentro de una tabla. Me pareció buena idea que <!-- more -->esa información podía visualizarse dentro un tooltip cuando posiciono el cursor sobre el registro.
+Surgió la necesidad de mostrar mayor cantidad información de un registro dentro de una tabla. Me pareció buena idea que esa información podía visualizarse dentro un tooltip cuando posiciono el cursor sobre el registro.
+<!-- more -->
 Dado que en el sistema que quiero realizar la funcionalidad utiliza Bootstrap, lo lógico es que use los tooltips que la librería me provee.
 Como no tengo esta información disponible en la vista, debo realizar consultas ajax para obtener la información dentro cada tooltips. El problema con esto, es que cuando inicializamos los tooltips de bootstrap debemos ya tener disponible la información que queremos mostrar dentro del atributo `title` del tag `a` o `button`. Por esta razón por mas que realicé la consulta y obtuve la información correctamente, no la visualizaba dentro del tooltip.
 ![Tooltip sin datos](/assets/images/tooltip_without_data.png){: .center-image }

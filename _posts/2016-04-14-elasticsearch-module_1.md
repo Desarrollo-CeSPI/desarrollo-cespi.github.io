@@ -2,13 +2,13 @@
 layout: post
 title: Intro Elasticsearch - Módulo 1
 author: Maira Diaz
-usernames: [ maira1001001 ]
 categories: elasticsearch NoSQL
 tags: [elasticsearch, NoSQL, document, SQL]
+usernames: [ maira1001001 ]
 ---
 
-Esto es una introducción a elasticsearch. Tendrá n módulos, y cada uno de los n_i módulos tienen una duración de <!-- more -->4 horas de aprendizaje. Se calcula que este post se aprendería en n días.
-
+Esto es una introducción a elasticsearch. Tendrá n módulos, y cada uno de los n_i módulos tienen una duración de 4 horas de aprendizaje. Se calcula que este post se aprendería en n días.
+<!-- more -->
 
 ## Definición
 
@@ -28,9 +28,7 @@ iniciando el servicio:
 sudo service elasticsearch start
 {% endhighlight %}
 
-Para probar si elasticsearch está funcionando: 
-
-[http://localhost:9200/](http://localhost:9200/)
+Para probar si elasticsearch está funcionando: [http://localhost:9200/](http://localhost:9200/)
 
 ## Primer ejemplo con Elasticsearch y curl
 

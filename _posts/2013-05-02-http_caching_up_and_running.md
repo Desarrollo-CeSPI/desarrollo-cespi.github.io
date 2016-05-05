@@ -9,7 +9,7 @@ tags: [http, caching, protocolos]
 usernames: [ ]
 ---
 
-Todos en algún momento nos topamos con la necesidad de tener que optimizar nuestro sistema para que se aproveche las  <!-- more --> ventaja de usar cache, pero ¿cómo funciona una cache?¿y qué parámetros son los que tenemos que tener en cuenta?. De eso se va a tratar este post y esperamos pueda quedar claro qué nos brinda HTTP para lograrlo.
+Todos en algún momento nos topamos con la necesidad de tener que optimizar nuestro sistema para que se aproveche las ventaja de usar cache, pero ¿cómo funciona una cache?<!-- more -->¿y qué parámetros son los que tenemos que tener en cuenta?. De eso se va a tratar este post y esperamos pueda quedar claro qué nos brinda HTTP para lograrlo. 
 
 ##HTTP - Niveles de cache
 
