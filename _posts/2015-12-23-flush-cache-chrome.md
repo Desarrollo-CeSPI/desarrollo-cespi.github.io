@@ -7,8 +7,7 @@ author: Christian Rodriguez
 categories: chrome dns
 usernames: [ chrodriguez ]
 ---
-Es muy común, sobre todo cuando se trabaja en infraestructura probar una configuración que ya está funcionando en una IP <!-- more -->determinada, pero engañando a nuestro navegador editando `/etc/hosts` y agregando un nombre determinado con la IP de nuestra PC o directamente `127.0.0.1`
-
+Es muy común, sobre todo cuando se trabaja en infraestructura probar una configuración que ya está funcionando en una IP determinada, pero engañando a nuestro navegador editando `/etc/hosts` <!-- more -->y agregando un nombre determinado con la IP de nuestra PC o directamente `127.0.0.1`
 
 Sin embargo, Google Chrome cachea las consultas al DNS y sockets que utilizó previamente, por lo que si tenemos Google Chrome con alguna pestaña que haya accedido a la URL que intentamos cambiar, es probable que el navegador siga accediendo a la IP anterior sin tomar los cambios que hicimos en `/etc/hosts` o incluso en los DNS.
 

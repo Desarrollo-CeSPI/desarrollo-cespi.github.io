@@ -1,22 +1,16 @@
 ---
 layout: post
-title: Elasticsearch, base de datos distribuida
+title: Elasticsearch - Módulo 2
 author: Maira Diaz
 categories: elasticsearch DDBMS
 tags: [elasticsearch, cluster, node, shard, replica, DDBMS]
 usernames: [ maira1001001 ]
 ---
 
-
-##MODULO 2
-
 Una de las características que poseen las **BBDD NoSQL** es que son **BBDD distribuidas**.
-Como se van a manejar grandes volúmenes de datos, necesitaremos particionar el conjunto de
-datos.
-El  **Particionamiento**  divide de forma lógica a una base de datos, reubicandola en diferentes 
-entidades físicas. El particionamiento mejora el *rendimiento*, *manejabilidad* y 
-*disponibilidad* de los datos, y ayuda a reducir el coste total de propiedad para almacenar
-grandes volúmenes de datos.
+Como se van a manejar grandes volúmenes de datos, necesitaremos particionar el conjunto de datos.
+<!-- more -->
+El  **Particionamiento**  divide de forma lógica a una base de datos, reubicandola en diferentes entidades físicas. El particionamiento mejora el *rendimiento*, *manejabilidad* y *disponibilidad* de los datos, y ayuda a reducir el coste total de propiedad para almacenar grandes volúmenes de datos.
 
 ### Partición horizontal y partición vertical
 
@@ -36,7 +30,7 @@ id  |     name    |         email             |     type      | parent_id
 4   | Guaraní     | guarani@cespi.unlp.edu.ar | Office        |    2
 
 
-####1.Fragmentación horizontal
+#### 1.Fragmentación horizontal
 
 Fragmento 1
 
@@ -54,7 +48,7 @@ id  |     name    |         email             |     type  |parent_id
 4   | Guaraní     | guarani@cespi.unlp.edu.ar | Office    |    2
 
 
-####2.Fragmentación vertical
+#### 2.Fragmentación vertical
 
 Fragmento 1
 
@@ -167,7 +161,7 @@ La **distribución de los shards** ocurre cuando se inicializa el servicio, cuan
 se elimina un nodo, durante la locación de las réplcias o durante un rebalanceo.
 
 
-####cat Shards API
+#### cat Shards API
 
 Para visualizar la distribución de los shards y replicas del índice **articles**, escriba 
 en la consola:
@@ -235,16 +229,13 @@ conectados.
 
 #### Cat nodes API
 
-Para visualizar los nodos de su cluster, usando
-[cat nodes API](https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-nodes.html),
-escriba en su consola:
+Para visualizar los nodos de su cluster, usando [cat nodes API](https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-nodes.html), escriba en su consola:
 
 {% highlight bash  %}
 $ curl -XGET 'http://localhost:9200/_cat/nodes?v&h=host,ip,port,nodeRole,master,name'
 {% endhighlight  %}
 
-Si volvemos al ejemplo arriba mencionado, donde teníamos 3 nodos en el cluster "Elasticsearch",
-podriamos imaginar el siguiente esquema:
+Si volvemos al ejemplo arriba mencionado, donde teníamos 3 nodos en el cluster "Elasticsearch", podriamos imaginar el siguiente esquema:
 
 {% highlight bash  %}
  host  ip         port  nodeRole(*) master name
@@ -255,37 +246,22 @@ podriamos imaginar el siguiente esquema:
 
 (*)nodeRole: Data node (d); Client node (c)
 
-
-
 ### Índices, tipos y documentos
 
-Como se mencionó en el módulo 1, un 
-[índice](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_index)
-es una colección de documentos que poseen características similares. Dentro de un cluster, 
-se pueden definir la cantidad de índices que se deseen.
+Como se mencionó en el módulo 1, un [índice](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_index) es una colección de documentos que poseen características similares. Dentro de un cluster, se pueden definir la cantidad de índices que se deseen.
 
-Por cada índice, se pueden definir 1 o más 
-[tipos](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_type)
-Un tipo es una categorización o partición semántica.
+Por cada índice, se pueden definir 1 o más [tipos](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_type).Un tipo es una categorización o partición semántica.
 
-Un [documento](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_document)
-es una unidad básica de información que puede ser indexado. Los documentos se representan 
-con el formato [JSON](http://json.org/). Dentro de un índice se pueden almacenar tantos
-documentos como se desee. La búsqueda se realiza sobre los documentos.
+Un [documento](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_document) es una unidad básica de información que puede ser indexado. Los documentos se representan con el formato [JSON](http://json.org/). Dentro de un índice se pueden almacenar tantos documentos como se desee. La búsqueda se realiza sobre los documentos.
 
-Elasticsearch provee la característica de subdividir un índice en múltiples partes o
-[shards](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_shards_amp_replicas).
-Cada shard es en sí mismo un índice y se puede alojar en cualquier nodo del cluster.
+Elasticsearch provee la característica de subdividir un índice en múltiples partes o [shards](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_shards_amp_replicas). Cada shard es en sí mismo un índice y se puede alojar en cualquier nodo del cluster.
 
-Para visualizar los *índice* con sus respectivos shards y replicas que residen en el cluster
-acceda a: [http://localhost:9200/_settings](http://localhost:9200/_settings) 
+Para visualizar los *índice* con sus respectivos shards y replicas que residen en el cluster acceda a: [http://localhost:9200/_settings](http://localhost:9200/_settings) 
 
-En el siguiente módulo, se explicará como crear un índice, como se realizar una búsqueda, y de 
-esta forma se comprenderá  con mayor profundidad los términos tipos y documento.
-
-
+En el siguiente módulo, se explicará como crear un índice, como se realizar una búsqueda, y de esta forma se comprenderá  con mayor profundidad los términos tipos y documento.
 
 
 ------------------------------------------------------
+
 
 (1)*DDBMS*: Distributed Database Management Systems

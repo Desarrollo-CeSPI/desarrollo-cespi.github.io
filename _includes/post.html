@@ -3,7 +3,7 @@
     <div class="post-style ">
       <li>
         <div class="row">
-          <div class="col-md-12 more-views text-right">
+          <div class="more-views text-right">
             <a class="post-link-button" href="{{ post.url | prepend: site.baseurl }}"><i class="more-post"><b>+</b></i></a>
           </div>
         </div>
@@ -14,15 +14,17 @@
             </h2>
             <h5 class="post-author">
               <i class="fa fa-calendar" aria-hidden="true"></i>
-              <span class="">{{ post.date | date: "%d-%m-%Y" }}</span> | 
-              <i class="fa fa-user" aria-hidden="true"></i>
-              <span itemprop="name">{{ post.author }}</span>
+              <span class="">{{ post.date | date: "%d-%m-%Y" }}</span>  
+              {% for username in post.usernames %}
+              | <i class="fa fa-user" aria-hidden="true"></i>
+              <span itemprop="name">{{ username }}</span>
+              {%endfor%}
             </h5>
             <div class="post-content-truncate">
               {% if post.content contains "<!-- more -->" %}
               {{ post.content | split:"<!-- more -->" | first % | remove_first: post.title }}
               {% else %}
-              {{ post.content | strip_html | truncatewords:20 | remove_first: post.title }}
+              {{ post.content | strip_html | truncatewords:30 | remove_first: post.title }}
               {% endif %}
             </div>
           </div>

@@ -6,4 +6,4 @@ permalink: /procedimientos/
 order: 3
 ---
 
-[Procedimiento Iniciar Proyecto](/procedimientos/nuevo_proyecto/)
+1. [Procedimiento Iniciar Proyecto](/procedimientos/nuevo_proyecto/)
