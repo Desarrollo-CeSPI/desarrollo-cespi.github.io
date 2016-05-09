@@ -7,15 +7,15 @@ categories: elasticsearch NoSQL
 tags: [elasticsearch, NoSQL, document, SQL]
 ---
 
-## Modulo 1
+
+# Modulo 1
+
 
 ## Definición
 
-
-
 [Elasticsearch](https://www.elastic.co/) es un servidor de búsqueda basado en Lucene.
-Provee un motor de búsqueda de texto completo, distribuido y con capacidad de multi-tenencia con una interfaz web RESTful y con documentos JSON. 
-Elasticsearch está desarrollado en Java y está publicado como código abierto bajo las condiciones de la licencia Apache.
+Provee un motor de búsqueda de texto completo, distribuido y con capacidad de multi-tenencia con una interfaz web RESTful y con documentos JSON Elasticsearch está desarrollado en Java y está publicado como código abierto bajo las condiciones de la licencia Apache.
+
 
 ## Instalando Elasticsearch
 
@@ -34,12 +34,9 @@ Para probar si elasticsearch está funcionando:
 
 [http://localhost:9200/](http://localhost:9200/)
 
-
-
 ## Primer ejemplo con Elasticsearch y curl
 
 > Dependencias :  *curl*
-
 
 1. Creando el índice **twitter** desde la consola con **curl**
 
@@ -70,7 +67,7 @@ Lo puede verificar aquí: [http://localhost:9200/contact/](http://localhost:9200
 
 Un **índice** es un espacio de nombre lógico, es decir, es una forma de organizar los datos.
 
-### Elasticsearch y MySQL
+## Elasticsearch y MySQL
 
 Se puede, a grandes rasgos, pensar que un índice es como una base de datos y realizar la siguiente comparación:
 
@@ -123,10 +120,7 @@ Un ejemplo de instancia de cada uno de ellos es el siguiente:
 }
 {% endhighlight %}
 
-El diseño de una tabla SQL es *rígido*. No se puede usar la misma tabla  para almacenar, 
-por ejemplo, un string en vez de un número.
-Las bases de datos NoSQL son como archivos **JSON** con su respectivo **clave-valor**
-Al no ser tan rígido, podriamos agregar un nuevo campo sin que la BBDD NoSQL se queje
+El diseño de una tabla SQL es *rígido*. No se puede usar la misma tabla  para almacenar, por ejemplo, un string en vez de un número. Las bases de datos NoSQL son como archivos **JSON** con su respectivo **clave-valor**. Al no ser tan rígido, podriamos agregar un nuevo campo sin que la BBDD NoSQL se queje
 
 {% highlight bash %}
 {
@@ -145,26 +139,15 @@ Al no ser tan rígido, podriamos agregar un nuevo campo sin que la BBDD NoSQL se
 
 Dependiendo de las necesidades del problema, existen diferentes mecanismos para almacenar datos.
 
-Pero que sucede si no es conveniente almacenar datos en tablas SQL? Y si se tiene otro tipo de
-relacion entre los registros y se quiere acceder de forma rápida a los datos?
-Otro problema con el que se encontraron las bases de datos relacionales fue que las 
-consultas SQL no eran muy adecuadas para las estructuras de datos orientados a objetos.
-La solución emergente fue NoSQL.
+Pero que sucede si no es conveniente almacenar datos en tablas SQL? Y si se tiene otro tipo de relacion entre los registros y se quiere acceder de forma rápida a los datos? Otro problema con el que se encontraron las bases de datos relacionales fue que las consultas SQL no eran muy adecuadas para las estructuras de datos orientados a objetos. La solución emergente fue NoSQL.
 
-Las bases de datos **SQL** han sido uno de los principales mecanismos de almacenamiento 
-de datos durante las ultimas 4 décadas. Su uso explotó la década de los 90 con el auge 
-de las aplicaciones webs y las opciones de código abierto como **MySQL**, **PostgreSQL** 
-y **SQLite**. Las bases de datos **NoSQL** han existido desde los 60, pero han ido ganando 
-terreno con opciones populares como **MongoDB**, **CouchDB**, **Redis** y **Apache Cassandra**
+Las bases de datos **SQL** han sido uno de los principales mecanismos de almacenamiento de datos durante las ultimas 4 décadas. Su uso explotó la década de los 90 con el auge de las aplicaciones webs y las opciones de código abierto como **MySQL**, **PostgreSQL** y **SQLite**. Las bases de datos **NoSQL** han existido desde los 60, pero han ido ganando terreno con opciones populares como **MongoDB**, **CouchDB**, **Redis** y * Apache Cassandra**
 
-Otro problemas con el que se presentan las bases de datos relacionales se relaciona 
-un aumento exponencial en los volúmenes de datos. Las operaciones de consulta SQL 
-estándar no responden en tiempos aceptables, dificultando de esta forma el uso de bases 
-de datos relacionales. NoSQL es una buena opción para bases de datos que manipulan grandes
-conjuntos de datos. 
+Otro problemas con el que se presentan las bases de datos relacionales se relaciona un aumento exponencial en los volúmenes de datos. Las operaciones de consulta SQL estándar no responden en tiempos aceptables, dificultando de esta forma el uso de bases de datos relacionales. NoSQL es una buena opción para bases de datos que manipulan grandes conjuntos de datos. 
 
 
-### Características de las bases de datos NoSQL
+
+## Características de las bases de datos NoSQL
 
 * Modelo de datos no relacional y schema-less
 * Baja latencia y alto rendimiento
@@ -172,7 +155,7 @@ conjuntos de datos.
 * Se ejecutan mejor en clusters. Las base de datos relacionales no fueron diseñadas para correr eficientemente en clusters
 
 
-### Clasificación de bases de datos NoSQL
+## Clasificación de bases de datos NoSQL
 
 * Key-Value (K-V) Stores
 * Document Store
@@ -181,7 +164,4 @@ conjuntos de datos.
 
 Elasticsearch utiliza almacenamiento de tipo **Document**. 
 Cada documento es un objeto **JSON**.
-
-
-
 

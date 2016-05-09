@@ -1,12 +1,11 @@
 ---
 layout: post
 title: 2. Elasticsearch, base de datos distribuida
-author: Maira Diaz
-usernames: [ maira1001001 ]
+author: Maira Diaz, Rosario Santa Marina
+usernames: [ maira1001001 rosariosm]
 categories: elasticsearch DDBMS
 tags: [elasticsearch, cluster, node, shard, replica, DDBMS]
 ---
-
 
 # MODULO 2
 
@@ -18,6 +17,7 @@ entidades físicas. El particionamiento mejora el *rendimiento*, *manejabilidad*
 *disponibilidad* de los datos, y ayuda a reducir el coste total de propiedad para almacenar
 grandes volúmenes de datos.
 
+
 ## Partición horizontal y partición vertical
 
 En DDBMS(1) existen diferentes técnicas para particionar y luego almacenar los datos:
@@ -28,7 +28,6 @@ En DDBMS(1) existen diferentes técnicas para particionar y luego almacenar los 
 Veamos un ejemplo de **partición horizontal** y **partición vertical**
 
 
-
 id  |     name    |         email             |     type      | parent_id
 --- | ----------- | ------------------------- | ------------- | --------
 1   | UNLP        | email@unlp.edu.ar         | Institution   |
@@ -37,11 +36,12 @@ id  |     name    |         email             |     type      | parent_id
 4   | Guaraní     | guarani@cespi.unlp.edu.ar | Office        |    2
 
 
+<<<<<<< HEAD
+
+
 ### 1.Fragmentación horizontal
 
 Fragmento 1
-
-
 
 id  |     name    |         email             |     type      | parent_id
 --- | ----------- | ------------------------- | ------------- | --------
@@ -49,7 +49,6 @@ id  |     name    |         email             |     type      | parent_id
 2   | CeSPI       | cespi@unlp.edu.ar         | Dependency    |    1
 
 Fragmento 2
-
 
 id  |     name    |         email             |     type  |parent_id
 --- | ----------- | ------------------------- | --------- | ---------
@@ -71,7 +70,6 @@ id  |     name     |         email
 
 Fragmento 2
 
-
 id  |     type      | parent_id
 --- | ------------- | --------
 1   | Institution   |
@@ -90,7 +88,7 @@ Veamos un ejemplo creando un índice y configurando sus shards y replicas.
 Escriba en la consola:
 
 {% highlight bash  %}
-$ curl -XPUT 'http://localhost:9200/articles/?pretty' -d '
+$ curl -XPUT 'http://localhost:9200/contacts/?pretty' -d '
 index :
     number_of_shards : 4
     number_of_replicas : 1
@@ -99,7 +97,7 @@ index :
 
 Se ha creado un índice con los siguientes datos:
 
-* nombre del índice: **article**
+* nombre del índice: **contacts**
 * cantidad de shards: 4
 * cantidad de replicas: 1 (1 replica  por shard)
 
@@ -107,7 +105,7 @@ Se ha creado un índice con los siguientes datos:
 Para chequear si se ha creado correctamente, escriba en la consola:
 
 {% highlight bash  %}
-$ curl -XGET 'http://localhost:9200/articles/_settings?pretty'
+$ curl -XGET 'http://localhost:9200/contacts/_settings?pretty'
 {% endhighlight  %}
 
 El siguiente dibujo representa un bosquejo de como se podrían particionar los datos respecto
@@ -172,13 +170,14 @@ La **distribución de los shards** ocurre cuando se inicializa el servicio, cuan
 se elimina un nodo, durante la locación de las réplcias o durante un rebalanceo.
 
 
+
 ### cat Shards API
 
-Para visualizar la distribución de los shards y replicas del índice **articles**, escriba 
+Para visualizar la distribución de los shards y replicas del índice **contacts**, escriba 
 en la consola:
 
 {% highlight bash  %}
-$ curl -XGET 'http://localhost:9200/_cat/shards/articles?v'
+$ curl -XGET 'http://localhost:9200/_cat/shards/contacts?v'
 {% endhighlight  %}
 
 Volviendo al ejemplo arriba mencionado, donde teníamos 3 nodos en el cluster "Elasticsearch",
@@ -187,14 +186,14 @@ podriamos imaginar el siguiente esquema:
 {% highlight bash  %}
 
 index    shard prirep(*) state   docs store ip        node
-articles 0     p         STARTED    0   79b 127.0.1.1 Oesterheld
-articles 0     r         STARTED    0   79b 127.0.1.1 Solano López
-articles 1     p         STARTED    0   79b 127.0.1.1 Oesterheld
-articles 1     r         STARTED    0   79b 127.0.1.1 Walsh
-articles 2     p         STARTED    0  115b 127.0.1.1 Solano López
-articles 2     r         STARTED    0   79b 127.0.1.1 Oesterheld
-articles 3     p         STARTED    0  115b 127.0.1.1 Walsh
-articles 3     r         STARTED    0   79b 127.0.1.1 Solano López
+contacts 0     p         STARTED    0   79b 127.0.1.1 Oesterheld
+contacts 0     r         STARTED    0   79b 127.0.1.1 Solano López
+contacts 1     p         STARTED    0   79b 127.0.1.1 Oesterheld
+contacts 1     r         STARTED    0   79b 127.0.1.1 Walsh
+contacts 2     p         STARTED    0  115b 127.0.1.1 Solano López
+contacts 2     r         STARTED    0   79b 127.0.1.1 Oesterheld
+contacts 3     p         STARTED    0  115b 127.0.1.1 Walsh
+contacts 3     r         STARTED    0   79b 127.0.1.1 Solano López
 {% endhighlight  %}
 
 (*)prirep: primary/replica
@@ -291,7 +290,10 @@ esta forma se comprenderá  con mayor profundidad los términos tipos y document
 
 
 
+
 ------------------------------------------------------
 
 (1)*DDBMS*: Distributed Database Management Systems
+
+
 
