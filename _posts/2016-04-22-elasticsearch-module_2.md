@@ -1,18 +1,21 @@
 ---
 layout: post
-title: Elasticsearch - Módulo 2
-author: Maira Diaz
+title: 2. Elasticsearch, base de datos distribuida
+author: Maira Diaz, Rosario Santa Marina
+usernames: [ maira1001001 rosariosm]
 categories: elasticsearch DDBMS
 tags: [elasticsearch, cluster, node, shard, replica, DDBMS]
-usernames: [ maira1001001 ]
 ---
+
+# MODULO 2
 
 Una de las características que poseen las **BBDD NoSQL** es que son **BBDD distribuidas**.
 Como se van a manejar grandes volúmenes de datos, necesitaremos particionar el conjunto de datos.
 <!-- more -->
 El  **Particionamiento**  divide de forma lógica a una base de datos, reubicandola en diferentes entidades físicas. El particionamiento mejora el *rendimiento*, *manejabilidad* y *disponibilidad* de los datos, y ayuda a reducir el coste total de propiedad para almacenar grandes volúmenes de datos.
 
-### Partición horizontal y partición vertical
+
+## Partición horizontal y partición vertical
 
 En DDBMS(1) existen diferentes técnicas para particionar y luego almacenar los datos:
 
@@ -30,10 +33,11 @@ id  |     name    |         email             |     type      | parent_id
 4   | Guaraní     | guarani@cespi.unlp.edu.ar | Office        |    2
 
 
-#### 1.Fragmentación horizontal
+
+
+### 1.Fragmentación horizontal
 
 Fragmento 1
-
 
 id  |     name    |         email             |     type      | parent_id
 --- | ----------- | ------------------------- | ------------- | --------
@@ -48,9 +52,10 @@ id  |     name    |         email             |     type  |parent_id
 4   | Guaraní     | guarani@cespi.unlp.edu.ar | Office    |    2
 
 
-#### 2.Fragmentación vertical
+### 2.Fragmentación vertical
 
 Fragmento 1
+
 
 id  |     name     |         email
 --- | ------------ | --------------------------
@@ -73,13 +78,13 @@ Es útil y recomendable contar con mecanismos de conmutación por error en caso 
 nodo o shard fallen o se desconecten por cualquier razón. Elasticsearch permite realizar 
 una o más copias de cada *shard*. A cada copia se la denomina **Replica**.
 
-### Shards y replicas
+## Shards y replicas
 
 Veamos un ejemplo creando un índice y configurando sus shards y replicas.
 Escriba en la consola:
 
 {% highlight bash  %}
-$ curl -XPUT 'http://localhost:9200/articles/?pretty' -d '
+$ curl -XPUT 'http://localhost:9200/contacts/?pretty' -d '
 index :
     number_of_shards : 4
     number_of_replicas : 1
@@ -88,7 +93,7 @@ index :
 
 Se ha creado un índice con los siguientes datos:
 
-* nombre del índice: **article**
+* nombre del índice: **contacts**
 * cantidad de shards: 4
 * cantidad de replicas: 1 (1 replica  por shard)
 
@@ -96,7 +101,7 @@ Se ha creado un índice con los siguientes datos:
 Para chequear si se ha creado correctamente, escriba en la consola:
 
 {% highlight bash  %}
-$ curl -XGET 'http://localhost:9200/articles/_settings?pretty'
+$ curl -XGET 'http://localhost:9200/contacts/_settings?pretty'
 {% endhighlight  %}
 
 El siguiente dibujo representa un bosquejo de como se podrían particionar los datos respecto
@@ -161,13 +166,14 @@ La **distribución de los shards** ocurre cuando se inicializa el servicio, cuan
 se elimina un nodo, durante la locación de las réplcias o durante un rebalanceo.
 
 
-#### cat Shards API
 
-Para visualizar la distribución de los shards y replicas del índice **articles**, escriba 
+### cat Shards API
+
+Para visualizar la distribución de los shards y replicas del índice **contacts**, escriba 
 en la consola:
 
 {% highlight bash  %}
-$ curl -XGET 'http://localhost:9200/_cat/shards/articles?v'
+$ curl -XGET 'http://localhost:9200/_cat/shards/contacts?v'
 {% endhighlight  %}
 
 Volviendo al ejemplo arriba mencionado, donde teníamos 3 nodos en el cluster "Elasticsearch",
@@ -176,14 +182,14 @@ podriamos imaginar el siguiente esquema:
 {% highlight bash  %}
 
 index    shard prirep(*) state   docs store ip        node
-articles 0     p         STARTED    0   79b 127.0.1.1 Oesterheld
-articles 0     r         STARTED    0   79b 127.0.1.1 Solano López
-articles 1     p         STARTED    0   79b 127.0.1.1 Oesterheld
-articles 1     r         STARTED    0   79b 127.0.1.1 Walsh
-articles 2     p         STARTED    0  115b 127.0.1.1 Solano López
-articles 2     r         STARTED    0   79b 127.0.1.1 Oesterheld
-articles 3     p         STARTED    0  115b 127.0.1.1 Walsh
-articles 3     r         STARTED    0   79b 127.0.1.1 Solano López
+contacts 0     p         STARTED    0   79b 127.0.1.1 Oesterheld
+contacts 0     r         STARTED    0   79b 127.0.1.1 Solano López
+contacts 1     p         STARTED    0   79b 127.0.1.1 Oesterheld
+contacts 1     r         STARTED    0   79b 127.0.1.1 Walsh
+contacts 2     p         STARTED    0  115b 127.0.1.1 Solano López
+contacts 2     r         STARTED    0   79b 127.0.1.1 Oesterheld
+contacts 3     p         STARTED    0  115b 127.0.1.1 Walsh
+contacts 3     r         STARTED    0   79b 127.0.1.1 Solano López
 {% endhighlight  %}
 
 (*)prirep: primary/replica
@@ -196,7 +202,7 @@ de en caso de que un fragmento falle.
 
 
 
-### Cluster y nodos
+## Cluster y nodos
 
 Elasticsearch opera en un ambiente distribuido, y corre un
 [clusters](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_cluster),
@@ -227,7 +233,7 @@ de los nodos.
 Permite realizar búsqueda y operaciones de lectura/escritura sobre los clusters
 conectados.
 
-#### Cat nodes API
+### Cat nodes API
 
 Para visualizar los nodos de su cluster, usando [cat nodes API](https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-nodes.html), escriba en su consola:
 
@@ -246,7 +252,9 @@ Si volvemos al ejemplo arriba mencionado, donde teníamos 3 nodos en el cluster 
 
 (*)nodeRole: Data node (d); Client node (c)
 
-### Índices, tipos y documentos
+
+
+## Índices, tipos y documentos
 
 Como se mencionó en el módulo 1, un [índice](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_index) es una colección de documentos que poseen características similares. Dentro de un cluster, se pueden definir la cantidad de índices que se deseen.
 
@@ -261,7 +269,11 @@ Para visualizar los *índice* con sus respectivos shards y replicas que residen 
 En el siguiente módulo, se explicará como crear un índice, como se realizar una búsqueda, y de esta forma se comprenderá  con mayor profundidad los términos tipos y documento.
 
 
+
 ------------------------------------------------------
 
 
 (1)*DDBMS*: Distributed Database Management Systems
+
+
+
