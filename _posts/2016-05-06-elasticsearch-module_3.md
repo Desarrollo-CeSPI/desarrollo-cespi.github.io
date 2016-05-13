@@ -6,13 +6,13 @@ usernames: [rosariosm maira1001001]
 tags: [elasticsearch, bulk API, search API]
 ---
 
-En este módulo veremos cómo crear un índice, agregarle un conjunto de datos provenientes de un JSON válido y realizar una búsqueda mediante la API de búsqueda.
+En este módulo veremos cómo crear un índice, agregarle un conjunto de datos provenientes de un JSON válido y realizar una búsqueda simple mediante la API de búsqueda.
 
 
 
 ## Creando un índice
 
-En este módulo trabajaremos con ejemplos de artículos de diario. Antes de comenzar a trabajar con los datos, necesitamos crear un índice para identificar a los artículos del diario. Para ello creamos el índice **article_index** como se detalla a continuación.
+En este módulo trabajaremos con ejemplos de artículos de diario. Antes de comenzar necesitamos crear el índice **article_index** para almacernarlos. 
 
 {% highlight bash %}
 $ curl -XPUT 'http://localhost:9200/article_index'
@@ -24,7 +24,7 @@ Para visualizar el índice creado, escriba en consola la siguiente consulta:
 $ curl -XGET 'http://localhost:9200/article_index?pretty'
 {% endhighlight %}
 
-Esta consulta dará como resultado lo siguiente:
+El resultado será lo siguiente:
 
 {% highlight bash %}
 {
@@ -49,21 +49,16 @@ Esta consulta dará como resultado lo siguiente:
 
 Como podrá observar, el índice se creo con algunas características por defecto y otras por configurar.
 
-1. **"aliases"**:
-2. **"mappings"**:
-3. **"settings"**: define la cantidad de shards y réplicas. Esta configuración se detalla en el [módulo 2](http://www.desarrollo.unlp.edu.ar/elasticsearch/ddbms/2016/04/22/elasticsearch-module_2.html)
-4. **"warmers"**:
+* **"aliases"**: Define un conjunto de aliases para el índice.
+* **"mappings"**: Define cómo el documento y sus campos son guardados e indexados.  
+* **"settings"**: Define la cantidad de shards y réplicas. Esta configuración se detalla en el [módulo 2](http://www.desarrollo.unlp.edu.ar/elasticsearch/ddbms/2016/04/22/elasticsearch-module_2.html)
+* **"warmers"**: A partir de la version 2.3.0 estan obsoletos. Permiten preparar al índice para que pueda responder de forma más eficiente a requerimientos que contengan grandes manejos de datos.  
 
-## Cargando la BBDD con datos existentes
-
-Los artículos se encuentran almacenados en un JSON. El archivo se puede descargar aquí.
-(incluir el link de descarga al JSON)
-
-### bulk API
+## bulk API: Cargando la BBDD con datos existentes
 
 Para cargar los datos del archivo JSON a Elasticsearch utilizaremos la API bulk. Con esta API es posible indexar los elementos con un solo llamado. 
 
-El cuerpo del llamado espera una estructura de JSON particular, como la que se detalla a continuación:
+El cuerpo del llamado espera la siguiente estructura JSON:
 
 {% highlight bash%}
 { action: { metadata }}\n
@@ -74,12 +69,13 @@ El cuerpo del llamado espera una estructura de JSON particular, como la que se d
 {% endhighlight %}
 
 
-Donde **action** define qué tipo de operación se va a realizar. Las operaciones son: **create**, **index**, **delete** y **update**.
-La **metadata** incluye información del **índice**, el **tipo** y el **id** del documento al cual se le va a ejecutar la operación.
-¿Por qué se necesita esta estructura? Como cada documento referenciado puede estar alocado en cualquier nodo del cluster, cada accion definida en el JSON debe ser redirigida al shard correcto del nodo al que pertenece. Elasticsearch utiliza cada caracter de nueva línea para identificar el par action/metadata de forma tal que pueda manejar cada petición, leyendo los datos del **request body** directamente. 
+Donde **action** define qué tipo de operación se va a realizar, siendo estas: *create*, *index*, *delete* y *update*.
+La **metadata** incluye información del *_index*, el *_type* y el *_id* del documento al cual se le va a ejecutar la operación.
+¿Por qué se necesita esta estructura? Como cada documento referenciado puede estar alocado en cualquier nodo del cluster, cada acción definida en el JSON debe ser redirigida al shard correcto del nodo al que pertenece. Elasticsearch utiliza cada caracter de nueva línea para identificar el par *action/metadata* de forma tal que pueda manejar cada petición, leyendo los datos del **request body** directamente. 
 
 
-Para continuar con los ejemplos, se utilizará el siguiente JSON válido que tiene información sobre los artículos del diario. El archivo **articles.json** contiene **x** elementos. La operación que se realizará a cada elemento es **index** y se incluirá elmetadato **id**, para identificar univocamente a cada artículo.
+
+Para continuar con los ejemplos, se utilizará el siguiente [JSON](/assets/data/articles.json) válido que tiene información sobre los artículos del diario. Este archivo  contiene **x** elementos cuya estructura se detalla acontinuación:
 
 {% highlight bash  %}
 {"index":{"_id":"1"}}
@@ -92,23 +88,29 @@ Para continuar con los ejemplos, se utilizará el siguiente JSON válido que tie
 }
 {% endhighlight %}
 
-Cada elemento tiene los atributos: 
+La *action* u operación a realizar por cada elemento es **index**, la cual permite crear nuevos documentos o reemplazarlos si ya existen. Cada action tendrá como *metadato* el **_id** correspondiente a cada artículo para poder identificarlo univocamente. Si este atributo no se especifica, Elasticsearch lo creará automáticamente. 
+Cada elemento del *body_request* está compuesto por los siguientes atributos:
+
 1. **"slug"**:  string que identifica al artículo
 2. **"is_visible"**: boolean que indica si el articulo debe mostrarse o no.
 3. **"title"**: string que se corresponde con el título del artículo
 4. **"lead"**: string que corresponde con el copete del artículo
 5. **"body"**: text que se corresponde con el cuerpo del artículo
 
-
-Para indexar los datos al índice **article_index**, escriba en consola la siguiente consulta:
+Para indexar los datos se deberá realizar el siguiente llamado a la bulk API:
 
 {% highlight bash %}
 curl -XPUT 'http://localhost:9200/articles/politics/_bulk?pretty' --data-binary @articles.json
 {% endhighlight %}
 
-## Realizando la primera búsqueda
+Como en el ejemplo estamos utilizando curl, debemos utilzar el flag --data-binary. 
+Los endpoints a esta api son */_bulk*, */{index}/_bulk* y */{index}/{type}/_bulk*. En este caso, se agregarán los datos en el índice **article_index** y serán de tipo **politics**.
 
-Antes de comenzar con la búsqueda, haremos una pequeña introducción respecto del formato de consulta con curl con que iremos a realizar una búsqueda.
+## Realizando la primer búsqueda
+
+
+
+Antes de comenzar haremos una pequeña introducción respecto del formato de consulta con el que iremos a realizar la búsqueda.
 
 ### Búsqueda mediante la URI: un enfoque más simple 
 
