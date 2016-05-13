@@ -1,8 +1,7 @@
 ---
 layout: post
-title: Elasticsearch - Módulo n
-author: Rosario Santa Marina
-usernames: [rosariosm maira1001001]
+title: Elasticsearch - Realizando la primera búsqueda
+usernames: [maira1001001, rosariosm]
 tags: [elasticsearch, bulk API, search API]
 ---
 
@@ -82,6 +81,7 @@ Para continuar con los ejemplos, se utilizará el siguiente [JSON](/assets/data/
 {
   "slug":  "kicillof-un-40-de-inflacion-para-este-ano-es-un-dibujo-25393",
   "is_visible": true,
+  "created_at": "2014-12-01T04:41:31.000-03:00",
   "title": "Kicillof: “Un 40% de inflación para este año es un dibujo”",
   "lead": "Volvió a criticar las mediciones privadas y afirmó que cerrará en un 24%. Rechazo desde la oposición",
   "body": "<div><p class=“texto principal”><a href=“/edis/20141201/fotos_g/graf5.gif” target=“U_blan0....”"
@@ -91,16 +91,17 @@ Para continuar con los ejemplos, se utilizará el siguiente [JSON](/assets/data/
 La *action* u operación a realizar por cada elemento es **index**, la cual permite crear nuevos documentos o reemplazarlos si ya existen. Cada action tendrá como *metadato* el **_id** correspondiente a cada artículo para poder identificarlo univocamente. Si este atributo no se especifica, Elasticsearch lo creará automáticamente. 
 Cada elemento del *body_request* está compuesto por los siguientes atributos:
 
-1. **"slug"**:  string que identifica al artículo
+1. **"slug"**:  string que identifica al artículo.
 2. **"is_visible"**: boolean que indica si el articulo debe mostrarse o no.
-3. **"title"**: string que se corresponde con el título del artículo
-4. **"lead"**: string que corresponde con el copete del artículo
-5. **"body"**: text que se corresponde con el cuerpo del artículo
+3. **"created_at"**: date que identifica la fecha de creación del artículo.
+3. **"title"**: string que se corresponde con el título del artículo.
+4. **"lead"**: string que corresponde con el copete del artículo.
+5. **"body"**: text que se corresponde con el cuerpo del artículo.
 
 Para indexar los datos se deberá realizar el siguiente llamado a la bulk API:
 
 {% highlight bash %}
-curl -XPUT 'http://localhost:9200/articles/politics/_bulk?pretty' --data-binary @articles.json
+curl -XPUT 'http://localhost:9200/article_index/politics/_bulk?pretty' --data-binary @articles.json
 {% endhighlight %}
 
 Como en el ejemplo estamos utilizando curl, debemos utilzar el flag --data-binary. 
@@ -143,30 +144,6 @@ curl -XGET '<host>:<port>/<index>/<type>/_search?' -d '
 '
 {% endhighlight %}
 
-Un tipo de consulta personalizada tiene la siguiente estructura:
-
-{% highlight bash %}
-{
-    QUERY_NAME: {
-        ARGUMENT: VALUE,
-        ARGUMENT: VALUE,...
-    }
-}{% endhighlight %}
-
-
-Si hacemos referencia a un campo en particular, la consulta tiene la siguiente estructura: 
-
-{% highlight bash %}
-{
-    QUERY_NAME: {
-        FIELD_NAME: {
-            ARGUMENT: VALUE,
-            ARGUMENT: VALUE,...
-        }
-    }
-}
-{% endhighlight %}
-
 
 Por ejemplo, si deseamos buscar los artículos cuyos **title** o título contengan la palabra **"Cristina"** (no distingue mayúsculas ni minúsculas):
 
@@ -182,21 +159,23 @@ $ curl -XGET 'localhost:9200/article_index/politics/_search?pretty' -d '
 '
 {% endhighlight %}
 
-Si deseamos buscar los artículos cuyo **title** o título *coincida exactamente* con el string "Mujica propone a Argentina recuperar las Malvinas “con las mujeres”"
+Si deseamos buscar entre el 1° de Enero de 2014 y la fecha actual, realizamos la siguiente consulta:
 
 {% highlight bash %}
-$ curl -XGET 'localhost:9200/article_index/politics/_search?pretty' -d '
+curl -XGET 'localhost:9200/article_index/politics/_search?pretty' -d '
 {
-  "query": {
-    "term": {
-      "title": "Mujica propone a Argentina recuperar las Malvinas “con las mujeres”"
+  "query" : {
+    "range" : {
+      "created_at" : {
+        "gt" : "2014-01-01T00:00:00",
+        "lt" : "now"
+      }
     }
   }
-}
-'
+}'
+
 {% endhighlight %}
 
-## Analizando la estructura de los datos cargados
 
 
 

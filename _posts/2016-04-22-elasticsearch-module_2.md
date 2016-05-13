@@ -1,8 +1,7 @@
 ---
 layout: post
 title: 2. Elasticsearch, base de datos distribuida
-author: Maira Diaz, Rosario Santa Marina
-usernames: [ maira1001001 rosariosm]
+usernames: [ maira1001001, rosariosm]
 categories: elasticsearch DDBMS
 tags: [elasticsearch, cluster, node, shard, replica, DDBMS]
 ---
