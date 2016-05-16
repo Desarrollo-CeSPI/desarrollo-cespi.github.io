@@ -157,7 +157,7 @@ La **distribución de los shards** ocurre cuando se inicializa el servicio, cuan
 ### cat Shards API
 
 
-Para visualizar la distribución de los shards y replicas del índice **contacts**, escribia en la consola:
+Para visualizar la distribución de los shards y replicas del índice **contacts**, escriba en la consola:
 
 {% highlight bash  %}
 $ curl -XGET 'http://localhost:9200/_cat/shards/contacts?v'
@@ -167,18 +167,20 @@ Volviendo al ejemplo arriba mencionado, donde teníamos 3 nodos en el cluster "E
 
 {% highlight bash  %}
 
-index    shard prirep(*) state   docs store ip        node
-contacts 0     p         STARTED    0   79b 127.0.1.1 Oesterheld
-contacts 0     r         STARTED    0   79b 127.0.1.1 Solano López
-contacts 1     p         STARTED    0   79b 127.0.1.1 Oesterheld
-contacts 1     r         STARTED    0   79b 127.0.1.1 Walsh
-contacts 2     p         STARTED    0  115b 127.0.1.1 Solano López
-contacts 2     r         STARTED    0   79b 127.0.1.1 Oesterheld
-contacts 3     p         STARTED    0  115b 127.0.1.1 Walsh
-contacts 3     r         STARTED    0   79b 127.0.1.1 Solano López
+index    shard prirep state   docs store ip        node
+contacts 0     p      STARTED    0   79b 127.0.1.1 Oesterheld
+contacts 0     r      STARTED    0   79b 127.0.1.1 Solano López
+contacts 1     p      STARTED    0   79b 127.0.1.1 Oesterheld
+contacts 1     r      STARTED    0   79b 127.0.1.1 Walsh
+contacts 2     p      STARTED    0  115b 127.0.1.1 Solano López
+contacts 2     r      STARTED    0   79b 127.0.1.1 Oesterheld
+contacts 3     p      STARTED    0  115b 127.0.1.1 Walsh
+contacts 3     r      STARTED    0   79b 127.0.1.1 Solano López
 {% endhighlight  %}
 
-(*)prirep: primary/replica
+
+> NOTA
+> "prirep": hace referencia a "primary/replica", identificando con la letra "p" a los nodos "primary", y con "r" a los nodos "replica".
 
 ¿Qué ventaja tiene esta forma de distribuir los datos? Nos permite **paralelizar** las operaciones a través de los shards aumentando de esta forma el rendimiento.
 
@@ -187,7 +189,7 @@ contacts 3     r         STARTED    0   79b 127.0.1.1 Solano López
 
 ## Cluster y nodos
 
-Elasticsearch opera en un ambiente distribuido, y corre un [clusters](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_cluster), definido como una colleción de 1 o más [nodos](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_node) conectados.
+Elasticsearch opera en un ambiente distribuido, y corre en un cluster [cluster](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_cluster), definido como una colleción de 1 o más [nodos](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_node) conectados.
 
 Para visualizar el cluster al que usted pertenece, escriba en la consola:
 
@@ -196,7 +198,7 @@ $ curl -XGET 'http://localhost:9200'
 {% endhighlight  %}
 
 
-Cada nodo conoce a los otros nodos del cluster. Pero, ¿Qué rol tienen los [nodos](https://www.elastic.co/guide/en/elasticsearch/reference/2.3/modules-node.html) dentro del cluster? Cada nodo sirve para uno o más  de los  propósitos, como se detalla a continuación:
+Cada nodo conoce a los otros nodos del cluster. Pero, ¿Qué rol tienen los nodos dentro del cluster? Cada nodo sirve para uno o más  de los  propósitos, como se detalla a continuación:
 
 1. **Data node**: contienen los datos y ejecutan operaciones (CRUD, búsqueda, agregaciones). Por defecto un nodo es considerado como *data node*
 2. **Client node**: son balanceadores de carga. No son *data node*  ni *master node*. Pueden redireccionar operaciones a los nodos que contienen los datos relevantes sin tener que preguntar a todos los nodos.
@@ -208,19 +210,21 @@ Cada nodo conoce a los otros nodos del cluster. Pero, ¿Qué rol tienen los [nod
 Para visualizar los nodos de su cluster, usando [cat nodes API](https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-nodes.html), escriba en su consola:
 
 {% highlight bash  %}
+
 $ curl -XGET 'http://localhost:9200/_cat/nodes?v&h=host,ip,port,nodeRole,master,name'
 {% endhighlight  %}
 
 Si volvemos al ejemplo arriba mencionado, donde teníamos 3 nodos en el cluster "Elasticsearch", podriamos imaginar el siguiente esquema:
 
 {% highlight bash  %}
- host  ip         port  nodeRole(*) master name
+ host  ip         port  nodeRole master name
  pc_1  127.0.1.1  9200  d           *      Oesterheld
  pc_2  127.0.1.1  9200  d           *      Solano López
  pc_3  127.0.1.1  9200  d           m      Walsh
 {% endhighlight  %}
 
-(*)nodeRole: Data node (d); Client node (c)
+> NOTA
+> "nodeRole": los nodos pueden ser "Data node" o "Client node". Si es "Data node" se identifica con la letra "d". Si es "Client node" se identifica con la letra "c".
 
 ## Índices, tipos y documentos
 
@@ -232,7 +236,7 @@ Un [documento](https://www.elastic.co/guide/en/elasticsearch/reference/current/_
 
 Elasticsearch provee la característica de subdividir un índice en múltiples partes o [shards](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_shards_amp_replicas). Cada shard es en sí mismo un índice y se puede alojar en cualquier nodo del cluster.
 
-Para visualizar los *índice* con sus respectivos shards y replicas que residen en el cluster, escriba en consola:
+Para visualizar los *índices* con sus respectivos shards y replicas que residen en el cluster, escriba en consola:
 
 {% highlight bash %}
 $ curl -XGET 'http://localhost:9200/_settings?pretty'

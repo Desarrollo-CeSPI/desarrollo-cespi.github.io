@@ -147,7 +147,7 @@ Pero que sucede si no es conveniente almacenar datos en tablas SQL? Y si se tien
 
 Las bases de datos **SQL** han sido uno de los principales mecanismos de almacenamiento de datos durante las ultimas 4 décadas. Su uso explotó la década de los 90 con el auge de las aplicaciones webs y las opciones de código abierto como **MySQL**, **PostgreSQL** y **SQLite**. Las bases de datos **NoSQL** han existido desde los 60, pero han ido ganando terreno con opciones populares como **MongoDB**, **CouchDB**, **Redis** y * Apache Cassandra**
 
-Otro problemas con el que se presentan las bases de datos relacionales se relaciona un aumento exponencial en los volúmenes de datos. Las operaciones de consulta SQL estándar no responden en tiempos aceptables, dificultando de esta forma el uso de bases de datos relacionales. NoSQL es una buena opción para bases de datos que manipulan grandes conjuntos de datos. 
+Otro problema que presentan las bases de datos relacionales es el aumento exponencial en los volúmenes de datos. Las operaciones de consulta SQL estándar no responden en tiempos aceptables, dificultando de esta forma el uso de bases de datos relacionales. NoSQL es una buena opción para bases de datos que manipulan grandes conjuntos de datos. 
 
 
 
@@ -168,4 +168,5 @@ Otro problemas con el que se presentan las bases de datos relacionales se relaci
 
 Elasticsearch utiliza almacenamiento de tipo **Document**. 
 Cada documento es un objeto **JSON**.
+
 

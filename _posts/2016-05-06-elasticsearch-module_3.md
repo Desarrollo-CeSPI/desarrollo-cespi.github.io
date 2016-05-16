@@ -107,7 +107,7 @@ curl -XPUT 'http://localhost:9200/article_index/politics/_bulk?pretty' --data-bi
 Como en el ejemplo estamos utilizando curl, debemos utilzar el flag --data-binary. 
 
 
-> Los endpoints a esta api son */_bulk*, */{index}/_bulk* y */{index}/{type}/_bulk*. En este caso, se agregarán los datos en el índice **article_index** y serán de tipo **politics**.
+Los endpoints a esta api son `/_bulk`, `/{index}/_bulk` y `/{index}/{type}/_bulk`. En este caso, se agregarán los datos en el índice **article_index** y serán de tipo **politics**.
 
 ## Realizando la primer búsqueda
 
@@ -175,3 +175,4 @@ curl -XGET 'localhost:9200/article_index/politics/_search?pretty' -d '
 }'
 
 {% endhighlight %}
+
