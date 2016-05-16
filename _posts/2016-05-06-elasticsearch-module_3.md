@@ -1,11 +1,12 @@
 ---
 layout: post
-title: Elasticsearch - Realizando la primera búsqueda
+title: 3. Elasticsearch, realizando la primera búsqueda
 usernames: [maira1001001, rosariosm]
 tags: [elasticsearch, bulk API, search API]
 ---
 
-En este módulo veremos cómo crear un índice, agregarle un conjunto de datos provenientes de un JSON válido y realizar una búsqueda simple mediante la API de búsqueda.
+En este módulo veremos cómo crear un índice, agregarle un conjunto de datos provenientes de un JSON válido  <!-- more --> y realizar una búsqueda simple mediante la API de búsqueda.
+
 
 
 
@@ -53,13 +54,14 @@ Como podrá observar, el índice se creo con algunas características por defect
 * **"settings"**: Define la cantidad de shards y réplicas. Esta configuración se detalla en el [módulo 2](http://www.desarrollo.unlp.edu.ar/elasticsearch/ddbms/2016/04/22/elasticsearch-module_2.html)
 * **"warmers"**: A partir de la version 2.3.0 estan obsoletos. Permiten preparar al índice para que pueda responder de forma más eficiente a requerimientos que contengan grandes manejos de datos.  
 
+
 ## bulk API: Cargando la BBDD con datos existentes
 
 Para cargar los datos del archivo JSON a Elasticsearch utilizaremos la API bulk. Con esta API es posible indexar los elementos con un solo llamado. 
 
 El cuerpo del llamado espera la siguiente estructura JSON:
 
-{% highlight bash%}
+{% highlight bash %}
 { action: { metadata }}\n
 { request body        }\n
 { action: { metadata }}\n
@@ -74,9 +76,9 @@ La **metadata** incluye información del *_index*, el *_type* y el *_id* del doc
 
 
 
-Para continuar con los ejemplos, se utilizará el siguiente [JSON](/assets/data/articles.json) válido que tiene información sobre los artículos del diario. Este archivo  contiene **x** elementos cuya estructura se detalla acontinuación:
+Para continuar con los ejemplos, se utilizará el siguiente [JSON](/assets/data/articles.json) válido que tiene información sobre los artículos del diario. Este archivo  contiene **40** elementos cuya estructura se detalla a continuación:
 
-{% highlight bash  %}
+{% highlight json  %}
 {"index":{"_id":"1"}}
 {
   "slug":  "kicillof-un-40-de-inflacion-para-este-ano-es-un-dibujo-25393",
@@ -105,7 +107,8 @@ curl -XPUT 'http://localhost:9200/article_index/politics/_bulk?pretty' --data-bi
 {% endhighlight %}
 
 Como en el ejemplo estamos utilizando curl, debemos utilzar el flag --data-binary. 
-Los endpoints a esta api son */_bulk*, */{index}/_bulk* y */{index}/{type}/_bulk*. En este caso, se agregarán los datos en el índice **article_index** y serán de tipo **politics**.
+
+> Los endpoints a esta api son */_bulk*, */{index}/_bulk* y */{index}/{type}/_bulk*. En este caso, se agregarán los datos en el índice **article_index** y serán de tipo **politics**.
 
 ## Realizando la primer búsqueda
 
@@ -175,6 +178,9 @@ curl -XGET 'localhost:9200/article_index/politics/_search?pretty' -d '
 }'
 
 {% endhighlight %}
+
+
+
 
 
 

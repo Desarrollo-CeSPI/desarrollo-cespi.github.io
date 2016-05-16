@@ -1,15 +1,10 @@
 ---
 layout: post
-title: 1. Intro Elasticsearch
-author: Maira Diaz
+title: 1. Elasticsearch, intro
 categories: elasticsearch NoSQL
 tags: [elasticsearch, NoSQL, document, SQL]
 usernames: [ maira1001001 ]
 ---
-
-
-# Modulo 1
-
 
 ## Definición
 
@@ -42,7 +37,11 @@ Para probar si elasticsearch está funcionando: [http://localhost:9200/](http://
 curl -XPOST 'http://localhost:9200/twitter/'
 {% endhighlight %}
 
-Lo puede verificar aquí: [http://localhost:9200/twitter/](http://localhost:9200/twitter/)
+Lo puede verificar escribiendo en consola la siguiente consulta:
+
+{% highlight bash %}
+$ curl -XGET 'http://localhost:9200/twitter?pretty'
+{% endhighlight %}
 
 2. Creando el índice **contact** con el atributo **office**
 
@@ -61,7 +60,11 @@ curl -XPOST localhost:9200/contact -d '{
 }'
 {% endhighlight %}
 
-Lo puede verificar aquí: [http://localhost:9200/contact/](http://localhost:9200/contact/)
+Lo puede verificar escribiendo en consola la siguiente consulta:
+
+{% highlight bash %}
+$ curl -XGET 'http://localhost:9200/contact?pretty'
+{% endhighlight %}
 
 Un **índice** es un espacio de nombre lógico, es decir, es una forma de organizar los datos.
 
@@ -88,11 +91,7 @@ CREATE TABLE office (
 );
 {% endhighlight %}
 
-**MySQL** utiliza **SQL** como mecanismo de almacenamiento de datos. 
-En cambio **Elasticsearch** utiliza **NoSQL** ("Not Only SQL").
-Y donde está la diferencia? Tanto SQL como  NoSQL  almacenan datos, pero 
-SQL utiliza sistema de gestion  de base de datos relacionales.
-NoSQL NO utiliza modelo de datos relacional. 
+**MySQL** utiliza **SQL** como mecanismo de almacenamiento de datos. En cambio **Elasticsearch** utiliza **NoSQL** ("Not Only SQL"). Y donde está la diferencia? Tanto SQL como  NoSQL  almacenan datos, pero SQL utiliza sistema de gestion  de base de datos relacionales. NoSQL NO utiliza modelo de datos relacional. 
 
 Un ejemplo de instancia de cada uno de ellos es el siguiente:
 
@@ -162,4 +161,5 @@ Otro problemas con el que se presentan las bases de datos relacionales se relaci
 
 Elasticsearch utiliza almacenamiento de tipo **Document**. 
 Cada documento es un objeto **JSON**.
+
 
