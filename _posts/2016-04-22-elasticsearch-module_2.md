@@ -189,7 +189,7 @@ contacts 3     r      STARTED    0   79b 127.0.1.1 Solano López
 
 ## Cluster y nodos
 
-Elasticsearch opera en un ambiente distribuido, y corre en un cluster [cluster](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_cluster), definido como una colleción de 1 o más [nodos](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_node) conectados.
+Elasticsearch opera en un ambiente distribuido, y corre en un [cluster](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_cluster), definido como una colleción de 1 o más [nodos](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_node) conectados.
 
 Para visualizar el cluster al que usted pertenece, escriba en la consola:
 
