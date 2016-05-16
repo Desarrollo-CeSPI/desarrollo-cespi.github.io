@@ -1,19 +1,21 @@
 ---
 layout: post
-title: Intro Elasticsearch - Módulo 1
+title: 1. Intro Elasticsearch
 author: Maira Diaz
 categories: elasticsearch NoSQL
 tags: [elasticsearch, NoSQL, document, SQL]
 usernames: [ maira1001001 ]
 ---
 
-Esto es una introducción a elasticsearch. Tendrá n módulos, y cada uno de los n_i módulos tienen una duración de 4 horas de aprendizaje. Se calcula que este post se aprendería en n días.
-<!-- more -->
+
+# Modulo 1
+
 
 ## Definición
 
 [Elasticsearch](https://www.elastic.co/) es un servidor de búsqueda basado en Lucene.
 Provee un motor de búsqueda de texto completo, distribuido y con capacidad de multi-tenencia con una interfaz web RESTful y con documentos JSON Elasticsearch está desarrollado en Java y está publicado como código abierto bajo las condiciones de la licencia Apache.
+
 
 ## Instalando Elasticsearch
 
@@ -63,7 +65,7 @@ Lo puede verificar aquí: [http://localhost:9200/contact/](http://localhost:9200
 
 Un **índice** es un espacio de nombre lógico, es decir, es una forma de organizar los datos.
 
-### Elasticsearch y MySQL
+## Elasticsearch y MySQL
 
 Se puede, a grandes rasgos, pensar que un índice es como una base de datos y realizar la siguiente comparación:
 
@@ -142,14 +144,16 @@ Las bases de datos **SQL** han sido uno de los principales mecanismos de almacen
 Otro problemas con el que se presentan las bases de datos relacionales se relaciona un aumento exponencial en los volúmenes de datos. Las operaciones de consulta SQL estándar no responden en tiempos aceptables, dificultando de esta forma el uso de bases de datos relacionales. NoSQL es una buena opción para bases de datos que manipulan grandes conjuntos de datos. 
 
 
-### Características de las bases de datos NoSQL
+
+## Características de las bases de datos NoSQL
 
 * Modelo de datos no relacional y schema-less
 * Baja latencia y alto rendimiento
 * Altamente escalable
 * Se ejecutan mejor en clusters. Las base de datos relacionales no fueron diseñadas para correr eficientemente en clusters
 
-### Clasificación de bases de datos NoSQL
+
+## Clasificación de bases de datos NoSQL
 
 * Key-Value (K-V) Stores
 * Document Store
@@ -158,6 +162,4 @@ Otro problemas con el que se presentan las bases de datos relacionales se relaci
 
 Elasticsearch utiliza almacenamiento de tipo **Document**. 
 Cada documento es un objeto **JSON**.
-
-
 
