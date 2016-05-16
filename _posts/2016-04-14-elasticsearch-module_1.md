@@ -6,10 +6,13 @@ tags: [elasticsearch, NoSQL, document, SQL]
 usernames: [ maira1001001 ]
 ---
 
+
 ## Definición
 
 [Elasticsearch](https://www.elastic.co/) es un servidor de búsqueda basado en Lucene.
 Provee un motor de búsqueda de texto completo, distribuido y con capacidad de multi-tenencia con una interfaz web RESTful y con documentos JSON Elasticsearch está desarrollado en Java y está publicado como código abierto bajo las condiciones de la licencia Apache.
+
+
 
 
 ## Instalando Elasticsearch
@@ -22,10 +25,14 @@ sudo dpkg -i elasticsearch-1.7.2.deb
 iniciando el servicio:
 
 {% highlight bash  %}
-sudo service elasticsearch start
+$ sudo service elasticsearch start
 {% endhighlight %}
 
-Para probar si elasticsearch está funcionando: [http://localhost:9200/](http://localhost:9200/)
+Para probar si elasticsearch está funcionando, escriba en consola la siguiente consula: 
+{% highlight bash %}
+$ curl -XGET 'http://localhost:9200/'
+{% endhighlight %}
+
 
 ## Primer ejemplo con Elasticsearch y curl
 
@@ -161,5 +168,4 @@ Otro problemas con el que se presentan las bases de datos relacionales se relaci
 
 Elasticsearch utiliza almacenamiento de tipo **Document**. 
 Cada documento es un objeto **JSON**.
-
 

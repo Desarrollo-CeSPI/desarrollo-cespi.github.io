@@ -6,7 +6,6 @@ categories: elasticsearch DDBMS
 tags: [elasticsearch, cluster, node, shard, replica, DDBMS]
 ---
 
-
 Una de las características que poseen las **BBDD NoSQL** es que son **BBDD distribuidas**.
 <!-- more -->
 Como se van a manejar grandes volúmenes de datos, necesitaremos particionar el conjunto de datos.
@@ -157,6 +156,7 @@ La **distribución de los shards** ocurre cuando se inicializa el servicio, cuan
 
 ### cat Shards API
 
+
 Para visualizar la distribución de los shards y replicas del índice **contacts**, escribia en la consola:
 
 {% highlight bash  %}
@@ -183,8 +183,6 @@ contacts 3     r         STARTED    0   79b 127.0.1.1 Solano López
 ¿Qué ventaja tiene esta forma de distribuir los datos? Nos permite **paralelizar** las operaciones a través de los shards aumentando de esta forma el rendimiento.
 
 ¿Qué ventaja proveen las replicas? Proporcionan **disponibilidad** de los datos en caso de en caso de que un fragmento falle.
-
-
 
 
 ## Cluster y nodos
@@ -224,9 +222,6 @@ Si volvemos al ejemplo arriba mencionado, donde teníamos 3 nodos en el cluster 
 
 (*)nodeRole: Data node (d); Client node (c)
 
-
-
-
 ## Índices, tipos y documentos
 
 Como se mencionó en el módulo 1, un [índice](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_index) es una colección de documentos que poseen características similares. Dentro de un cluster, se pueden definir la cantidad de índices que se deseen.
@@ -247,14 +242,8 @@ En el siguiente módulo, se explicará como crear un índice, como se realizar u
 
 
 
-
 ------------------------------------------------------
 
 
 (1)*DDBMS*: Distributed Database Management Systems
-
-
-
-
-
 
