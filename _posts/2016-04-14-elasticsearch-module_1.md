@@ -1,20 +1,18 @@
 ---
 layout: post
-title: 1. Intro Elasticsearch
-author: Maira Diaz
+title: 1. Elasticsearch, intro
 categories: elasticsearch NoSQL
 tags: [elasticsearch, NoSQL, document, SQL]
 usernames: [ maira1001001 ]
 ---
 
 
-# Modulo 1
-
-
 ## Definición
 
 [Elasticsearch](https://www.elastic.co/) es un servidor de búsqueda basado en Lucene.
 Provee un motor de búsqueda de texto completo, distribuido y con capacidad de multi-tenencia con una interfaz web RESTful y con documentos JSON Elasticsearch está desarrollado en Java y está publicado como código abierto bajo las condiciones de la licencia Apache.
+
+
 
 
 ## Instalando Elasticsearch
@@ -27,10 +25,14 @@ sudo dpkg -i elasticsearch-1.7.2.deb
 iniciando el servicio:
 
 {% highlight bash  %}
-sudo service elasticsearch start
+$ sudo service elasticsearch start
 {% endhighlight %}
 
-Para probar si elasticsearch está funcionando: [http://localhost:9200/](http://localhost:9200/)
+Para probar si elasticsearch está funcionando, escriba en consola la siguiente consula: 
+{% highlight bash %}
+$ curl -XGET 'http://localhost:9200/'
+{% endhighlight %}
+
 
 ## Primer ejemplo con Elasticsearch y curl
 
@@ -42,7 +44,11 @@ Para probar si elasticsearch está funcionando: [http://localhost:9200/](http://
 curl -XPOST 'http://localhost:9200/twitter/'
 {% endhighlight %}
 
-Lo puede verificar aquí: [http://localhost:9200/twitter/](http://localhost:9200/twitter/)
+Lo puede verificar escribiendo en consola la siguiente consulta:
+
+{% highlight bash %}
+$ curl -XGET 'http://localhost:9200/twitter?pretty'
+{% endhighlight %}
 
 2. Creando el índice **contact** con el atributo **office**
 
@@ -61,7 +67,11 @@ curl -XPOST localhost:9200/contact -d '{
 }'
 {% endhighlight %}
 
-Lo puede verificar aquí: [http://localhost:9200/contact/](http://localhost:9200/contact/)
+Lo puede verificar escribiendo en consola la siguiente consulta:
+
+{% highlight bash %}
+$ curl -XGET 'http://localhost:9200/contact?pretty'
+{% endhighlight %}
 
 Un **índice** es un espacio de nombre lógico, es decir, es una forma de organizar los datos.
 
@@ -88,11 +98,7 @@ CREATE TABLE office (
 );
 {% endhighlight %}
 
-**MySQL** utiliza **SQL** como mecanismo de almacenamiento de datos. 
-En cambio **Elasticsearch** utiliza **NoSQL** ("Not Only SQL").
-Y donde está la diferencia? Tanto SQL como  NoSQL  almacenan datos, pero 
-SQL utiliza sistema de gestion  de base de datos relacionales.
-NoSQL NO utiliza modelo de datos relacional. 
+**MySQL** utiliza **SQL** como mecanismo de almacenamiento de datos. En cambio **Elasticsearch** utiliza **NoSQL** ("Not Only SQL"). Y donde está la diferencia? Tanto SQL como  NoSQL  almacenan datos, pero SQL utiliza sistema de gestion  de base de datos relacionales. NoSQL NO utiliza modelo de datos relacional. 
 
 Un ejemplo de instancia de cada uno de ellos es el siguiente:
 
@@ -141,7 +147,7 @@ Pero que sucede si no es conveniente almacenar datos en tablas SQL? Y si se tien
 
 Las bases de datos **SQL** han sido uno de los principales mecanismos de almacenamiento de datos durante las ultimas 4 décadas. Su uso explotó la década de los 90 con el auge de las aplicaciones webs y las opciones de código abierto como **MySQL**, **PostgreSQL** y **SQLite**. Las bases de datos **NoSQL** han existido desde los 60, pero han ido ganando terreno con opciones populares como **MongoDB**, **CouchDB**, **Redis** y * Apache Cassandra**
 
-Otro problemas con el que se presentan las bases de datos relacionales se relaciona un aumento exponencial en los volúmenes de datos. Las operaciones de consulta SQL estándar no responden en tiempos aceptables, dificultando de esta forma el uso de bases de datos relacionales. NoSQL es una buena opción para bases de datos que manipulan grandes conjuntos de datos. 
+Otro problema que presentan las bases de datos relacionales es el aumento exponencial en los volúmenes de datos. Las operaciones de consulta SQL estándar no responden en tiempos aceptables, dificultando de esta forma el uso de bases de datos relacionales. NoSQL es una buena opción para bases de datos que manipulan grandes conjuntos de datos. 
 
 
 
@@ -162,4 +168,5 @@ Otro problemas con el que se presentan las bases de datos relacionales se relaci
 
 Elasticsearch utiliza almacenamiento de tipo **Document**. 
 Cada documento es un objeto **JSON**.
+
 
