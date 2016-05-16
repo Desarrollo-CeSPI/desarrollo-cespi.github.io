@@ -6,12 +6,11 @@ categories: elasticsearch DDBMS
 tags: [elasticsearch, cluster, node, shard, replica, DDBMS]
 ---
 
-# MODULO 2
-
 Una de las características que poseen las **BBDD NoSQL** es que son **BBDD distribuidas**.
-Como se van a manejar grandes volúmenes de datos, necesitaremos particionar el conjunto de datos.
 <!-- more -->
-El  **Particionamiento**  divide de forma lógica a una base de datos, reubicandola en diferentes entidades físicas. El particionamiento mejora el *rendimiento*, *manejabilidad* y *disponibilidad* de los datos, y ayuda a reducir el coste total de propiedad para almacenar grandes volúmenes de datos.
+Como se van a manejar grandes volúmenes de datos, necesitaremos particionar el conjunto de datos.
+El  **Particionamiento**  divide de forma lógica a una base de datos, reubicándola en diferentes entidades físicas. El particionamiento mejora el *rendimiento*, *manejabilidad* y *disponibilidad* de los datos, y ayuda a reducir el costo total de propiedad para almacenar grandes volúmenes de datos.
+
 
 
 ## Partición horizontal y partición vertical
@@ -72,10 +71,7 @@ id  |     type      | parent_id
 3   | Office        |    2
 4   | Office        |    2
 
-Elasticsearch utiliza **partición horizontal**. Este tipo de partición se denomina **Sharding**.
-Es útil y recomendable contar con mecanismos de conmutación por error en caso de que un 
-nodo o shard fallen o se desconecten por cualquier razón. Elasticsearch permite realizar 
-una o más copias de cada *shard*. A cada copia se la denomina **Replica**.
+Elasticsearch utiliza **partición horizontal**. Este tipo de partición se denomina **Sharding**. Es útil y recomendable contar con mecanismos de conmutación por error en caso de que un nodo o shard fallen o se desconecten por cualquier razón. Elasticsearch permite realizar una o más copias de cada *shard*. A cada copia se la denomina **Replica**.
 
 ## Shards y replicas
 
@@ -121,11 +117,9 @@ BASE DE DATOS
 {% endhighlight %}
 
 
-La finalidad de las particiones es que se distribuyan en diferentes nodos, para incrementar 
-la eficiencia en la búsqueda y asegurar la escalabilidad.
+La finalidad de las particiones es que se distribuyan en diferentes nodos, para incrementar la eficiencia en la búsqueda y asegurar la escalabilidad.
 
-Si, por ejemplo, nuestro cluster contara con 3 nodos, la distribución de shards y replicas 
-se podrían realizar de la siguiente forma:
+Si, por ejemplo, nuestro cluster contara con 3 nodos, la distribución de shards y replicas se podrían realizar de la siguiente forma:
 
 {% highlight bash %}
                            pc_1
@@ -154,60 +148,48 @@ CLUSTER --------|           __
 {% endhighlight %}
 
 
-Dado un shard que reside en un nodo, su réplica no puede estar en el mismo nodo. 
-¿Porqué no puede ocurrir esto? 
-Si el shard y su réplica residieran en el mismo nodo, y el nodo fallara o se desconectara,
-entonces el shard y su réplica se perderían.
-De esta forma, la réplica no cumpliría con una de sus funciones originales, que es servir
-como copia al shard ante un fallo.
+Dado un shard que reside en un nodo, su réplica no puede estar en el mismo nodo. ¿Porqué no puede ocurrir esto? Si el shard y su réplica residieran en el mismo nodo, y el nodo fallara o se desconectara, entonces el shard y su réplica se perderían. De esta forma, la réplica no cumpliría con una de sus funciones originales, que es servir como copia al shard ante un fallo.
 
-La **distribución de los shards** ocurre cuando se inicializa el servicio, cuando se agrega o 
-se elimina un nodo, durante la locación de las réplcias o durante un rebalanceo.
+La **distribución de los shards** ocurre cuando se inicializa el servicio, cuando se agrega o se elimina un nodo, durante la locación de las réplcias o durante un rebalanceo.
 
 
 
 ### cat Shards API
 
-Para visualizar la distribución de los shards y replicas del índice **contacts**, escriba 
-en la consola:
+
+Para visualizar la distribución de los shards y replicas del índice **contacts**, escriba en la consola:
 
 {% highlight bash  %}
 $ curl -XGET 'http://localhost:9200/_cat/shards/contacts?v'
 {% endhighlight  %}
 
-Volviendo al ejemplo arriba mencionado, donde teníamos 3 nodos en el cluster "Elasticsearch",
-podriamos imaginar el siguiente esquema:
+Volviendo al ejemplo arriba mencionado, donde teníamos 3 nodos en el cluster "Elasticsearch", podriamos imaginar el siguiente esquema:
 
 {% highlight bash  %}
 
-index    shard prirep(*) state   docs store ip        node
-contacts 0     p         STARTED    0   79b 127.0.1.1 Oesterheld
-contacts 0     r         STARTED    0   79b 127.0.1.1 Solano López
-contacts 1     p         STARTED    0   79b 127.0.1.1 Oesterheld
-contacts 1     r         STARTED    0   79b 127.0.1.1 Walsh
-contacts 2     p         STARTED    0  115b 127.0.1.1 Solano López
-contacts 2     r         STARTED    0   79b 127.0.1.1 Oesterheld
-contacts 3     p         STARTED    0  115b 127.0.1.1 Walsh
-contacts 3     r         STARTED    0   79b 127.0.1.1 Solano López
+index    shard prirep state   docs store ip        node
+contacts 0     p      STARTED    0   79b 127.0.1.1 Oesterheld
+contacts 0     r      STARTED    0   79b 127.0.1.1 Solano López
+contacts 1     p      STARTED    0   79b 127.0.1.1 Oesterheld
+contacts 1     r      STARTED    0   79b 127.0.1.1 Walsh
+contacts 2     p      STARTED    0  115b 127.0.1.1 Solano López
+contacts 2     r      STARTED    0   79b 127.0.1.1 Oesterheld
+contacts 3     p      STARTED    0  115b 127.0.1.1 Walsh
+contacts 3     r      STARTED    0   79b 127.0.1.1 Solano López
 {% endhighlight  %}
 
-(*)prirep: primary/replica
 
-¿Qué ventaja tiene esta forma de distribuir los datos? Nos permite **paralelizar**
-las operaciones a través de los shards aumentando de esta forma el rendimiento.
+> NOTA
+> "prirep": hace referencia a "primary/replica", identificando con la letra "p" a los nodos "primary", y con "r" a los nodos "replica".
 
-¿Qué ventaja proveen las replicas? Proporcionan **disponibilidad** de los datos en caso 
-de en caso de que un fragmento falle.
+¿Qué ventaja tiene esta forma de distribuir los datos? Nos permite **paralelizar** las operaciones a través de los shards aumentando de esta forma el rendimiento.
 
+¿Qué ventaja proveen las replicas? Proporcionan **disponibilidad** de los datos en caso de en caso de que un fragmento falle.
 
 
 ## Cluster y nodos
 
-Elasticsearch opera en un ambiente distribuido, y corre un
-[clusters](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_cluster),
-definido como una colleción de 1 o más
-[nodos](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_node)
-conectados.
+Elasticsearch opera en un ambiente distribuido, y corre en un [cluster](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_cluster), definido como una colleción de 1 o más [nodos](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_node) conectados.
 
 Para visualizar el cluster al que usted pertenece, escriba en la consola:
 
@@ -216,42 +198,33 @@ $ curl -XGET 'http://localhost:9200'
 {% endhighlight  %}
 
 
-Cada nodo conoce a los otros nodos del cluster. Pero, ¿Qué rol tienen los 
-[nodos](https://www.elastic.co/guide/en/elasticsearch/reference/2.3/modules-node.html)
-dentro del cluster? Cada nodo sirve para uno o más  de los  propósitos, como se detalla a continuación:
+Cada nodo conoce a los otros nodos del cluster. Pero, ¿Qué rol tienen los nodos dentro del cluster? Cada nodo sirve para uno o más  de los  propósitos, como se detalla a continuación:
 
-1. **Data node**: contienen los datos y ejecutan operaciones (CRUD, búsqueda, agregaciones).
-Por defecto un nodo es considerado como *data node*
-2. **Client node**: son balanceadores de carga. No son *data node*  ni *master node*.
-Pueden redireccionar operaciones a los nodos que contienen los datos relevantes sin tener que
-preguntar a todos los nodos.
-3. **Master node**: posee el control del cluster. Es responsable de, por ejemplo, crear o
-eliminar índices, identificar que nodos son parte del cluster, reubicar los shards dentro 
-de los nodos.
-4. **Tribe node**: es un tipo de *client node*, que se conecta con múltiples cluster. 
-Permite realizar búsqueda y operaciones de lectura/escritura sobre los clusters
-conectados.
+1. **Data node**: contienen los datos y ejecutan operaciones (CRUD, búsqueda, agregaciones). Por defecto un nodo es considerado como *data node*
+2. **Client node**: son balanceadores de carga. No son *data node*  ni *master node*. Pueden redireccionar operaciones a los nodos que contienen los datos relevantes sin tener que preguntar a todos los nodos.
+3. **Master node**: posee el control del cluster. Es responsable de, por ejemplo, crear o eliminar índices, identificar que nodos son parte del cluster, reubicar los shards dentro de los nodos.
+4. **Tribe node**: es un tipo de *client node*, que se conecta con múltiples cluster. Permite realizar búsqueda y operaciones de lectura/escritura sobre los clusters conectados.
 
 ### Cat nodes API
 
 Para visualizar los nodos de su cluster, usando [cat nodes API](https://www.elastic.co/guide/en/elasticsearch/reference/current/cat-nodes.html), escriba en su consola:
 
 {% highlight bash  %}
+
 $ curl -XGET 'http://localhost:9200/_cat/nodes?v&h=host,ip,port,nodeRole,master,name'
 {% endhighlight  %}
 
 Si volvemos al ejemplo arriba mencionado, donde teníamos 3 nodos en el cluster "Elasticsearch", podriamos imaginar el siguiente esquema:
 
 {% highlight bash  %}
- host  ip         port  nodeRole(*) master name
+ host  ip         port  nodeRole master name
  pc_1  127.0.1.1  9200  d           *      Oesterheld
  pc_2  127.0.1.1  9200  d           *      Solano López
  pc_3  127.0.1.1  9200  d           m      Walsh
 {% endhighlight  %}
 
-(*)nodeRole: Data node (d); Client node (c)
-
-
+> NOTA
+> "nodeRole": los nodos pueden ser "Data node" o "Client node". Si es "Data node" se identifica con la letra "d". Si es "Client node" se identifica con la letra "c".
 
 ## Índices, tipos y documentos
 
@@ -263,7 +236,11 @@ Un [documento](https://www.elastic.co/guide/en/elasticsearch/reference/current/_
 
 Elasticsearch provee la característica de subdividir un índice en múltiples partes o [shards](https://www.elastic.co/guide/en/elasticsearch/reference/current/_basic_concepts.html#_shards_amp_replicas). Cada shard es en sí mismo un índice y se puede alojar en cualquier nodo del cluster.
 
-Para visualizar los *índice* con sus respectivos shards y replicas que residen en el cluster acceda a: [http://localhost:9200/_settings](http://localhost:9200/_settings) 
+Para visualizar los *índices* con sus respectivos shards y replicas que residen en el cluster, escriba en consola:
+
+{% highlight bash %}
+$ curl -XGET 'http://localhost:9200/_settings?pretty'
+{% endhighlight %}
 
 En el siguiente módulo, se explicará como crear un índice, como se realizar una búsqueda, y de esta forma se comprenderá  con mayor profundidad los términos tipos y documento.
 
@@ -273,6 +250,4 @@ En el siguiente módulo, se explicará como crear un índice, como se realizar u
 
 
 (1)*DDBMS*: Distributed Database Management Systems
-
-
 
