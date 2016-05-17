@@ -156,6 +156,11 @@ curl -XGET '<host>:<port>/<index>/<type>/_search?' -d '
 '
 {% endhighlight %}
 
+Las consultas pueden ser simples o compuestas. Las consultas simples buscan en un valor en particular en un determinado campo. En cambio las comsultas más complejas están compuestas de consultas simples pudiendo alterar el comportamiento del documento (?????)
+
+++++++++++++
+Leaf query clauses look for a particular value in a particular field, such as the match, term or range queries. These queries can be used by themselves.
+Compound query clauses wrap other leaf or compound queries and are used to combine multiple queries in a logical fashion (such as the bool or dis_max query), or to alter their behaviour (such as the not or constant_score query).
 
 Por ejemplo, si deseamos buscar los artículos cuyos **title** o título contengan la palabra **"Cristina"** (no distingue mayúsculas ni minúsculas):
 
@@ -187,5 +192,6 @@ curl -XGET 'localhost:9200/article_index/politics/_search?pretty' -d '
 }'
 
 {% endhighlight %}
+
 
 
