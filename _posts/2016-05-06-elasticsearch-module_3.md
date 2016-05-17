@@ -59,7 +59,7 @@ Como se podrá observar, el índice se creo con 4 características configurables
 
 *bulk API* permite realizar operaciones, de forma muy simple, sobre la base de datos de Elasticsearch. En este módulo utilizaremos *bulk API* para importar datos desde un archivo e indexarlos a `article_index`.
 
-El archivo que importemos debe tener la siguiente estructura:
+El archivo a importar debe tener la siguiente estructura:
 
 {% highlight bash%}
 { action: { metadata }}\n
@@ -72,7 +72,7 @@ El archivo que importemos debe tener la siguiente estructura:
 > NOTA
 > La línea final debe terminar con \n (enter)
 
-El archivo va a estar conformado por *n* líneas. Cada línea sigue una estructura JSON válida. Una línea puede ser un **request** o un **action**. ¿Qué relación existe entre un **action** y un **request**? Por cada **request** existe un **action** correspondiente. 
+El archivo va a estar conformado por *n* líneas. Cada línea es un documento JSON, y por lo tanto acepta una estructura JSON válida. Una línea puede ser un **request** o un **action**. ¿Qué relación existe entre un **action** y un **request**? Por cada **request** existe un **action** correspondiente. 
 
 Un **action** define qué tipo de operación se va a realizar, siendo estas `create`, `index`, `delete` o `update`.
 La **metadata** incluye información del `_index`, el `_type` y el `_id` del documento al cual se le va a ejecutar la operación.
