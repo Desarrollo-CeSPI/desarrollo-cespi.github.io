@@ -70,9 +70,9 @@ El archivo a importar debe tener la siguiente estructura:
 {% endhighlight %}
 
 > NOTA
-> La línea final debe terminar con \n (enter)
+> La línea final debe terminar con un salto de línea
 
-El archivo va a estar conformado por *n* líneas. Cada línea es un documento JSON, y por lo tanto acepta una estructura JSON válida. Una línea puede ser un **request** o un **action**. ¿Qué relación existe entre un **action** y un **request**? Por cada **request** existe un **action** correspondiente. 
+El archivo va a estar conformado por *n* líneas. Cada línea es un documento JSON, y por lo tanto acepta una estructura JSON válida. Una línea empieza con un **action** y continua con un **request**, es decir, el archivo sigue ese orden. ¿Qué relación existe entre un **action** y un **request**? Por cada **request** existe un **action** correspondiente. 
 
 Un **action** define qué tipo de operación se va a realizar, siendo estas `create`, `index`, `delete` o `update`.
 La **metadata** incluye información del `_index`, el `_type` y el `_id` del documento al cual se le va a ejecutar la operación.
@@ -129,13 +129,13 @@ Antes de comenzar haremos una pequeña introducción respecto del formato de con
 
 Una consulta simple tiene el siguiente formato:
 
-
 {% highlight bash %}
 $ curl -XGET '<host>:<port>/<index>/<type>/_search?<parameters>'
 {% endhighlight %}
 
+Donde `<host>:<port>` se reemplaza por el hots y el puerto a donde se realiza la consulta de Elasticsearch, `index` se reemplaza por el nombre del índice, `type` se reemplaza por el tipo de documento, `_search` es la consulta de tipo búsqueda y `<parameters>` se reemplaza por los parámetros de búsqueda (se  envia el parámetro `q` seguido de uno o más pares *clave:valor*)
 
-Para realizar una búsqueda simple, debemos enviar el parámetro **q** seguido de un par *clave:valor*. Por ejemplo, si deseamos buscar artículos cuyo atributo **slug** sea  exactamente igual a "cristina-felicito-a-vazquez-por-la-victoria-electoral-25380" la consulta sería la siguiente:
+Por ejemplo, si deseamos buscar artículos en el índice `article_index` de tipo `politics`, cuyo campo `slug` sea  *exactamente igual* a "cristina-felicito-a-vazquez-por-la-victoria-electoral-25380" se realiza la siguiente consulta:
 
 {% highlight bash %}
 $ curl -XGET 'localhost:9200/article_index/politics/_search?pretty&q=slug:cristina-felicito-a-vazquez-por-la-victoria-electoral-25380'
@@ -149,20 +149,17 @@ Dentro del body va la consulta o [query](https://www.elastic.co/guide/en/elastic
 
 
 {% highlight bash %}
-curl -XGET '<host>:<port>/<index>/<type>/_search?' -d '
+curl -XGET '<host>:<port>/<index>/<type>/_search?pretty' -d '
 {
   "query": <consulta_personalizada>
 }
 '
 {% endhighlight %}
 
-Las consultas pueden ser simples o compuestas. Las consultas simples buscan en un valor en particular en un determinado campo. En cambio las comsultas más complejas están compuestas de consultas simples pudiendo alterar el comportamiento del documento (?????)
+Donde `"query"` es el comienzo de la consulta, y en `<consulta_personalizada>` va la estructura de la consulta.
 
-++++++++++++
-Leaf query clauses look for a particular value in a particular field, such as the match, term or range queries. These queries can be used by themselves.
-Compound query clauses wrap other leaf or compound queries and are used to combine multiple queries in a logical fashion (such as the bool or dis_max query), or to alter their behaviour (such as the not or constant_score query).
 
-Por ejemplo, si deseamos buscar los artículos cuyos **title** o título contengan la palabra **"Cristina"** (no distingue mayúsculas ni minúsculas):
+Por ejemplo, si deseamos buscar los artículos cuyos `title` o título contengan la palabra **"Cristina"**, se realiza la siguiente consulta:
 
 {% highlight bash %}
 $ curl -XGET 'localhost:9200/article_index/politics/_search?pretty' -d '
@@ -176,22 +173,4 @@ $ curl -XGET 'localhost:9200/article_index/politics/_search?pretty' -d '
 '
 {% endhighlight %}
 
-Si deseamos buscar entre el 1° de Enero de 2014 y la fecha actual, realizamos la siguiente consulta:
-
-{% highlight bash %}
-curl -XGET 'localhost:9200/article_index/politics/_search?pretty' -d '
-{
-  "query" : {
-    "range" : {
-      "created_at" : {
-        "gt" : "2014-01-01T00:00:00",
-        "lt" : "now"
-      }
-    }
-  }
-}'
-
-{% endhighlight %}
-
-
-
+En este ejemplo realizamos una consulta con la claúsula `match`, que es un tipo de consulta que busca un valor particular en un campo en partícular. En este caso busca en el campo `title`, los títulos que contengan la palabra **Cristina**, sin distinguir entre mayúscula y minúsculas.
