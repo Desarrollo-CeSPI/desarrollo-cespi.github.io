@@ -5,12 +5,12 @@ usernames: [maira1001001, rosariosm]
 tags: [elasticsearch, bulk API, search API]
 ---
 
-En este módulo veremos cómo crear un índice, agregarle un conjunto de datos provenientes de un JSON válido  <!-- more --> y realizar una búsqueda simple mediante la API de búsqueda.
+En este módulo veremos cómo crear un índice, agregarle un conjunto de datos provenientes de un archivo  <!-- more --> y realizar una búsqueda simple mediante una API de búsqueda.
 
 
 ## Creando un índice
 
-En este módulo trabajaremos con ejemplos de artículos de diario. Antes de comenzar necesitamos crear el índice  `article_index` para almacernarlos. 
+En este módulo trabajaremos con ejemplos de artículos de diario. Primero se debe crear índice  `article_index` para almacernarlos. Para ello escriba en consola la siguiente consulta:
 
 {% highlight bash %}
 $ curl -XPUT 'http://localhost:9200/article_index'
@@ -52,7 +52,8 @@ Como se podrá observar, el índice se creo con 4 características configurables
 * **"settings"**: Define la cantidad de shards y réplicas. Esta configuración se detalla en el [módulo 2](http://www.desarrollo.unlp.edu.ar/elasticsearch/ddbms/2016/04/22/elasticsearch-module_2.html)
 * **"warmers"**: A partir de la version 2.3.0 estan obsoletos. Permiten preparar al índice para que pueda responder de forma más eficiente a requerimientos que contengan grandes manejos de datos.  
 
-`article_index` se creo con la característica `settings` por defecto. En cambio `aliases`, `mappings` y `warmers`  faltan definir.
+`article_index` se creo con la característica `settings` por defecto. En cambio `aliases`, `mappings` y `warmers`  faltan configurar.
+
 
 
 ## bulk API: Cargando la BBDD con datos existentes
@@ -70,9 +71,9 @@ El archivo a importar debe tener la siguiente estructura:
 {% endhighlight %}
 
 > NOTA
-> La línea final debe terminar con \n (enter)
+> La última línea debe terminar con un salto de línea
 
-El archivo va a estar conformado por *n* líneas. Cada línea es un documento JSON, y por lo tanto acepta una estructura JSON válida. Una línea puede ser un **request** o un **action**. ¿Qué relación existe entre un **action** y un **request**? Por cada **request** existe un **action** correspondiente. 
+El archivo va a estar conformado por *n* líneas. Cada línea es un documento JSON, y por lo tanto acepta una estructura JSON válida. Una línea empieza con un **action** y continua con un **request**, es decir, el archivo sigue ese orden. ¿Qué relación existe entre un **action** y un **request**? Por cada **request** existe un **action** correspondiente. 
 
 Un **action** define qué tipo de operación se va a realizar, siendo estas `create`, `index`, `delete` o `update`.
 La **metadata** incluye información del `_index`, el `_type` y el `_id` del documento al cual se le va a ejecutar la operación.
@@ -82,8 +83,8 @@ La **metadata** incluye información del `_index`, el `_type` y el `_id` del doc
 
 El **request body** contiene los datos con los que se van a operar. Para nuestro ejemplo, cada request body contiene información de los artículos periodísticos.
 
-Como queremos indexar los artículos a `article_index`, se definen las siguiente características:
-1. el **action** a utilizar erá `index`. Esta operación permite crear nuevos documentos o reemplazarlos si ya existen.
+Como queremos indexar los artículos a `article_index`, se redefinen las siguiente características:
+1. el **action** a utilizar será `index`. Esta operación permite crear nuevos documentos o reemplazarlos si ya existen.
 2. la **metadata** que utilizaremos será `id` para poder identificar cada artículo univocamente.
 3. el **request body** contendrá los siguientes datos:
 
@@ -113,7 +114,7 @@ Para indexar los datos se utilizará el archivo válido que puede descargar [aqu
 Para indexar los datos deberá realizar el siguiente llamado a la *bulk API*:
 
 {% highlight bash %}
-curl -XPUT 'http://localhost:9200/article_index/politics/_bulk?pretty' --data-binary @articles.txt
+$ curl -XPUT 'http://localhost:9200/article_index/politics/_bulk?pretty' --data-binary @articles.txt
 {% endhighlight %}
 
 Como en el ejemplo estamos utilizando curl, debemos utilzar el flag --data-binary. 
@@ -129,17 +130,18 @@ Antes de comenzar haremos una pequeña introducción respecto del formato de con
 
 Una consulta simple tiene el siguiente formato:
 
-
 {% highlight bash %}
 $ curl -XGET '<host>:<port>/<index>/<type>/_search?<parameters>'
 {% endhighlight %}
 
+Donde `<host>:<port>` se reemplaza por el hots y el puerto a donde se realiza la consulta de Elasticsearch, `index` se reemplaza por el nombre del índice, `type` se reemplaza por el tipo de documento, `_search` es la consulta de tipo búsqueda y `<parameters>` se reemplaza por los parámetros de búsqueda (se  envia el parámetro `q` seguido de uno o más pares *clave:valor*)
 
-Para realizar una búsqueda simple, debemos enviar el parámetro **q** seguido de un par *clave:valor*. Por ejemplo, si deseamos buscar artículos cuyo atributo **slug** sea  exactamente igual a "cristina-felicito-a-vazquez-por-la-victoria-electoral-25380" la consulta sería la siguiente:
+Por ejemplo, si deseamos buscar artículos en el índice `article_index` de tipo `politics`, cuyo campo `slug` sea  *exactamente igual* a "cristina-felicito-a-vazquez-por-la-victoria-electoral-25380" se realiza la siguiente consulta:
 
 {% highlight bash %}
 $ curl -XGET 'localhost:9200/article_index/politics/_search?pretty&q=slug:cristina-felicito-a-vazquez-por-la-victoria-electoral-25380'
 {% endhighlight %}
+
 
 
 ### Búsqueda mediante un JSON estructurado
@@ -147,17 +149,17 @@ $ curl -XGET 'localhost:9200/article_index/politics/_search?pretty&q=slug:cristi
 Elasticsearch provee una muy completa Query DSL basada en JSON para escribir las consultas.
 Dentro del body va la consulta o [query](https://www.elastic.co/guide/en/elasticsearch/guide/current/query-dsl-intro.html). Una consulta típica tiene la siguiente estructura: 
 
-
 {% highlight bash %}
-curl -XGET '<host>:<port>/<index>/<type>/_search?' -d '
+curl -XGET '<host>:<port>/<index>/<type>/_search?pretty' -d '
 {
   "query": <consulta_personalizada>
 }
 '
 {% endhighlight %}
 
+Donde `"query"` es el comienzo de la consulta, y en `<consulta_personalizada>` va la estructura de la consulta con el formato JSON.
 
-Por ejemplo, si deseamos buscar los artículos cuyos **title** o título contengan la palabra **"Cristina"** (no distingue mayúsculas ni minúsculas):
+Por ejemplo, si deseamos buscar los artículos cuyos `title` o título contengan la palabra **"Cristina"**, se realiza la siguiente consulta:
 
 {% highlight bash %}
 $ curl -XGET 'localhost:9200/article_index/politics/_search?pretty' -d '
@@ -171,21 +173,5 @@ $ curl -XGET 'localhost:9200/article_index/politics/_search?pretty' -d '
 '
 {% endhighlight %}
 
-Si deseamos buscar entre el 1° de Enero de 2014 y la fecha actual, realizamos la siguiente consulta:
-
-{% highlight bash %}
-curl -XGET 'localhost:9200/article_index/politics/_search?pretty' -d '
-{
-  "query" : {
-    "range" : {
-      "created_at" : {
-        "gt" : "2014-01-01T00:00:00",
-        "lt" : "now"
-      }
-    }
-  }
-}'
-
-{% endhighlight %}
-
+En este ejemplo realizamos una consulta con la claúsula `match`, que es un tipo de consulta que busca un valor particular en un campo en partícular. En este caso busca en el campo `title`, los títulos que contengan la palabra **Cristina**, sin distinguir entre mayúscula y minúsculas.
 
