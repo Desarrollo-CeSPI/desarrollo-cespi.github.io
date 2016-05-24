@@ -53,13 +53,13 @@ Un índice tiene las siguientes características:
 * `settings`: Define la cantidad de shards y réplicas. Esta configuración se detalla en el [módulo 2](http://www.desarrollo.unlp.edu.ar/elasticsearch/ddbms/2016/04/22/elasticsearch-module_2.html)
 * `warmers`: A partir de la version 2.3.0 estan obsoletos. Permiten preparar al índice para que pueda responder de forma más eficiente a requerimientos que contengan grandes manejos de datos.  
 
-Un índice se crea con ciertas caracteŕicticas por defecto: la fecha de creación, un identificador único, el número de réplicas y de shards, y la versión. El resto de las característcas pueden ser configuradas a medida que se requieran.
+Un índice se crea con ciertas características por defecto: la fecha de creación, un identificador único, el número de réplicas y de shards, y la versión. El resto de las características pueden ser configuradas a medida que se requieran.
 
 Para configurar ciertos valores en la creación del índice, como por ejemplo, el número de réplicas, puede enviarse un cuerpo JSON en la consulta como se muestra a continuación:
 
 {% highlight bash %}
-$ curl -XPUT 'http://localhost:9200/article_index?pretty' -d 
-'{"index":{ "number_of_replicas":"2" }}'
+$ curl -XPUT 'http://localhost:9200/article_index?pretty' \ 
+       -d '{"index":{ "number_of_replicas":"2" }}'
 {% endhighlight%}
 
 
@@ -154,11 +154,8 @@ Elasticsearch provee una estructura especial basada en JSON para definir las con
 Una consulta típica posee la siguiente estructura: 
 
 {% highlight bash %}
-curl -XGET '<host>:<port>/<index>/<type>/_search?pretty' -d '
-{
-  "query": <consulta_personalizada>
-}
-'
+curl -XGET '<host>:<port>/<index>/<type>/_search?pretty' \
+     -d ' { "query": <consulta_personalizada> }'
 {% endhighlight %}
 
 Donde `"query"` es el comienzo de la consulta, y `<consulta_personalizada>` define la estructura de la consulta con el formato JSON. Estas consultas personalizadas se componen de uno o varios elementos hoja. Un elemento hoja es la unidad más simple de búsqueda, generalmente buscan un valor particular en un campo particular. Contienen clausulas como `match`, `term` o `range`. Para realizar consultas más completas, es posible combinar varios de estos elementos de una forma lógica.
@@ -178,5 +175,5 @@ $ curl -XGET 'localhost:9200/article_index/politics/_search?pretty' -d '
 '
 {% endhighlight %}
 
-La claúsula `match` permite buscar un valor particular en un campo en partícular. En este caso busca en el campo `title` los títulos que contengan la palabra **Cristina**, sin distinguir entre mayúscula y minúsculas.
+La cláusula `match` permite buscar un valor particular en un campo en particular. En este caso busca en el campo `title` los títulos que contengan la palabra **Cristina**, sin distinguir entre mayúsculas y minúsculas.
 
