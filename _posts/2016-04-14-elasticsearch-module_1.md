@@ -10,7 +10,7 @@ usernames: [ maira1001001 ]
 ## Definición
 
 [Elasticsearch](https://www.elastic.co/) es un servidor de búsqueda basado en Lucene.
-Provee un motor de búsqueda de texto completo, distribuido y con capacidad de multi-tenencia con una interfaz web RESTful y con documentos JSON Elasticsearch está desarrollado en Java y está publicado como código abierto bajo las condiciones de la licencia Apache.
+Provee un motor de búsqueda de texto completo, distribuido y con capacidad de multi-tenencia con una interfaz web RESTful y con documentos JSON. Elasticsearch está desarrollado en Java y está publicado como código abierto bajo las condiciones de la licencia Apache.
 
 
 
@@ -22,13 +22,13 @@ wget https://download.elastic.co/elasticsearch/elasticsearch/elasticsearch-1.7.2
 sudo dpkg -i elasticsearch-1.7.2.deb
 {% endhighlight %}
 
-iniciando el servicio:
+Iniciando el servicio:
 
 {% highlight bash  %}
 $ sudo service elasticsearch start
 {% endhighlight %}
 
-Para probar si elasticsearch está funcionando, escriba en consola la siguiente consula: 
+Para probar si elasticsearch está funcionando, escriba en consola la siguiente consulta: 
 {% highlight bash %}
 $ curl -XGET 'http://localhost:9200/'
 {% endhighlight %}
@@ -98,11 +98,11 @@ CREATE TABLE office (
 );
 {% endhighlight %}
 
-**MySQL** utiliza **SQL** como mecanismo de almacenamiento de datos. En cambio **Elasticsearch** utiliza **NoSQL** ("Not Only SQL"). Y donde está la diferencia? Tanto SQL como  NoSQL  almacenan datos, pero SQL utiliza sistema de gestion  de base de datos relacionales. NoSQL NO utiliza modelo de datos relacional. 
+**MySQL** utiliza **SQL** como mecanismo de almacenamiento de datos. En cambio **Elasticsearch** utiliza **NoSQL** ("Not Only SQL"). ¿Dónde está la diferencia? Tanto SQL como  NoSQL  almacenan datos, pero SQL utiliza sistema de gestión de base de datos relacionales. NoSQL NO utiliza modelo de datos relacional. 
 
 Un ejemplo de instancia de cada uno de ellos es el siguiente:
 
-1. table SQL
++ Tabla SQL
 
 {% highlight bash %}
 
@@ -114,7 +114,7 @@ Un ejemplo de instancia de cada uno de ellos es el siguiente:
 
 {% endhighlight %}
 
-2. document  NoSQL
++ Documento  NoSQL
 
 {% highlight bash %}
 {
@@ -124,7 +124,8 @@ Un ejemplo de instancia de cada uno de ellos es el siguiente:
 }
 {% endhighlight %}
 
-El diseño de una tabla SQL es *rígido*. No se puede usar la misma tabla  para almacenar, por ejemplo, un string en vez de un número. Las bases de datos NoSQL son como archivos **JSON** con su respectivo **clave-valor**. Al no ser tan rígido, podriamos agregar un nuevo campo sin que la BBDD NoSQL se queje
+El diseño de una tabla SQL es *rígido*: las columnas de las tablas tienen definido un tipo de dato determinado, por lo tanto, no se puede usar la misma columna para almacenar, por ejemplo, un string en lugar de un entero. En cambio, en una base de datos NoSQL generalmente los ítems se almacenan como pares **clave-valor**. No tienen un esquema determinado, por lo que podriamos agregar un nuevo campo o utilizar otro tipo de dato sin problemas.   
+
 
 {% highlight bash %}
 {
@@ -143,9 +144,9 @@ El diseño de una tabla SQL es *rígido*. No se puede usar la misma tabla  para 
 
 Dependiendo de las necesidades del problema, existen diferentes mecanismos para almacenar datos.
 
-Pero que sucede si no es conveniente almacenar datos en tablas SQL? Y si se tiene otro tipo de relacion entre los registros y se quiere acceder de forma rápida a los datos? Otro problema con el que se encontraron las bases de datos relacionales fue que las consultas SQL no eran muy adecuadas para las estructuras de datos orientados a objetos. La solución emergente fue NoSQL.
+¿Qué sucede si no es conveniente almacenar datos en tablas SQL o si se tiene otro tipo de relación entre los registros y se quiere acceder de forma rápida a los datos? Otro problema con el que se encontraron las bases de datos relacionales fue que las consultas SQL no eran muy adecuadas para las estructuras de datos orientados a objetos. La solución emergente fue NoSQL.
 
-Las bases de datos **SQL** han sido uno de los principales mecanismos de almacenamiento de datos durante las ultimas 4 décadas. Su uso explotó la década de los 90 con el auge de las aplicaciones webs y las opciones de código abierto como **MySQL**, **PostgreSQL** y **SQLite**. Las bases de datos **NoSQL** han existido desde los 60, pero han ido ganando terreno con opciones populares como **MongoDB**, **CouchDB**, **Redis** y * Apache Cassandra**
+Las bases de datos **SQL** han sido uno de los principales mecanismos de almacenamiento de datos durante las ultimas cuatro décadas. Su uso explotó la década del 90 con el auge de las aplicaciones webs y las opciones de código abierto como **MySQL**, **PostgreSQL** y **SQLite**. Las bases de datos **NoSQL** han existido desde los 60, pero han ido ganando terreno con opciones populares como **MongoDB**, **CouchDB**, **Redis** y **Apache Cassandra**
 
 Otro problema que presentan las bases de datos relacionales es el aumento exponencial en los volúmenes de datos. Las operaciones de consulta SQL estándar no responden en tiempos aceptables, dificultando de esta forma el uso de bases de datos relacionales. NoSQL es una buena opción para bases de datos que manipulan grandes conjuntos de datos. 
 

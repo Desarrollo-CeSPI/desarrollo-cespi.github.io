@@ -5,24 +5,24 @@ usernames: [maira1001001, rosariosm]
 tags: [elasticsearch, bulk API, search API]
 ---
 
-En este módulo veremos cómo crear un índice, agregarle un conjunto de datos provenientes de un JSON válido  <!-- more --> y realizar una búsqueda simple mediante la API de búsqueda.
+En este módulo veremos cómo crear un índice, agregarle un conjunto de datos provenientes de un archivo  <!-- more --> y realizar una búsqueda simple mediante una API de búsqueda.
 
 
 ## Creando un índice
 
-En este módulo trabajaremos con ejemplos de artículos de diario. Antes de comenzar necesitamos crear el índice **article_index** para almacernarlos. 
+En este módulo trabajaremos con ejemplos de artículos de diario. Primero se debe crear índice  `article_index` para almacernarlos. Para ello escriba en consola la siguiente consulta:
 
 {% highlight bash %}
 $ curl -XPUT 'http://localhost:9200/article_index'
 {% endhighlight %}
 
-Para visualizar el índice creado, escriba en consola la siguiente consulta:
+Para visualizar el índice creado, escriba en consola:
 
 {% highlight bash %}
 $ curl -XGET 'http://localhost:9200/article_index?pretty'
 {% endhighlight %}
 
-El resultado será lo siguiente:
+El resultado será el siguiente:
 
 {% highlight bash %}
 {
@@ -45,18 +45,30 @@ El resultado será lo siguiente:
 }
 {% endhighlight %}
 
-Como podrá observar, el índice se creo con algunas características por defecto y otras por configurar.
 
-* **"aliases"**: Define un conjunto de aliases para el índice.
-* **"mappings"**: Define cómo el documento y sus campos son guardados e indexados.  
-* **"settings"**: Define la cantidad de shards y réplicas. Esta configuración se detalla en el [módulo 2](http://www.desarrollo.unlp.edu.ar/elasticsearch/ddbms/2016/04/22/elasticsearch-module_2.html)
-* **"warmers"**: A partir de la version 2.3.0 estan obsoletos. Permiten preparar al índice para que pueda responder de forma más eficiente a requerimientos que contengan grandes manejos de datos.  
+Un índice tiene las siguientes características: 
+
+* `aliases`: Define un conjunto de aliases para el índice.
+* `mappings`: Define cómo el documento y sus campos son guardados e indexados.  
+* `settings`: Define la cantidad de shards y réplicas. Esta configuración se detalla en el [módulo 2](http://www.desarrollo.unlp.edu.ar/elasticsearch/ddbms/2016/04/22/elasticsearch-module_2.html)
+* `warmers`: A partir de la version 2.3.0 estan obsoletos. Permiten preparar al índice para que pueda responder de forma más eficiente a requerimientos que contengan grandes manejos de datos.  
+
+Un índice se crea con ciertas características por defecto: la fecha de creación, un identificador único, el número de réplicas y de shards, y la versión. El resto de las características pueden ser configuradas a medida que se requieran.
+
+Para configurar ciertos valores en la creación del índice, como por ejemplo, el número de réplicas, puede enviarse un cuerpo JSON en la consulta como se muestra a continuación:
+
+{% highlight bash %}
+$ curl -XPUT 'http://localhost:9200/article_index?pretty' \ 
+       -d '{"index":{ "number_of_replicas":"2" }}'
+{% endhighlight%}
+
+
 
 ## bulk API: Cargando la BBDD con datos existentes
 
-Para cargar los datos del archivo JSON a Elasticsearch utilizaremos la API bulk. Con esta API es posible indexar los elementos con un solo llamado. 
+*bulk API* permite realizar operaciones de forma muy simple sobre la base de datos de Elasticsearch. En este módulo utilizaremos *bulk API* para importar datos desde un archivo e indexarlos a `article_index`.
 
-El cuerpo del llamado espera la siguiente estructura JSON:
+El archivo a importar debe tener la siguiente estructura:
 
 {% highlight bash%}
 { action: { metadata }}\n
@@ -66,15 +78,27 @@ El cuerpo del llamado espera la siguiente estructura JSON:
 ...
 {% endhighlight %}
 
+> NOTA
+> La última línea debe terminar con un salto de línea
 
-Donde **action** define qué tipo de operación se va a realizar, siendo estas: *create*, *index*, *delete* y *update*.
-La **metadata** incluye información del *_index*, el *_type* y el *_id* del documento al cual se le va a ejecutar la operación.
-¿Por qué se necesita esta estructura? Como cada documento referenciado puede estar alocado en cualquier nodo del cluster, cada acción definida en el JSON debe ser redirigida al shard correcto del nodo al que pertenece. Elasticsearch utiliza cada caracter de nueva línea para identificar el par *action/metadata* de forma tal que pueda manejar cada petición, leyendo los datos del **request body** directamente. 
+El archivo va a estar conformado por *n* líneas. Cada línea está compuesta por un objeto JSON. El primer objeto representa la operación que se va a realizar y el segundo los datos que se utilizarán para ejecutar dicha operación. Una *action* u operación puede ser cualquiera de las siguientes:  `create`, `index`, `delete` o `update`. La *metadata* incluye información del `_index`, el `_type` y el `_id` del documento al cual se le va a ejecutar la operación.
+
+¿Por qué se necesita esta estructura?  Cada par *action/request* opera sobre distintos shards. Elasticsearch utiliza la `metadata` para redireccionar cada petición al shard correspondiente, utilizando los datos del *request body* inmediato.
 
 
+Para nuestro ejemplo, cada *request body* contiene información sobre artículos periodísticos. Como queremos indexar los artículos a `article_index`, se redefinen las siguiente características:
 
-Para continuar con los ejemplos, se utilizará el siguiente [JSON](/assets/data/articles.json) válido que tiene información sobre los artículos del diario. Este archivo  contiene **40** elementos cuya estructura se detalla a continuación:
+1. el **action** a utilizar será `index`. Esta operación permite crear nuevos documentos o reemplazarlos si ya existen.
+2. la **metadata** que utilizaremos será `id` para poder identificar cada artículo univocamente.
+3. el **request body** contendrá los siguientes datos:
+- `"slug"`:  *string* que identifica al artículo.
+- `"is_visible"`: *boolean* que indica si el articulo debe mostrarse o no.
+- `"created_at"`: *date* que identifica la fecha de creación del artículo.
+- `"title"`: *string* que se corresponde con el título del artículo.
+- `"lead"`: *string* que corresponde con el copete del artículo.
+- `"body"`: *text* que se corresponde con el cuerpo del artículo.
 
+De esta forma, cada par *action/request* queda definido de la siguiente forma:
 
 {% highlight json  %}
 {"index":{"_id":"1"}}
@@ -88,26 +112,18 @@ Para continuar con los ejemplos, se utilizará el siguiente [JSON](/assets/data/
 }
 {% endhighlight %}
 
-La *action* u operación a realizar por cada elemento es **index**, la cual permite crear nuevos documentos o reemplazarlos si ya existen. Cada action tendrá como *metadato* el **_id** correspondiente a cada artículo para poder identificarlo univocamente. Si este atributo no se especifica, Elasticsearch lo creará automáticamente. 
-Cada elemento del *body_request* está compuesto por los siguientes atributos:
+Para indexar los datos se utilizará el archivo válido que puede descargar [aquí](/assets/data/articles.txt). Este archivo  contiene **40** artículos periodísticos.
 
-1. **"slug"**:  string que identifica al artículo.
-2. **"is_visible"**: boolean que indica si el articulo debe mostrarse o no.
-3. **"created_at"**: date que identifica la fecha de creación del artículo.
-3. **"title"**: string que se corresponde con el título del artículo.
-4. **"lead"**: string que corresponde con el copete del artículo.
-5. **"body"**: text que se corresponde con el cuerpo del artículo.
-
-Para indexar los datos se deberá realizar el siguiente llamado a la bulk API:
+Para indexar los datos deberá realizar el siguiente llamado a la *bulk API*:
 
 {% highlight bash %}
-curl -XPUT 'http://localhost:9200/article_index/politics/_bulk?pretty' --data-binary @articles.json
+$ curl -XPUT 'http://localhost:9200/article_index/politics/_bulk?pretty' --data-binary @articles.txt
 {% endhighlight %}
 
 Como en el ejemplo estamos utilizando curl, debemos utilzar el flag --data-binary. 
 
 
-Los endpoints a esta api son `/_bulk`, `/{index}/_bulk` y `/{index}/{type}/_bulk`. En este caso, se agregarán los datos en el índice **article_index** y serán de tipo **politics**.
+Los endpoints a esta api son `/_bulk`, `/{index}/_bulk` y `/{index}/{type}/_bulk`. En este caso, se agregarán los datos en el índice `article_index` y serán de tipo `politics`.
 
 ## Realizando la primer búsqueda
 
@@ -117,35 +133,35 @@ Antes de comenzar haremos una pequeña introducción respecto del formato de con
 
 Una consulta simple tiene el siguiente formato:
 
-
 {% highlight bash %}
 $ curl -XGET '<host>:<port>/<index>/<type>/_search?<parameters>'
 {% endhighlight %}
 
+Donde `<host>:<port>` se reemplazan por el host y el puerto correspondientes a la instancia activa de Elasticsearch, `index`  por el nombre del índice, `type` por el tipo de documento, `_search` es el *endpoint* a la API de búsqueda y el contenido de `<parameters>` dependerá de qué se quiera buscar. 
 
-Para realizar una búsqueda simple, debemos enviar el parámetro **q** seguido de un par *clave:valor*. Por ejemplo, si deseamos buscar artículos cuyo atributo **slug** sea  exactamente igual a "cristina-felicito-a-vazquez-por-la-victoria-electoral-25380" la consulta sería la siguiente:
+Por ejemplo, si deseamos buscar artículos en el índice `article_index` de tipo `politics`, cuyo campo `slug` sea  *exactamente igual* a "cristina-felicito-a-vazquez-por-la-victoria-electoral-25380" se debe realizar la siguiente consulta:
 
 {% highlight bash %}
 $ curl -XGET 'localhost:9200/article_index/politics/_search?pretty&q=slug:cristina-felicito-a-vazquez-por-la-victoria-electoral-25380'
 {% endhighlight %}
 
+En este caso enviamos el parámetro `q` (*query string*) seguido de un par clave:valor definido en los documentos indexados. 
 
 ### Búsqueda mediante un JSON estructurado
 
-Elasticsearch provee una muy completa Query DSL basada en JSON para escribir las consultas.
-Dentro del body va la consulta o [query](https://www.elastic.co/guide/en/elasticsearch/guide/current/query-dsl-intro.html). Una consulta típica tiene la siguiente estructura: 
+Elasticsearch provee una estructura especial basada en JSON para definir las consultas llamada **Query DSL**. El endpoint sigue siendo `_search` con la diferencia que se enviará como parámetro el cuerpo JSON especial. Si bien esta estructura es muy completa, antes de complejizarla, mostraremos un ejemplo simple de su funcionamiento.
 
+Una consulta típica posee la siguiente estructura: 
 
 {% highlight bash %}
-curl -XGET '<host>:<port>/<index>/<type>/_search?' -d '
-{
-  "query": <consulta_personalizada>
-}
-'
+curl -XGET '<host>:<port>/<index>/<type>/_search?pretty' \
+     -d ' { "query": <consulta_personalizada> }'
 {% endhighlight %}
 
+Donde `"query"` es el comienzo de la consulta, y `<consulta_personalizada>` define la estructura de la consulta con el formato JSON. Estas consultas personalizadas se componen de uno o varios elementos hoja. Un elemento hoja es la unidad más simple de búsqueda, generalmente buscan un valor particular en un campo particular. Contienen clausulas como `match`, `term` o `range`. Para realizar consultas más completas, es posible combinar varios de estos elementos de una forma lógica.
+En este módulo nos centraremos en mostrar una consulta hoja para ejemplificar su funcionamiento, en los siguientes módulos iremos agregando nuevos conceptos para poder obtener resultados más correctos.
 
-Por ejemplo, si deseamos buscar los artículos cuyos **title** o título contengan la palabra **"Cristina"** (no distingue mayúsculas ni minúsculas):
+Si deseamos buscar los artículos cuyos `title` o título contengan la palabra **"Cristina"**, se realiza la siguiente consulta:
 
 {% highlight bash %}
 $ curl -XGET 'localhost:9200/article_index/politics/_search?pretty' -d '
@@ -159,20 +175,5 @@ $ curl -XGET 'localhost:9200/article_index/politics/_search?pretty' -d '
 '
 {% endhighlight %}
 
-Si deseamos buscar entre el 1° de Enero de 2014 y la fecha actual, realizamos la siguiente consulta:
-
-{% highlight bash %}
-curl -XGET 'localhost:9200/article_index/politics/_search?pretty' -d '
-{
-  "query" : {
-    "range" : {
-      "created_at" : {
-        "gt" : "2014-01-01T00:00:00",
-        "lt" : "now"
-      }
-    }
-  }
-}'
-
-{% endhighlight %}
+La cláusula `match` permite buscar un valor particular en un campo en particular. En este caso busca en el campo `title` los títulos que contengan la palabra **Cristina**, sin distinguir entre mayúsculas y minúsculas.
 
